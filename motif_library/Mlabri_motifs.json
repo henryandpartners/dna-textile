@@ -1,0 +1,10 @@
+{
+  "community": "Mlabri",
+  "motifs": [
+    {"id": "mlabri_01", "name": "forest_path", "type": "spiritual", "description": "Path through the forest, central to nomadic life", "grid": [[1,0,0],[0,1,0],[0,0,1]], "complexity": "beginner"},
+    {"id": "mlabri_02", "name": "spirit_tree", "type": "spiritual", "description": "Sacred tree in the forest", "grid": [[0,1,0],[1,1,1],[0,1,0]], "complexity": "beginner"},
+    {"id": "mlabri_03", "name": "nomad_mark", "type": "geometric", "description": "Simple mark left at camp sites", "grid": [[1,0,1]], "complexity": "beginner"},
+    {"id": "mlabri_04", "name": "bark_line", "type": "geometric", "description": "Line pattern from bark cloth texture", "grid": [[1,1,1,1,1]], "complexity": "beginner"},
+    {"id": "mlabri_05", "name": "leaf_shape", "type": "plant", "description": "Simple leaf pattern from foraging", "grid": [[0,1,0],[1,1,1],[0,1,0]], "complexity": "beginner"}
+  ]
+}

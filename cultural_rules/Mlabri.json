@@ -1,0 +1,22 @@
+{
+  "community": "Mlabri (Phi Tong Luang)",
+  "native_name": "มลาบรี (ผิ่องหลวง)",
+  "language_family": "Austroasiatic",
+  "region": "Northern and Eastern Thailand forests",
+  "textile_history": "The Mlabri, historically nomadic hunter-gatherers, had minimal textile tradition. They used bark cloth before adopting woven cloth from neighboring groups. Their textile knowledge is extremely limited.",
+  "cultural_significance": "Due to their nomadic lifestyle, the Mlabri did not develop complex textile traditions. Any textile patterns attributed to them should be treated with extreme cultural sensitivity, as they are more closely associated with trade relationships.",
+  "traditional_colors": {
+    "primary": ["#8B4513", "#D2691E", "#F5DEB3"],
+    "secondary": ["#000000", "#FFFFFF", "#8B0000"],
+    "accent": ["#C0C0C0"]
+  },
+  "motif_categories": ["geometric"],
+  "preferred_border": "none",
+  "preferred_pattern_types": ["stripe"],
+  "symmetry_preference": "none",
+  "taboo_patterns": ["spiral_clockwise", "diagonal_cross", "random_scatter", "solid_black"],
+  "sacred_motifs": ["forest_path", "spirit_tree"],
+  "weaving_technique": "bark_cloth_traded",
+  "complexity_range": ["beginner"],
+  "community_approval_required": ["forest_path", "spirit_tree", "nomad_mark"]
+}

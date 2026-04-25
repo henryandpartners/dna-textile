@@ -1,0 +1,13 @@
+{
+  "community": "Lisu",
+  "motifs": [
+    {"id": "lisu_01", "name": "rainbow_bridge", "type": "spiritual", "description": "Multi-colored band representing the creation rainbow", "grid": [[1,1,1,1,1]], "complexity": "intermediate"},
+    {"id": "lisu_02", "name": "creation_star", "type": "spiritual", "description": "Star from the creation myth", "grid": [[1,0,1,0,1],[0,1,0,1,0],[1,0,1,0,1],[0,1,0,1,0],[1,0,1,0,1]], "complexity": "expert"},
+    {"id": "lisu_03", "name": "sky_ladder", "type": "spiritual", "description": "Stepped pattern representing the ladder to the sky", "grid": [[1,0,0],[1,1,0],[1,1,1]], "complexity": "beginner"},
+    {"id": "lisu_04", "name": "spirit_ribbon", "type": "spiritual", "description": "Flowing ribbon for spirit communication", "grid": [[1,0,1,0,1],[0,1,0,1,0]], "complexity": "intermediate"},
+    {"id": "lisu_05", "name": "flower_bud", "type": "plant", "description": "Small flower motif from embroidery", "grid": [[0,1,0],[1,1,1],[0,1,0]], "complexity": "beginner"},
+    {"id": "lisu_06", "name": "color_band", "type": "geometric", "description": "Horizontal color band, signature Lisu element", "grid": [[1,1,1,1,1]], "complexity": "beginner"},
+    {"id": "lisu_07", "name": "bead_circle", "type": "geometric", "description": "Circular bead pattern", "grid": [[0,1,0],[1,0,1],[0,1,0]], "complexity": "beginner"},
+    {"id": "lisu_08", "name": "mountain_sun", "type": "geometric", "description": "Sun rising over mountains", "grid": [[0,0,1,0,0],[0,1,1,1,0],[1,1,0,1,1]], "complexity": "intermediate"}
+  ]
+}

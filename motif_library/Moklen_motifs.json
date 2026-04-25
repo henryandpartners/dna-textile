@@ -1,0 +1,11 @@
+{
+  "community": "Moklen",
+  "motifs": [
+    {"id": "moklen_01", "name": "wave_pattern", "type": "geometric", "description": "Ocean wave pattern, central to Moklen identity", "grid": [[1,0,1,0,1],[0,1,0,1,0]], "complexity": "beginner"},
+    {"id": "moklen_02", "name": "sea_spirit", "type": "spiritual", "description": "Spirit of the sea", "grid": [[0,1,0],[1,1,1],[0,1,0]], "complexity": "beginner"},
+    {"id": "moklen_03", "name": "tide_mark", "type": "spiritual", "description": "Mark of the tidal rhythm", "grid": [[1,1,0,0,1,1]], "complexity": "beginner"},
+    {"id": "moklen_04", "name": "fish_scale", "type": "animal", "description": "Scale pattern from fishing tradition", "grid": [[1,1,0],[0,1,1],[1,1,0]], "complexity": "beginner"},
+    {"id": "moklen_05", "name": "shell_spiral", "type": "animal", "description": "Spiral from seashell pattern", "grid": [[1,1,1],[1,0,1],[1,1,1]], "complexity": "intermediate"},
+    {"id": "moklen_06", "name": "coral_branch", "type": "plant", "description": "Branching pattern from coral reefs", "grid": [[1,0,1],[0,1,0],[1,1,1]], "complexity": "beginner"}
+  ]
+}

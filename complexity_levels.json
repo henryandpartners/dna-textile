@@ -1,0 +1,100 @@
+{
+  "_description": "Pattern complexity levels for Thai indigenous textile generation. Each level defines constraints on motif size, color count, and pattern density.",
+  "levels": {
+    "beginner": {
+      "name": "Beginner",
+      "description": "Simple patterns suitable for novice weavers and introductory cultural education",
+      "constraints": {
+        "max_motif_size": 3,
+        "max_colors": 3,
+        "max_motif_types": 2,
+        "min_repeat_unit": 2,
+        "max_pattern_density": 0.3,
+        "allowed_symmetry": ["horizontal", "vertical", "none"],
+        "forbidden_symmetry": ["radial", "diagonal"],
+        "border_max_width": 8,
+        "motif_complexity_cap": "beginner"
+      },
+      "characteristics": [
+        "Large, simple geometric shapes",
+        "Limited color palette (2-3 colors)",
+        "Straightforward repeating patterns",
+        "No overlapping motifs",
+        "Basic border styles only"
+      ],
+      "suitable_communities": ["khamu", "mlabri", "mani", "moklen", "urak_lawoi", "lahu", "palaung", "lua"],
+      "estimated_weaving_time_hours": "2-8",
+      "skill_level": "Novice weaver, cultural education"
+    },
+    "intermediate": {
+      "name": "Intermediate",
+      "description": "Moderately complex patterns requiring basic weaving skills and cultural knowledge",
+      "constraints": {
+        "max_motif_size": 5,
+        "max_colors": 5,
+        "max_motif_types": 4,
+        "min_repeat_unit": 2,
+        "max_pattern_density": 0.6,
+        "allowed_symmetry": ["horizontal", "vertical", "radial", "diagonal", "none"],
+        "forbidden_symmetry": [],
+        "border_max_width": 14,
+        "motif_complexity_cap": "intermediate"
+      },
+      "characteristics": [
+        "Medium-sized motifs with some detail",
+        "Moderate color palette (3-5 colors)",
+        "Multiple motif types in composition",
+        "Some motif layering allowed",
+        "Embroidered border styles available"
+      ],
+      "suitable_communities": ["karen", "hmong", "akha", "lahu", "lisu", "mien", "palaung", "lua", "moklen", "thai_lue", "tai_dam"],
+      "estimated_weaving_time_hours": "8-40",
+      "skill_level": "Experienced weaver, cultural practitioner"
+    },
+    "expert": {
+      "name": "Expert",
+      "description": "Highly intricate patterns requiring master-level weaving skills and deep cultural understanding",
+      "constraints": {
+        "max_motif_size": 10,
+        "max_colors": 8,
+        "max_motif_types": 6,
+        "min_repeat_unit": 1,
+        "max_pattern_density": 1.0,
+        "allowed_symmetry": ["horizontal", "vertical", "radial", "diagonal", "none"],
+        "forbidden_symmetry": [],
+        "border_max_width": 24,
+        "motif_complexity_cap": "expert"
+      },
+      "characteristics": [
+        "Large, detailed motifs with intricate elements",
+        "Full color palette (5-8 colors)",
+        "Multiple motif types in complex compositions",
+        "Motif layering and superposition",
+        "All border styles including printed techniques",
+        "Narrative/storytelling patterns",
+        "Sacred and ceremonial motifs"
+      ],
+      "suitable_communities": ["hmong", "akha", "lisu", "mien", "thai_lue", "tai_dam"],
+      "estimated_weaving_time_hours": "40-200+",
+      "skill_level": "Master weaver, cultural elder"
+    }
+  },
+  "default_level": "intermediate",
+  "community_complexity_ranges": {
+    "karen": ["beginner", "intermediate"],
+    "hmong": ["intermediate", "expert"],
+    "akha": ["intermediate", "expert"],
+    "lahu": ["beginner", "intermediate"],
+    "lisu": ["intermediate", "expert"],
+    "mien": ["intermediate", "expert"],
+    "palaung": ["beginner", "intermediate"],
+    "khamu": ["beginner"],
+    "lua": ["beginner", "intermediate"],
+    "mlabri": ["beginner"],
+    "mani": ["beginner"],
+    "moklen": ["beginner"],
+    "urak_lawoi": ["beginner"],
+    "thai_lue": ["intermediate", "expert"],
+    "tai_dam": ["intermediate", "expert"]
+  }
+}

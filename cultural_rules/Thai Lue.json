@@ -1,0 +1,22 @@
+{
+  "community": "Thai Lue",
+  "native_name": "ไทยลื้อ",
+  "language_family": "Tai-Kadai",
+  "region": "Northern Thailand (Chiang Rai, Chiang Mai, Nan)",
+  "textile_history": "Thai Lue weaving is among the most sophisticated in Southeast Asia, featuring complex ikat (mudmee) patterns, supplementary weft designs, and intricate motif systems. The famous Lai Kham (golden pattern) textiles are highly prized.",
+  "cultural_significance": "Thai Lue textiles encode Buddhist cosmology, with motifs representing Mount Meru, nagas, and celestial beings. The 'hoi' (motif blocks) system creates complex narrative patterns that tell stories of Buddhist jataka tales.",
+  "traditional_colors": {
+    "primary": ["#8B0000", "#000080", "#FFD700"],
+    "secondary": ["#000000", "#FFFFFF", "#800080"],
+    "accent": ["#006400", "#FF4500", "#C0C0C0"]
+  },
+  "motif_categories": ["geometric", "animal", "plant", "spiritual"],
+  "preferred_border": "double",
+  "preferred_pattern_types": ["grid", "spiral"],
+  "symmetry_preference": "radial",
+  "taboo_patterns": ["random_scatter", "solid_black"],
+  "sacred_motifs": ["naga_serpent", "mount_meru", "lotus_buddha", "celestial_dance"],
+  "weaving_technique": "ikat_supplementary_weft",
+  "complexity_range": ["intermediate", "expert"],
+  "community_approval_required": ["naga_serpent", "mount_meru", "lotus_buddha", "celestial_dance", "lai_kham"]
+}

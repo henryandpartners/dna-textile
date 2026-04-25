@@ -1,0 +1,13 @@
+{
+  "community": "Karen",
+  "motifs": [
+    {"id": "karen_01", "name": "clan_stripe", "type": "geometric", "description": "Horizontal stripe band indicating clan membership", "grid": [[1,0],[0,1]], "complexity": "beginner"},
+    {"id": "karen_02", "name": "spirit_band", "type": "spiritual", "description": "Woven band representing the spirit pathway", "grid": [[1,1,0],[0,1,1],[1,0,1]], "complexity": "intermediate"},
+    {"id": "karen_03", "name": "ancestor_diamond", "type": "spiritual", "description": "Diamond shape honoring deceased ancestors", "grid": [[0,1,0],[1,0,1],[0,1,0]], "complexity": "intermediate"},
+    {"id": "karen_04", "name": "river_wave", "type": "geometric", "description": "Wavy line representing the Salween River", "grid": [[1,0,1],[0,1,0],[1,0,1]], "complexity": "beginner"},
+    {"id": "karen_05", "name": "bamboo_joint", "type": "plant", "description": "Segmented pattern inspired by bamboo", "grid": [[1,1],[0,1],[1,1]], "complexity": "beginner"},
+    {"id": "karen_06", "name": "mountain_peak", "type": "geometric", "description": "Triangular mountain symbol", "grid": [[0,1,0],[1,0,1],[1,1,1]], "complexity": "beginner"},
+    {"id": "karen_07", "name": "weaver_knot", "type": "geometric", "description": "Interlocking knot representing the weaver's skill", "grid": [[1,0,1],[0,1,0],[1,0,1]], "complexity": "intermediate"},
+    {"id": "karen_08", "name": "rice_grain", "type": "plant", "description": "Small oval representing rice, staple crop", "grid": [[0,1,0],[1,1,1],[0,1,0]], "complexity": "beginner"}
+  ]
+}

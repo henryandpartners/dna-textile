@@ -1,0 +1,22 @@
+{
+  "community": "Lahu",
+  "native_name": "ลาหู่",
+  "language_family": "Sino-Tibetan",
+  "region": "Northern and Western Thailand",
+  "textile_history": "Lahu textiles are characterized by bold red backgrounds with black and white geometric patterns. The Lahu Gnu (Black Lahu) sub-group is known for their distinctive black-and-red garments with elaborate silver decoration.",
+  "cultural_significance": "The red-black-white color triad represents the Lahu cosmological triad: earth, sky, and the spirit world. Geometric patterns encode prayers and protective symbols.",
+  "traditional_colors": {
+    "primary": ["#8B0000", "#000000", "#FFFFFF"],
+    "secondary": ["#FF4500", "#C0C0C0", "#FFD700"],
+    "accent": ["#000080", "#800080"]
+  },
+  "motif_categories": ["geometric", "spiritual"],
+  "preferred_border": "solid",
+  "preferred_pattern_types": ["grid", "stripe"],
+  "symmetry_preference": "horizontal",
+  "taboo_patterns": ["spiral_clockwise", "random_scatter"],
+  "sacred_motifs": ["creator_eye", "spirit_triangle", "cosmic_cross"],
+  "weaving_technique": "backstrap_loom",
+  "complexity_range": ["beginner", "intermediate"],
+  "community_approval_required": ["creator_eye", "spirit_triangle", "prayer_diamond"]
+}

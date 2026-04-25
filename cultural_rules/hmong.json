@@ -1,0 +1,22 @@
+{
+  "community": "Hmong",
+  "native_name": "ม้ง",
+  "language_family": "Hmong-Mien",
+  "region": "Northern Thailand (Chiang Mai, Chiang Rai, Mae Hong Son)",
+  "textile_history": "Hmong textile art includes reverse appliqué (pa ndau), embroidery, and batik. Pa ndau storytelling cloths depict migration history and clan symbols. Hemp was traditionally used before cotton became common.",
+  "cultural_significance": "Textiles encode clan identity, spiritual beliefs, and historical narratives. The 'snail pattern' represents the Hmong migration journey. New Year textiles showcase the finest work for courtship displays.",
+  "traditional_colors": {
+    "primary": ["#000080", "#FFFFFF", "#008000"],
+    "secondary": ["#FF0000", "#FFD700", "#FF69B4"],
+    "accent": ["#00CED1", "#FF4500"]
+  },
+  "motif_categories": ["geometric", "animal", "plant", "spiritual"],
+  "preferred_border": "zigzag",
+  "preferred_pattern_types": ["grid", "spiral"],
+  "symmetry_preference": "radial",
+  "taboo_patterns": ["random_scatter", "solid_black"],
+  "sacred_motifs": ["snail_path", "flower_carpet", "triangle_mountain"],
+  "weaving_technique": "embroidery_reverse_applique",
+  "complexity_range": ["intermediate", "expert"],
+  "community_approval_required": ["snail_path", "flower_carpet", "spirit_gate"]
+}

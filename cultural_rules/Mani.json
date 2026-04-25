@@ -1,0 +1,22 @@
+{
+  "community": "Mani (Maniq)",
+  "native_name": "มะนิ",
+  "language_family": "Austroasiatic",
+  "region": "Southern Thailand (Yala, Narathiwat)",
+  "textile_history": "The Mani are Thailand's only Negrito indigenous group, with a hunter-gatherer lifestyle similar to the Mlabri. They traditionally used bark cloth and had minimal weaving tradition.",
+  "cultural_significance": "Mani material culture is extremely minimal due to their nomadic lifestyle. Any textile attribution requires the highest level of cultural sensitivity and community consultation.",
+  "traditional_colors": {
+    "primary": ["#8B4513", "#D2691E", "#F5DEB3"],
+    "secondary": ["#000000", "#FFFFFF"],
+    "accent": ["#8B0000"]
+  },
+  "motif_categories": ["geometric"],
+  "preferred_border": "none",
+  "preferred_pattern_types": ["stripe"],
+  "symmetry_preference": "none",
+  "taboo_patterns": ["spiral_clockwise", "diagonal_cross", "random_scatter", "solid_black", "zigzag"],
+  "sacred_motifs": ["earth_mark", "spirit_path"],
+  "weaving_technique": "bark_cloth",
+  "complexity_range": ["beginner"],
+  "community_approval_required": ["earth_mark", "spirit_path", "forest_sign"]
+}

@@ -1,0 +1,10 @@
+{
+  "community": "Urak Lawoi",
+  "motifs": [
+    {"id": "urak_01", "name": "ocean_mark", "type": "spiritual", "description": "Mark of the ocean, central to identity", "grid": [[1,0,1,0,1]], "complexity": "beginner"},
+    {"id": "urak_02", "name": "island_spirit", "type": "spiritual", "description": "Spirit of the islands", "grid": [[0,1,0],[1,1,1],[0,1,0]], "complexity": "beginner"},
+    {"id": "urak_03", "name": "sea_path", "type": "spiritual", "description": "Navigation path across the sea", "grid": [[1,0,0],[0,1,0],[0,0,1]], "complexity": "beginner"},
+    {"id": "urak_04", "name": "boat_wave", "type": "geometric", "description": "Wave pattern from boat travel", "grid": [[1,0,1,0,1],[0,1,0,1,0]], "complexity": "beginner"},
+    {"id": "urak_05", "name": "star_night_sea", "type": "geometric", "description": "Star used for night sea navigation", "grid": [[0,1,0],[1,1,1],[0,1,0]], "complexity": "beginner"}
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "community": "Thai Lue",
+  "motifs": [
+    {"id": "thailue_01", "name": "naga_serpent", "type": "spiritual", "description": "Naga serpent, guardian of water and Buddhism", "grid": [[1,1,0,0],[0,1,1,0],[0,0,1,1],[1,0,0,1]], "complexity": "expert"},
+    {"id": "thailue_02", "name": "mount_meru", "type": "spiritual", "description": "Cosmic mountain at center of Buddhist universe", "grid": [[0,0,1,0,0],[0,1,1,1,0],[1,1,1,1,1]], "complexity": "expert"},
+    {"id": "thailue_03", "name": "lotus_buddha", "type": "spiritual", "description": "Lotus flower associated with Buddha", "grid": [[0,1,0],[1,1,1],[0,1,0]], "complexity": "intermediate"},
+    {"id": "thailue_04", "name": "celestial_dance", "type": "spiritual", "description": "Dancing celestial being (apsara)", "grid": [[1,0,1,0,1],[0,1,0,1,0],[1,0,1,0,1]], "complexity": "expert"},
+    {"id": "thailue_05", "name": "lai_kham", "type": "spiritual", "description": "Golden pattern, most prized Thai Lue motif", "grid": [[1,0,1,0,1],[0,1,0,1,0],[1,0,1,0,1],[0,1,0,1,0],[1,0,1,0,1]], "complexity": "expert"},
+    {"id": "thailue_06", "name": "temple_eave", "type": "geometric", "description": "Curved eave of a Thai temple", "grid": [[1,1,1,0,0],[0,1,1,1,0],[0,0,1,1,1]], "complexity": "intermediate"},
+    {"id": "thailue_07", "name": "elephant_trunk", "type": "animal", "description": "Curved trunk of the sacred elephant", "grid": [[0,0,1],[0,1,1],[1,1,0]], "complexity": "intermediate"},
+    {"id": "thailue_08", "name": "flame_lancet", "type": "geometric", "description": "Flame-like lancet from temple architecture", "grid": [[0,1,0],[1,1,1],[0,1,0]], "complexity": "beginner"},
+    {"id": "thailue_09", "name": "diamond_ikat", "type": "geometric", "description": "Diamond from traditional ikat dyeing", "grid": [[0,1,0],[1,0,1],[0,1,0]], "complexity": "intermediate"},
+    {"id": "thailue_10", "name": "bird_flight", "type": "animal", "description": "Flying bird from jataka tales", "grid": [[1,0,0,0,1],[0,1,0,1,0],[0,0,1,0,0]], "complexity": "intermediate"}
+  ]
+}

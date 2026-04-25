@@ -1,0 +1,13 @@
+{
+  "community": "Mien",
+  "motifs": [
+    {"id": "mien_01", "name": "ancestor_cross", "type": "spiritual", "description": "Cross of the ancestors from ceremonial garments", "grid": [[0,1,0],[1,1,1],[0,1,0]], "complexity": "intermediate"},
+    {"id": "mien_02", "name": "cloud_serpent", "type": "animal", "description": "Serpent motif from Taoist influence", "grid": [[1,1,0],[0,1,1],[1,1,0]], "complexity": "expert"},
+    {"id": "mien_03", "name": "immortal_peach", "type": "plant", "description": "Peach of immortality from Chinese mythology", "grid": [[0,1,0],[1,1,1],[0,1,0]], "complexity": "intermediate"},
+    {"id": "mien_04", "name": "ritual_hat_pattern", "type": "spiritual", "description": "Pattern from the iconic red hat", "grid": [[0,0,1,0,0],[0,1,1,1,0],[1,1,0,1,1]], "complexity": "expert"},
+    {"id": "mien_05", "name": "dragon_phoenix", "type": "animal", "description": "Paired dragon and phoenix motif", "grid": [[1,0,1,0,1],[0,1,0,1,0],[1,0,1,0,1]], "complexity": "expert"},
+    {"id": "mien_06", "name": "indigo_wave", "type": "geometric", "description": "Wave pattern from indigo dye resist", "grid": [[1,0,1,0],[0,1,0,1]], "complexity": "intermediate"},
+    {"id": "mien_07", "name": "migration_path", "type": "geometric", "description": "Winding path representing historical migration", "grid": [[1,0,0,0],[1,1,0,0],[0,1,1,0],[0,0,1,1]], "complexity": "intermediate"},
+    {"id": "mien_08", "name": "temple_gate", "type": "spiritual", "description": "Gateway to the spiritual temple", "grid": [[1,0,1],[0,1,0],[1,1,1]], "complexity": "intermediate"}
+  ]
+}

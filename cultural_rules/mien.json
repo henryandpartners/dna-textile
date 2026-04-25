@@ -1,0 +1,22 @@
+{
+  "community": "Mien (Yao)",
+  "native_name": "เมี่ยน (เย้า)",
+  "language_family": "Hmong-Mien",
+  "region": "Northern Thailand",
+  "textile_history": "Mien textiles are distinguished by intricate red embroidery on indigo-dyed cloth, often featuring Chinese-inspired motifs adapted through Mien cultural lenses. The iconic tall red hat is a Mien signature.",
+  "cultural_significance": "Mien embroidery tells the story of their ancient kingdom and migration. The 'cross of the ancestors' motif appears on ceremonial garments worn during Taoist-influenced rituals.",
+  "traditional_colors": {
+    "primary": ["#8B0000", "#000080", "#FFFFFF"],
+    "secondary": ["#FFD700", "#C0C0C0", "#FF4500"],
+    "accent": ["#006400", "#800080"]
+  },
+  "motif_categories": ["geometric", "animal", "spiritual"],
+  "preferred_border": "zigzag",
+  "preferred_pattern_types": ["grid", "spiral"],
+  "symmetry_preference": "radial",
+  "taboo_patterns": ["diagonal_cross", "solid_black"],
+  "sacred_motifs": ["ancestor_cross", "cloud_serpent", "immortal_peach"],
+  "weaving_technique": "embroidery_indigo_dye",
+  "complexity_range": ["intermediate", "expert"],
+  "community_approval_required": ["ancestor_cross", "cloud_serpent", "ritual_hat_pattern"]
+}

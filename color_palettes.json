@@ -1,0 +1,251 @@
+{
+  "_description": "Traditional color palettes for each Thai indigenous community. Colors are in hex format with RGB values and cultural meanings.",
+  "palettes": {
+    "karen": {
+      "name": "Karen (Kayah)",
+      "colors": [
+        {"name": "deep_red", "hex": "#8B0000", "rgb": [139, 0, 0], "meaning": "Life force, clan identity"},
+        {"name": "black", "hex": "#000000", "rgb": [0, 0, 0], "meaning": "Earth, protection"},
+        {"name": "white", "hex": "#FFFFFF", "rgb": [255, 255, 255], "meaning": "Purity, spiritual connection"},
+        {"name": "brown", "hex": "#8B4513", "rgb": [139, 69, 19], "meaning": "Soil, stability"},
+        {"name": "saddle_brown", "hex": "#D2691E", "rgb": [210, 105, 30], "meaning": "Wood, warmth"},
+        {"name": "wheat", "hex": "#F5DEB3", "rgb": [245, 222, 179], "meaning": "Rice, harvest"},
+        {"name": "gold", "hex": "#FFD700", "rgb": [255, 215, 0], "meaning": "Spiritual light"},
+        {"name": "silver", "hex": "#C0C0C0", "rgb": [192, 192, 192], "meaning": "Silver ornaments"}
+      ],
+      "primary": ["#8B0000", "#000000", "#FFFFFF"],
+      "secondary": ["#8B4513", "#D2691E", "#F5DEB3"],
+      "accent": ["#FFD700", "#C0C0C0"]
+    },
+    "hmong": {
+      "name": "Hmong",
+      "colors": [
+        {"name": "indigo", "hex": "#000080", "rgb": [0, 0, 128], "meaning": "Traditional dye, depth"},
+        {"name": "white", "hex": "#FFFFFF", "rgb": [255, 255, 255], "meaning": "Purity, New Year celebration"},
+        {"name": "green", "hex": "#008000", "rgb": [0, 128, 0], "meaning": "Mountains, growth"},
+        {"name": "red", "hex": "#FF0000", "rgb": [255, 0, 0], "meaning": "Life, celebration"},
+        {"name": "gold", "hex": "#FFD700", "rgb": [255, 215, 0], "meaning": "Prosperity"},
+        {"name": "hot_pink", "hex": "#FF69B4", "rgb": [255, 105, 180], "meaning": "Flowers, beauty"},
+        {"name": "turquoise", "hex": "#00CED1", "rgb": [0, 206, 209], "meaning": "Sky, water"},
+        {"name": "orange_red", "hex": "#FF4500", "rgb": [255, 69, 0], "meaning": "Fire, energy"}
+      ],
+      "primary": ["#000080", "#FFFFFF", "#008000"],
+      "secondary": ["#FF0000", "#FFD700", "#FF69B4"],
+      "accent": ["#00CED1", "#FF4500"]
+    },
+    "akha": {
+      "name": "Akha",
+      "colors": [
+        {"name": "black", "hex": "#000000", "rgb": [0, 0, 0], "meaning": "Base color, identity"},
+        {"name": "deep_red", "hex": "#8B0000", "rgb": [139, 0, 0], "meaning": "Life, vitality"},
+        {"name": "silver", "hex": "#C0C0C0", "rgb": [192, 192, 192], "meaning": "Silver coins, protection"},
+        {"name": "red", "hex": "#FF0000", "rgb": [255, 0, 0], "meaning": "Celebration"},
+        {"name": "gold", "hex": "#FFD700", "rgb": [255, 215, 0], "meaning": "Spiritual wealth"},
+        {"name": "white", "hex": "#FFFFFF", "rgb": [255, 255, 255], "meaning": "Spirit world"},
+        {"name": "purple", "hex": "#800080", "rgb": [128, 0, 128], "meaning": "Dignity"},
+        {"name": "dark_green", "hex": "#006400", "rgb": [0, 100, 0], "meaning": "Forest"}
+      ],
+      "primary": ["#000000", "#8B0000", "#C0C0C0"],
+      "secondary": ["#FF0000", "#FFD700", "#FFFFFF"],
+      "accent": ["#800080", "#006400"]
+    },
+    "lahu": {
+      "name": "Lahu",
+      "colors": [
+        {"name": "deep_red", "hex": "#8B0000", "rgb": [139, 0, 0], "meaning": "Creator deity, life"},
+        {"name": "black", "hex": "#000000", "rgb": [0, 0, 0], "meaning": "Earth, foundation"},
+        {"name": "white", "hex": "#FFFFFF", "rgb": [255, 255, 255], "meaning": "Purity, spirituality"},
+        {"name": "orange_red", "hex": "#FF4500", "rgb": [255, 69, 0], "meaning": "Fire, warmth"},
+        {"name": "silver", "hex": "#C0C0C0", "rgb": [192, 192, 192], "meaning": "Silver decoration"},
+        {"name": "gold", "hex": "#FFD700", "rgb": [255, 215, 0], "meaning": "Light"},
+        {"name": "navy", "hex": "#000080", "rgb": [0, 0, 128], "meaning": "Night sky"},
+        {"name": "purple", "hex": "#800080", "rgb": [128, 0, 128], "meaning": "Spirit world"}
+      ],
+      "primary": ["#8B0000", "#000000", "#FFFFFF"],
+      "secondary": ["#FF4500", "#C0C0C0", "#FFD700"],
+      "accent": ["#000080", "#800080"]
+    },
+    "lisu": {
+      "name": "Lisu",
+      "colors": [
+        {"name": "red", "hex": "#FF0000", "rgb": [255, 0, 0], "meaning": "Bravery, life"},
+        {"name": "orange", "hex": "#FF8C00", "rgb": [255, 140, 0], "meaning": "Sunset, warmth"},
+        {"name": "gold", "hex": "#FFD700", "rgb": [255, 215, 0], "meaning": "Prosperity"},
+        {"name": "green", "hex": "#008000", "rgb": [0, 128, 0], "meaning": "Forest, nature"},
+        {"name": "blue", "hex": "#0000FF", "rgb": [0, 0, 255], "meaning": "Sky"},
+        {"name": "purple", "hex": "#800080", "rgb": [128, 0, 128], "meaning": "Mystery"},
+        {"name": "white", "hex": "#FFFFFF", "rgb": [255, 255, 255], "meaning": "Purity"},
+        {"name": "black", "hex": "#000000", "rgb": [0, 0, 0], "meaning": "Earth"},
+        {"name": "hot_pink", "hex": "#FF69B4", "rgb": [255, 105, 180], "meaning": "Flowers"}
+      ],
+      "primary": ["#FF0000", "#FF8C00", "#FFD700"],
+      "secondary": ["#008000", "#0000FF", "#800080"],
+      "accent": ["#FFFFFF", "#000000", "#FF69B4"]
+    },
+    "mien": {
+      "name": "Mien (Yao)",
+      "colors": [
+        {"name": "deep_red", "hex": "#8B0000", "rgb": [139, 0, 0], "meaning": "Ceremonial red"},
+        {"name": "indigo", "hex": "#000080", "rgb": [0, 0, 128], "meaning": "Traditional indigo dye"},
+        {"name": "white", "hex": "#FFFFFF", "rgb": [255, 255, 255], "meaning": "Embroidery contrast"},
+        {"name": "gold", "hex": "#FFD700", "rgb": [255, 215, 0], "meaning": "Imperial connection"},
+        {"name": "silver", "hex": "#C0C0C0", "rgb": [192, 192, 192], "meaning": "Silver ornaments"},
+        {"name": "orange_red", "hex": "#FF4500", "rgb": [255, 69, 0], "meaning": "Fire ceremony"},
+        {"name": "dark_green", "hex": "#006400", "rgb": [0, 100, 0], "meaning": "Forest"},
+        {"name": "purple", "hex": "#800080", "rgb": [128, 0, 128], "meaning": "Spirituality"}
+      ],
+      "primary": ["#8B0000", "#000080", "#FFFFFF"],
+      "secondary": ["#FFD700", "#C0C0C0", "#FF4500"],
+      "accent": ["#006400", "#800080"]
+    },
+    "palaung": {
+      "name": "Palaung (Ta-ang)",
+      "colors": [
+        {"name": "deep_red", "hex": "#8B0000", "rgb": [139, 0, 0], "meaning": "Identity, vitality"},
+        {"name": "black", "hex": "#000000", "rgb": [0, 0, 0], "meaning": "Foundation"},
+        {"name": "gold", "hex": "#FFD700", "rgb": [255, 215, 0], "meaning": "Spiritual light"},
+        {"name": "white", "hex": "#FFFFFF", "rgb": [255, 255, 255], "meaning": "Purity"},
+        {"name": "brown", "hex": "#8B4513", "rgb": [139, 69, 19], "meaning": "Earth"},
+        {"name": "silver", "hex": "#C0C0C0", "rgb": [192, 192, 192], "meaning": "Ornaments"},
+        {"name": "orange_red", "hex": "#FF4500", "rgb": [255, 69, 0], "meaning": "Energy"},
+        {"name": "dark_green", "hex": "#006400", "rgb": [0, 100, 0], "meaning": "Forest"}
+      ],
+      "primary": ["#8B0000", "#000000", "#FFD700"],
+      "secondary": ["#FFFFFF", "#8B4513", "#C0C0C0"],
+      "accent": ["#FF4500", "#006400"]
+    },
+    "khamu": {
+      "name": "Khamu",
+      "colors": [
+        {"name": "black", "hex": "#000000", "rgb": [0, 0, 0], "meaning": "Earth, foundation"},
+        {"name": "deep_red", "hex": "#8B0000", "rgb": [139, 0, 0], "meaning": "Life force"},
+        {"name": "wheat", "hex": "#F5DEB3", "rgb": [245, 222, 179], "meaning": "Rice, harvest"},
+        {"name": "white", "hex": "#FFFFFF", "rgb": [255, 255, 255], "meaning": "Spirit world"},
+        {"name": "brown", "hex": "#8B4513", "rgb": [139, 69, 19], "meaning": "Soil"},
+        {"name": "saddle_brown", "hex": "#D2691E", "rgb": [210, 105, 30], "meaning": "Wood"},
+        {"name": "gold", "hex": "#FFD700", "rgb": [255, 215, 0], "meaning": "Sun"},
+        {"name": "silver", "hex": "#C0C0C0", "rgb": [192, 192, 192], "meaning": "Ornaments"}
+      ],
+      "primary": ["#000000", "#8B0000", "#F5DEB3"],
+      "secondary": ["#FFFFFF", "#8B4513", "#D2691E"],
+      "accent": ["#FFD700", "#C0C0C0"]
+    },
+    "lua": {
+      "name": "Lua (Lawaa)",
+      "colors": [
+        {"name": "black", "hex": "#000000", "rgb": [0, 0, 0], "meaning": "Earth, ancient roots"},
+        {"name": "deep_red", "hex": "#8B0000", "rgb": [139, 0, 0], "meaning": "Spirit connection"},
+        {"name": "wheat", "hex": "#F5DEB3", "rgb": [245, 222, 179], "meaning": "Natural fiber"},
+        {"name": "brown", "hex": "#8B4513", "rgb": [139, 69, 19], "meaning": "Forest earth"},
+        {"name": "saddle_brown", "hex": "#D2691E", "rgb": [210, 105, 30], "meaning": "Bark cloth"},
+        {"name": "white", "hex": "#FFFFFF", "rgb": [255, 255, 255], "meaning": "Spirit purity"},
+        {"name": "dark_green", "hex": "#006400", "rgb": [0, 100, 0], "meaning": "Forest"},
+        {"name": "gold", "hex": "#FFD700", "rgb": [255, 215, 0], "meaning": "Sunlight"}
+      ],
+      "primary": ["#000000", "#8B0000", "#F5DEB3"],
+      "secondary": ["#8B4513", "#D2691E", "#FFFFFF"],
+      "accent": ["#006400", "#FFD700"]
+    },
+    "mlabri": {
+      "name": "Mlabri (Phi Tong Luang)",
+      "colors": [
+        {"name": "brown", "hex": "#8B4513", "rgb": [139, 69, 19], "meaning": "Bark cloth, earth"},
+        {"name": "saddle_brown", "hex": "#D2691E", "rgb": [210, 105, 30], "meaning": "Natural fiber"},
+        {"name": "wheat", "hex": "#F5DEB3", "rgb": [245, 222, 179], "meaning": "Raw material"},
+        {"name": "black", "hex": "#000000", "rgb": [0, 0, 0], "meaning": "Forest shadow"},
+        {"name": "white", "hex": "#FFFFFF", "rgb": [255, 255, 255], "meaning": "Spirit"},
+        {"name": "deep_red", "hex": "#8B0000", "rgb": [139, 0, 0], "meaning": "Life"},
+        {"name": "silver", "hex": "#C0C0C0", "rgb": [192, 192, 192], "meaning": "Trade goods"}
+      ],
+      "primary": ["#8B4513", "#D2691E", "#F5DEB3"],
+      "secondary": ["#000000", "#FFFFFF", "#8B0000"],
+      "accent": ["#C0C0C0"]
+    },
+    "mani": {
+      "name": "Mani (Maniq)",
+      "colors": [
+        {"name": "brown", "hex": "#8B4513", "rgb": [139, 69, 19], "meaning": "Earth connection"},
+        {"name": "saddle_brown", "hex": "#D2691E", "rgb": [210, 105, 30], "meaning": "Natural materials"},
+        {"name": "wheat", "hex": "#F5DEB3", "rgb": [245, 222, 179], "meaning": "Forest floor"},
+        {"name": "black", "hex": "#000000", "rgb": [0, 0, 0], "meaning": "Forest depth"},
+        {"name": "white", "hex": "#FFFFFF", "rgb": [255, 255, 255], "meaning": "Spirit"},
+        {"name": "deep_red", "hex": "#8B0000", "rgb": [139, 0, 0], "meaning": "Life force"}
+      ],
+      "primary": ["#8B4513", "#D2691E", "#F5DEB3"],
+      "secondary": ["#000000", "#FFFFFF"],
+      "accent": ["#8B0000"]
+    },
+    "moklen": {
+      "name": "Moklen (Chao莱)",
+      "colors": [
+        {"name": "ocean_blue", "hex": "#006994", "rgb": [0, 105, 148], "meaning": "Ocean depth"},
+        {"name": "turquoise", "hex": "#00CED1", "rgb": [0, 206, 209], "meaning": "Shallow water"},
+        {"name": "wheat", "hex": "#F5DEB3", "rgb": [245, 222, 179], "meaning": "Beach sand"},
+        {"name": "white", "hex": "#FFFFFF", "rgb": [255, 255, 255], "meaning": "Foam, purity"},
+        {"name": "black", "hex": "#000000", "rgb": [0, 0, 0], "meaning": "Deep sea"},
+        {"name": "brown", "hex": "#8B4513", "rgb": [139, 69, 19], "meaning": "Boat wood"},
+        {"name": "gold", "hex": "#FFD700", "rgb": [255, 215, 0], "meaning": "Sun on water"},
+        {"name": "tomato", "hex": "#FF6347", "rgb": [255, 99, 71], "meaning": "Sunset"}
+      ],
+      "primary": ["#006994", "#00CED1", "#F5DEB3"],
+      "secondary": ["#FFFFFF", "#000000", "#8B4513"],
+      "accent": ["#FFD700", "#FF6347"]
+    },
+    "urak_lawoi": {
+      "name": "Urak Lawoi",
+      "colors": [
+        {"name": "ocean_blue", "hex": "#006994", "rgb": [0, 105, 148], "meaning": "Ocean"},
+        {"name": "white", "hex": "#FFFFFF", "rgb": [255, 255, 255], "meaning": "Foam, spirit"},
+        {"name": "brown", "hex": "#8B4513", "rgb": [139, 69, 19], "meaning": "Boat, earth"},
+        {"name": "black", "hex": "#000000", "rgb": [0, 0, 0], "meaning": "Night sea"},
+        {"name": "gold", "hex": "#FFD700", "rgb": [255, 215, 0], "meaning": "Stars"},
+        {"name": "wheat", "hex": "#F5DEB3", "rgb": [245, 222, 179], "meaning": "Sand"},
+        {"name": "turquoise", "hex": "#00CED1", "rgb": [0, 206, 209], "meaning": "Shallow reef"}
+      ],
+      "primary": ["#006994", "#FFFFFF", "#8B4513"],
+      "secondary": ["#000000", "#FFD700", "#F5DEB3"],
+      "accent": ["#00CED1"]
+    },
+    "thai_lue": {
+      "name": "Thai Lue",
+      "colors": [
+        {"name": "deep_red", "hex": "#8B0000", "rgb": [139, 0, 0], "meaning": "Buddhist ceremony"},
+        {"name": "navy", "hex": "#000080", "rgb": [0, 0, 128], "meaning": "Indigo, depth"},
+        {"name": "gold", "hex": "#FFD700", "rgb": [255, 215, 0], "meaning": "Temple gold, Lai Kham"},
+        {"name": "black", "hex": "#000000", "rgb": [0, 0, 0], "meaning": "Foundation cloth"},
+        {"name": "white", "hex": "#FFFFFF", "rgb": [255, 255, 255], "meaning": "Purity, Buddhist"},
+        {"name": "purple", "hex": "#800080", "rgb": [128, 0, 128], "meaning": "Royalty"},
+        {"name": "dark_green", "hex": "#006400", "rgb": [0, 100, 0], "meaning": "Nature"},
+        {"name": "orange_red", "hex": "#FF4500", "rgb": [255, 69, 0], "meaning": "Temple flame"},
+        {"name": "silver", "hex": "#C0C0C0", "rgb": [192, 192, 192], "meaning": "Silver thread"}
+      ],
+      "primary": ["#8B0000", "#000080", "#FFD700"],
+      "secondary": ["#000000", "#FFFFFF", "#800080"],
+      "accent": ["#006400", "#FF4500", "#C0C0C0"]
+    },
+    "tai_dam": {
+      "name": "Tai Dam (Black Tai)",
+      "colors": [
+        {"name": "black", "hex": "#000000", "rgb": [0, 0, 0], "meaning": "Identity, kingdom"},
+        {"name": "silver", "hex": "#C0C0C0", "rgb": [192, 192, 192], "meaning": "Silver thread, clan"},
+        {"name": "gold", "hex": "#FFD700", "rgb": [255, 215, 0], "meaning": "Royal heritage"},
+        {"name": "deep_red", "hex": "#8B0000", "rgb": [139, 0, 0], "meaning": "Life, ceremony"},
+        {"name": "white", "hex": "#FFFFFF", "rgb": [255, 255, 255], "meaning": "Contrast, purity"},
+        {"name": "purple", "hex": "#800080", "rgb": [128, 0, 128], "meaning": "Spirituality"},
+        {"name": "navy", "hex": "#000080", "rgb": [0, 0, 128], "meaning": "Depth"},
+        {"name": "orange_red", "hex": "#FF4500", "rgb": [255, 69, 0], "meaning": "Energy"}
+      ],
+      "primary": ["#000000", "#C0C0C0", "#FFD700"],
+      "secondary": ["#8B0000", "#FFFFFF", "#800080"],
+      "accent": ["#000080", "#FF4500"]
+    }
+  },
+  "global_defaults": {
+    "dna_color_map": {
+      "A": {"hex": "#FF0000", "rgb": [255, 0, 0], "name": "Red"},
+      "T": {"hex": "#0000FF", "rgb": [0, 0, 255], "name": "Blue"},
+      "G": {"hex": "#00FF00", "rgb": [0, 255, 0], "name": "Green"},
+      "C": {"hex": "#FFFF00", "rgb": [255, 255, 0], "name": "Yellow"}
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "community": "Palaung",
+  "motifs": [
+    {"id": "palaung_01", "name": "cosmic_band", "type": "spiritual", "description": "Horizontal band representing cosmic layers", "grid": [[1,1,1,1,1]], "complexity": "beginner"},
+    {"id": "palaung_02", "name": "rattan_circle", "type": "spiritual", "description": "Circular pattern from rattan bands", "grid": [[0,1,0],[1,0,1],[0,1,0]], "complexity": "beginner"},
+    {"id": "palaung_03", "name": "earth_layer", "type": "spiritual", "description": "Layered pattern representing earth strata", "grid": [[1,1,1],[0,0,0],[1,1,1]], "complexity": "beginner"},
+    {"id": "palaung_04", "name": "subgroup_mark", "type": "geometric", "description": "Distinctive mark identifying Palaung sub-group", "grid": [[1,0,1],[0,1,0],[1,0,1]], "complexity": "beginner"},
+    {"id": "palaung_05", "name": "betel_leaf", "type": "plant", "description": "Leaf pattern from betel nut tradition", "grid": [[0,1,0],[1,1,1],[0,1,0]], "complexity": "beginner"},
+    {"id": "palaung_06", "name": "tea_leaf", "type": "plant", "description": "Pattern inspired by tea cultivation", "grid": [[1,0,1],[0,1,0],[1,0,1]], "complexity": "beginner"}
+  ]
+}

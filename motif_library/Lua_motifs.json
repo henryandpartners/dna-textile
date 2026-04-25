@@ -1,0 +1,11 @@
+{
+  "community": "Lua",
+  "motifs": [
+    {"id": "lua_01", "name": "forest_spirit", "type": "spiritual", "description": "Spirit guardian of the forest", "grid": [[0,1,0],[1,1,1],[0,1,0]], "complexity": "intermediate"},
+    {"id": "lua_02", "name": "ancestor_mark", "type": "spiritual", "description": "Mark connecting to ancient ancestors", "grid": [[1,0,1],[0,1,0],[1,0,1]], "complexity": "beginner"},
+    {"id": "lua_03", "name": "healing_cross", "type": "spiritual", "description": "Cross used in healing ceremonies", "grid": [[0,1,0],[1,1,1],[0,1,0]], "complexity": "beginner"},
+    {"id": "lua_04", "name": "ceremonial_band", "type": "spiritual", "description": "Band for ritual cloth", "grid": [[1,1,1,1,1]], "complexity": "beginner"},
+    {"id": "lua_05", "name": "tree_root", "type": "plant", "description": "Root pattern from forest connection", "grid": [[1,0,1],[0,1,0],[1,1,1]], "complexity": "beginner"},
+    {"id": "lua_06", "name": "spirit_diamond", "type": "spiritual", "description": "Diamond shape for spirit communication", "grid": [[0,1,0],[1,0,1],[0,1,0]], "complexity": "beginner"}
+  ]
+}
