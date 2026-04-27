@@ -1,0 +1,9 @@
+{
+  "community": "Mani",
+  "motifs": [
+    {"id": "mani_01", "name": "earth_mark", "type": "spiritual", "description": "Simple mark connecting to the earth", "grid": [[1,1,1]], "complexity": "beginner"},
+    {"id": "mani_02", "name": "spirit_path", "type": "spiritual", "description": "Path of the forest spirit", "grid": [[1,0,0],[0,1,0],[0,0,1]], "complexity": "beginner"},
+    {"id": "mani_03", "name": "forest_sign", "type": "spiritual", "description": "Sign marking sacred forest areas", "grid": [[0,1,0],[1,0,1],[0,1,0]], "complexity": "beginner"},
+    {"id": "mani_04", "name": "fruit_seed", "type": "plant", "description": "Seed pattern from foraging knowledge", "grid": [[0,1,0],[1,1,1],[0,1,0]], "complexity": "beginner"}
+  ]
+}

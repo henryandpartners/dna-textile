@@ -1,0 +1,11 @@
+{
+  "community": "Khamu",
+  "motifs": [
+    {"id": "khamu_01", "name": "rice_spirit", "type": "spiritual", "description": "Spirit of rice, central to Khamu agriculture", "grid": [[0,1,0],[1,1,1],[0,1,0]], "complexity": "beginner"},
+    {"id": "khamu_02", "name": "earth_worm", "type": "animal", "description": "Worm pattern representing soil fertility", "grid": [[1,0,1,0,1],[0,1,0,1,0]], "complexity": "beginner"},
+    {"id": "khamu_03", "name": "ancient_diamond", "type": "geometric", "description": "Ancient diamond motif predating external influences", "grid": [[0,1,0],[1,0,1],[0,1,0]], "complexity": "beginner"},
+    {"id": "khamu_04", "name": "harvest_mark", "type": "spiritual", "description": "Mark for harvest blessing ceremonies", "grid": [[1,1,1],[0,1,0],[1,1,1]], "complexity": "beginner"},
+    {"id": "khamu_05", "name": "bamboo_grove", "type": "plant", "description": "Cluster of bamboo stalks", "grid": [[1,0,1,0,1],[1,0,1,0,1],[1,0,1,0,1]], "complexity": "beginner"},
+    {"id": "khamu_06", "name": "field_grid", "type": "geometric", "description": "Grid pattern representing rice fields", "grid": [[1,0,1],[0,1,0],[1,0,1]], "complexity": "beginner"}
+  ]
+}

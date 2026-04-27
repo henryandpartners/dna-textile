@@ -1,0 +1,22 @@
+{
+  "community": "Akha",
+  "native_name": "อาข่า",
+  "language_family": "Sino-Tibetan",
+  "region": "Northern Thailand highlands",
+  "textile_history": "Akha textiles are among the most visually striking of Thai hill tribes, featuring elaborate headdresses adorned with silver coins, beads, and pom-poms. The iconic Akha hat signals marital status and clan identity.",
+  "cultural_significance": "Clothing distinguishes Akha from neighboring groups. Silver ornaments ward off evil spirits. The gate pattern (aw) represents the spiritual boundary between the village and the outside world.",
+  "traditional_colors": {
+    "primary": ["#000000", "#8B0000", "#C0C0C0"],
+    "secondary": ["#FF0000", "#FFD700", "#FFFFFF"],
+    "accent": ["#800080", "#006400"]
+  },
+  "motif_categories": ["geometric", "spiritual"],
+  "preferred_border": "solid",
+  "preferred_pattern_types": ["grid", "stripe"],
+  "symmetry_preference": "vertical",
+  "taboo_patterns": ["spiral_clockwise", "diagonal_cross"],
+  "sacred_motifs": ["spirit_gate", "silver_circle", "village_post"],
+  "weaving_technique": "backstrap_loom_embroidery",
+  "complexity_range": ["intermediate", "expert"],
+  "community_approval_required": ["spirit_gate", "silver_circle", "ancestor_eye"]
+}

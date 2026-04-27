@@ -1,0 +1,22 @@
+{
+  "community": "Palaung (Ta-ang)",
+  "native_name": "ปาเลอุง (ตาอาง)",
+  "language_family": "Austroasiatic",
+  "region": "Northern Thailand (border regions)",
+  "textile_history": "Palaung women are known for their distinctive woven skirts with horizontal bands of red, black, and yellow, often featuring small geometric motifs. The rattan bands worn around the waist are a cultural signature.",
+  "cultural_significance": "The horizontal band pattern on Palaung skirts represents the layers of the cosmos in their animist worldview. Specific combinations indicate sub-group identity (Palaung, Ruchang, Rumai).",
+  "traditional_colors": {
+    "primary": ["#8B0000", "#000000", "#FFD700"],
+    "secondary": ["#FFFFFF", "#8B4513", "#C0C0C0"],
+    "accent": ["#FF4500", "#006400"]
+  },
+  "motif_categories": ["geometric"],
+  "preferred_border": "double",
+  "preferred_pattern_types": ["stripe", "grid"],
+  "symmetry_preference": "horizontal",
+  "taboo_patterns": ["spiral_clockwise", "random_scatter"],
+  "sacred_motifs": ["cosmic_band", "rattan_circle", "earth_layer"],
+  "weaving_technique": "backstrap_loom",
+  "complexity_range": ["beginner", "intermediate"],
+  "community_approval_required": ["cosmic_band", "rattan_circle", "subgroup_mark"]
+}

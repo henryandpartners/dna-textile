@@ -1,0 +1,22 @@
+{
+  "community": "Lua (Lawaa)",
+  "native_name": "ลัวะ",
+  "language_family": "Austroasiatic",
+  "region": "Northern and Central Thailand",
+  "textile_history": "The Lua are one of Thailand's oldest indigenous groups. Their textile tradition features simple ikat-like patterns with natural dyes. Historically, they were known for basketry and simple cloth production.",
+  "cultural_significance": "Lua patterns reflect their animist beliefs and deep connection to forest spirits. The 'spirit cloth' was used in healing ceremonies and ancestor veneration rituals.",
+  "traditional_colors": {
+    "primary": ["#000000", "#8B0000", "#F5DEB3"],
+    "secondary": ["#8B4513", "#D2691E", "#FFFFFF"],
+    "accent": ["#006400", "#FFD700"]
+  },
+  "motif_categories": ["geometric", "plant", "spiritual"],
+  "preferred_border": "solid",
+  "preferred_pattern_types": ["stripe", "grid"],
+  "symmetry_preference": "horizontal",
+  "taboo_patterns": ["spiral_clockwise", "random_scatter"],
+  "sacred_motifs": ["forest_spirit", "ancestor_mark", "healing_cross"],
+  "weaving_technique": "backstrap_loom",
+  "complexity_range": ["beginner", "intermediate"],
+  "community_approval_required": ["forest_spirit", "ancestor_mark", "ceremonial_band"]
+}

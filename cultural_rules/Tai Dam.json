@@ -1,0 +1,22 @@
+{
+  "community": "Tai Dam (Black Tai)",
+  "native_name": "ไทยดำ",
+  "language_family": "Tai-Kadai",
+  "region": "Northern and Central Thailand",
+  "textile_history": "Tai Dam textiles are characterized by their distinctive black cotton base with intricate silver and gold thread embroidery. The famous 'sin' (skirt) features complex band patterns with butterfly and diamond motifs.",
+  "cultural_significance": "The black color represents the Tai Dam identity and their historical kingdom. Silver thread patterns encode clan symbols and protective symbols. The butterfly motif represents the soul's journey.",
+  "traditional_colors": {
+    "primary": ["#000000", "#C0C0C0", "#FFD700"],
+    "secondary": ["#8B0000", "#FFFFFF", "#800080"],
+    "accent": ["#000080", "#FF4500"]
+  },
+  "motif_categories": ["geometric", "animal", "spiritual"],
+  "preferred_border": "double",
+  "preferred_pattern_types": ["grid", "stripe"],
+  "symmetry_preference": "vertical",
+  "taboo_patterns": ["random_scatter", "solid_black"],
+  "sacred_motifs": ["soul_butterfly", "silver_thread", "clan_diamond", "spirit_bridge"],
+  "weaving_technique": "supplementary_weft_embroidery",
+  "complexity_range": ["intermediate", "expert"],
+  "community_approval_required": ["soul_butterfly", "silver_thread", "clan_diamond", "spirit_bridge", "kingdom_mark"]
+}

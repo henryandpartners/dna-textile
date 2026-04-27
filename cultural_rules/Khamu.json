@@ -1,0 +1,22 @@
+{
+  "community": "Khamu",
+  "native_name": "ขมุ",
+  "language_family": "Austroasiatic",
+  "region": "Northern Thailand (border with Laos)",
+  "textile_history": "Khamu textile tradition is less documented than neighboring groups but features simple woven bands with geometric patterns. Traditionally, they wove for practical use rather than ceremonial display.",
+  "cultural_significance": "Khamu patterns are among the most ancient in mainland Southeast Asia, potentially predating Tai and Tibeto-Burman influences. Simple geometric motifs may represent early agricultural symbols.",
+  "traditional_colors": {
+    "primary": ["#000000", "#8B0000", "#F5DEB3"],
+    "secondary": ["#FFFFFF", "#8B4513", "#D2691E"],
+    "accent": ["#FFD700", "#C0C0C0"]
+  },
+  "motif_categories": ["geometric", "plant"],
+  "preferred_border": "solid",
+  "preferred_pattern_types": ["stripe", "grid"],
+  "symmetry_preference": "horizontal",
+  "taboo_patterns": ["spiral_clockwise", "diagonal_cross"],
+  "sacred_motifs": ["rice_spirit", "earth_worm", "ancient_diamond"],
+  "weaving_technique": "backstrap_loom",
+  "complexity_range": ["beginner"],
+  "community_approval_required": ["rice_spirit", "earth_worm", "harvest_mark"]
+}

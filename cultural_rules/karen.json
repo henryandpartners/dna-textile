@@ -1,0 +1,22 @@
+{
+  "community": "Karen (Kayah)",
+  "native_name": "กะเหรี่ยง (กะยา)",
+  "language_family": "Sino-Tibetan",
+  "region": "Western and Northern Thailand",
+  "textile_history": "Karen women are renowned for their backstrap loom weaving, producing distinctive striped textiles. The famous 'Karen skirt' (sinh) features bold horizontal bands. Traditional weaving is passed from mother to daughter.",
+  "cultural_significance": "Textiles serve as ethnic identity markers. Specific stripe patterns indicate clan affiliation, marital status, and social rank. The iconic red-black-white color scheme is deeply symbolic.",
+  "traditional_colors": {
+    "primary": ["#8B0000", "#000000", "#FFFFFF"],
+    "secondary": ["#8B4513", "#D2691E", "#F5DEB3"],
+    "accent": ["#FFD700", "#C0C0C0"]
+  },
+  "motif_categories": ["geometric", "plant", "spiritual"],
+  "preferred_border": "double",
+  "preferred_pattern_types": ["stripe", "grid"],
+  "symmetry_preference": "horizontal",
+  "taboo_patterns": ["diagonal_cross", "spiral_clockwise"],
+  "sacred_motifs": ["spirit_band", "ancestor_diamond"],
+  "weaving_technique": "backstrap_loom",
+  "complexity_range": ["beginner", "intermediate"],
+  "community_approval_required": ["spirit_band", "ancestor_diamond", "clan_stripe"]
+}

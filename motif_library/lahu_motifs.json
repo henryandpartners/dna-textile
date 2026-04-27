@@ -1,0 +1,13 @@
+{
+  "community": "Lahu",
+  "motifs": [
+    {"id": "lahu_01", "name": "creator_eye", "type": "spiritual", "description": "Eye of the creator deity (Aw Sha)", "grid": [[1,1,1],[1,0,1],[1,1,1]], "complexity": "intermediate"},
+    {"id": "lahu_02", "name": "spirit_triangle", "type": "spiritual", "description": "Triangle representing the three worlds", "grid": [[0,1,0],[1,0,1],[1,1,1]], "complexity": "beginner"},
+    {"id": "lahu_03", "name": "cosmic_cross", "type": "spiritual", "description": "Cross representing the four directions", "grid": [[0,1,0],[1,1,1],[0,1,0]], "complexity": "beginner"},
+    {"id": "lahu_04", "name": "prayer_diamond", "type": "spiritual", "description": "Diamond used in prayer cloth patterns", "grid": [[0,1,0],[1,0,1],[0,1,0]], "complexity": "beginner"},
+    {"id": "lahu_05", "name": "fire_flame", "type": "geometric", "description": "Flame pattern representing the sacred hearth", "grid": [[0,1,0],[1,1,1],[1,0,1]], "complexity": "beginner"},
+    {"id": "lahu_06", "name": "hunter_track", "type": "geometric", "description": "Footprint pattern from hunting tradition", "grid": [[1,0,1],[0,1,0],[1,1,1]], "complexity": "intermediate"},
+    {"id": "lahu_07", "name": "silver_bead", "type": "geometric", "description": "Small circle representing silver bead decoration", "grid": [[0,1,0],[1,1,1],[0,1,0]], "complexity": "beginner"},
+    {"id": "lahu_08", "name": "star_night", "type": "geometric", "description": "Four-pointed star for night navigation", "grid": [[0,1,0],[1,1,1],[0,1,0]], "complexity": "beginner"}
+  ]
+}

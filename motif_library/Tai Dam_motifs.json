@@ -1,0 +1,13 @@
+{
+  "community": "Tai Dam",
+  "motifs": [
+    {"id": "taidam_01", "name": "soul_butterfly", "type": "spiritual", "description": "Butfly representing the soul's journey", "grid": [[1,0,1],[0,1,0],[1,0,1]], "complexity": "intermediate"},
+    {"id": "taidam_02", "name": "silver_thread", "type": "spiritual", "description": "Silver thread pattern from embroidery", "grid": [[1,1,1,1,1]], "complexity": "beginner"},
+    {"id": "taidam_03", "name": "clan_diamond", "type": "geometric", "description": "Diamond representing clan identity", "grid": [[0,1,0],[1,0,1],[0,1,0]], "complexity": "beginner"},
+    {"id": "taidam_04", "name": "spirit_bridge", "type": "spiritual", "description": "Bridge between the living and spirit worlds", "grid": [[1,0,0,0,1],[0,1,0,1,0],[0,0,1,0,0]], "complexity": "expert"},
+    {"id": "taidam_05", "name": "kingdom_mark", "type": "spiritual", "description": "Mark of the historical Tai Dam kingdom", "grid": [[1,1,1],[1,0,1],[1,1,1]], "complexity": "intermediate"},
+    {"id": "taidam_06", "name": "butterfly_wing", "type": "animal", "description": "Wing pattern from the soul butterfly", "grid": [[1,0,1],[0,1,0],[1,0,1]], "complexity": "intermediate"},
+    {"id": "taidam_07", "name": "silver_band", "type": "geometric", "description": "Silver thread band on black cloth", "grid": [[1,1,1,1,1]], "complexity": "beginner"},
+    {"id": "taidam_08", "name": "hornbill_beak", "type": "animal", "description": "Curved beak of the hornbill", "grid": [[1,1,0],[0,1,1],[0,0,1]], "complexity": "intermediate"}
+  ]
+}

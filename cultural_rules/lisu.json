@@ -1,0 +1,22 @@
+{
+  "community": "Lisu",
+  "native_name": "ลีซอ",
+  "language_family": "Sino-Tibetan",
+  "region": "Northern Thailand",
+  "textile_history": "Lisu textiles are the most colorful among Thai hill tribes, featuring vibrant horizontal stripes in rainbow sequences. Women's garments combine weaving with extensive embroidery and beadwork.",
+  "cultural_significance": "The rainbow stripe pattern represents the Lisu creation myth, where a rainbow bridge connected the first humans to the sky. Each color band has specific symbolic meaning in their oral tradition.",
+  "traditional_colors": {
+    "primary": ["#FF0000", "#FF8C00", "#FFD700"],
+    "secondary": ["#008000", "#0000FF", "#800080"],
+    "accent": ["#FFFFFF", "#000000", "#FF69B4"]
+  },
+  "motif_categories": ["geometric", "plant"],
+  "preferred_border": "double",
+  "preferred_pattern_types": ["stripe", "grid"],
+  "symmetry_preference": "horizontal",
+  "taboo_patterns": ["solid_black", "random_scatter"],
+  "sacred_motifs": ["rainbow_bridge", "creation_star", "sky_ladder"],
+  "weaving_technique": "backstrap_loom_embroidery",
+  "complexity_range": ["intermediate", "expert"],
+  "community_approval_required": ["rainbow_bridge", "creation_star", "spirit_ribbon"]
+}

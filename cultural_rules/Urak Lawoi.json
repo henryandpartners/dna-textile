@@ -1,0 +1,22 @@
+{
+  "community": "Urak Lawoi",
+  "native_name": "อุรักลาโว้ย",
+  "language_family": "Austronesian",
+  "region": "Southern Thailand islands (Phuket, Krabi, Phi Phi)",
+  "textile_history": "The Urak Lawoi are sea nomads related to the Moken and Orang Laut. Their textile tradition is minimal, with most cloth obtained through trade. Some simple band weaving exists for personal use.",
+  "cultural_significance": "As one of Thailand's most culturally vulnerable groups, any textile attribution requires extensive community consultation. Their visual culture is primarily expressed through boat decoration and body adornment.",
+  "traditional_colors": {
+    "primary": ["#006994", "#FFFFFF", "#8B4513"],
+    "secondary": ["#000000", "#FFD700", "#F5DEB3"],
+    "accent": ["#00CED1"]
+  },
+  "motif_categories": ["geometric"],
+  "preferred_border": "none",
+  "preferred_pattern_types": ["stripe"],
+  "symmetry_preference": "horizontal",
+  "taboo_patterns": ["spiral_clockwise", "diagonal_cross", "random_scatter", "solid_black"],
+  "sacred_motifs": ["ocean_mark", "island_spirit"],
+  "weaving_technique": "minimal_band_weaving",
+  "complexity_range": ["beginner"],
+  "community_approval_required": ["ocean_mark", "island_spirit", "sea_path"]
+}

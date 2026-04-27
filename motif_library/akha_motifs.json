@@ -1,0 +1,13 @@
+{
+  "community": "Akha",
+  "motifs": [
+    {"id": "akha_01", "name": "spirit_gate", "type": "spiritual", "description": "Village gate pattern marking spiritual boundary", "grid": [[1,0,1],[0,1,0],[1,1,1]], "complexity": "intermediate"},
+    {"id": "akha_02", "name": "silver_circle", "type": "spiritual", "description": "Circular motif representing silver coins on headdress", "grid": [[0,1,0],[1,0,1],[0,1,0]], "complexity": "beginner"},
+    {"id": "akha_03", "name": "village_post", "type": "spiritual", "description": "Vertical post symbolizing the village center", "grid": [[1],[1],[1],[1],[1]], "complexity": "beginner"},
+    {"id": "akha_04", "name": "ancestor_eye", "type": "spiritual", "description": "Eye pattern for ancestral watchfulness", "grid": [[1,1,1],[1,0,1],[1,1,1]], "complexity": "intermediate"},
+    {"id": "akha_05", "name": "chicken_eye", "type": "geometric", "description": "Small diamond used in divination patterns", "grid": [[0,1,0],[1,0,1],[0,1,0]], "complexity": "beginner"},
+    {"id": "akha_06", "name": "bamboo_fence", "type": "geometric", "description": "Vertical line pattern mimicking bamboo fencing", "grid": [[1,0,1,0,1],[1,0,1,0,1],[1,0,1,0,1]], "complexity": "beginner"},
+    {"id": "akha_07", "name": "hat_pompom", "type": "geometric", "description": "Circular motif from headdress decoration", "grid": [[0,1,0],[1,1,1],[0,1,0]], "complexity": "beginner"},
+    {"id": "akha_08", "name": "mountain_path", "type": "geometric", "description": "Stepped pattern representing mountain trails", "grid": [[1,0,0],[1,1,0],[1,1,1]], "complexity": "intermediate"}
+  ]
+}

@@ -1,0 +1,142 @@
+{
+  "_description": "Border style definitions for Thai indigenous textile patterns. Each style includes rendering instructions and cultural context.",
+  "styles": {
+    "woven": {
+      "category": "woven",
+      "description": "Traditional woven border, created on the loom during weaving",
+      "techniques": {
+        "solid": {
+          "name": "Solid Woven Border",
+          "description": "Continuous band of uniform color woven at the edge",
+          "width_range": [4, 12],
+          "default_width": 6,
+          "community_usage": ["karen", "lahu", "khamu", "lua", "palaung"],
+          "rendering": "Fill edge pixels with solid color band"
+        },
+        "double": {
+          "name": "Double Woven Border",
+          "description": "Two parallel woven bands with a gap, simulating double-hem technique",
+          "width_range": [4, 16],
+          "default_width": 6,
+          "community_usage": ["karen", "lisu", "palaung", "thai_lue", "tai_dam"],
+          "rendering": "Two thin lines separated by 2-4 pixel gap"
+        },
+        "striped": {
+          "name": "Striped Woven Border",
+          "description": "Multi-colored horizontal stripes at the border edge",
+          "width_range": [8, 20],
+          "default_width": 12,
+          "community_usage": ["lisu", "hmong", "karen"],
+          "rendering": "Alternating color bands of 2-4 pixels each"
+        }
+      }
+    },
+    "embroidered": {
+      "category": "embroidered",
+      "description": "Embroidered border added after base weaving, using needle and thread",
+      "techniques": {
+        "zigzag": {
+          "name": "Zigzag Embroidered Border",
+          "description": "Sawtooth/zigzag pattern created with running stitch",
+          "width_range": [4, 12],
+          "default_width": 6,
+          "community_usage": ["hmong", "mien", "akha"],
+          "rendering": "Alternating diagonal lines creating sawtooth edge"
+        },
+        "cross_stitch": {
+          "name": "Cross-Stitch Border",
+          "description": "X-shaped stitch pattern along the edge",
+          "width_range": [6, 16],
+          "default_width": 8,
+          "community_usage": ["hmong", "mien"],
+          "rendering": "Alternating diagonal stitches forming X pattern"
+        },
+        "chain_stitch": {
+          "name": "Chain Stitch Border",
+          "description": "Looping chain-like stitch along the edge",
+          "width_range": [4, 10],
+          "default_width": 6,
+          "community_usage": ["hmong", "akha", "mien"],
+          "rendering": "Connected loop pattern along edge"
+        },
+        "counted_thread": {
+          "name": "Counted Thread Border",
+          "description": "Geometric pattern created by counting warp/weft threads",
+          "width_range": [8, 24],
+          "default_width": 12,
+          "community_usage": ["hmong", "thai_lue"],
+          "rendering": "Grid-based geometric pattern aligned to pixel grid"
+        }
+      }
+    },
+    "printed": {
+      "category": "printed",
+      "description": "Border applied through printing, dyeing, or painting techniques",
+      "techniques": {
+        "batik": {
+          "name": "Batik Border",
+          "description": "Wax-resist dyed border with organic edges",
+          "width_range": [8, 20],
+          "default_width": 12,
+          "community_usage": ["hmong"],
+          "rendering": "Solid color band with slightly irregular edge (wax crackle effect)"
+        },
+        "ikat_edge": {
+          "name": "Ikat Edge Border",
+          "description": "Blurred, feathered edge characteristic of ikat dyeing",
+          "width_range": [6, 18],
+          "default_width": 10,
+          "community_usage": ["thai_lue", "tai_dam"],
+          "rendering": "Color band with gradient/feathered transition at inner edge"
+        },
+        "block_print": {
+          "name": "Block Print Border",
+          "description": "Stamped geometric pattern using carved blocks",
+          "width_range": [10, 24],
+          "default_width": 14,
+          "community_usage": ["thai_lue"],
+          "rendering": "Repeating geometric stamp pattern along edge"
+        },
+        "tie_dye": {
+          "name": "Tie-Dye Border",
+          "description": "Resist-dyed border with characteristic circular patterns",
+          "width_range": [8, 20],
+          "default_width": 12,
+          "community_usage": ["hmong", "thai_lue"],
+          "rendering": "Concentric circle patterns with resist white spots"
+        }
+      }
+    },
+    "none": {
+      "category": "none",
+      "description": "No border applied",
+      "techniques": {
+        "raw_edge": {
+          "name": "Raw Edge",
+          "description": "No border, raw edge",
+          "width_range": [0, 0],
+          "default_width": 0,
+          "community_usage": ["mlabri", "mani", "urak_lawoi"],
+          "rendering": "No modification to edge pixels"
+        }
+      }
+    }
+  },
+  "community_defaults": {
+    "karen": "woven.double",
+    "hmong": "embroidered.zigzag",
+    "akha": "woven.solid",
+    "lahu": "woven.solid",
+    "lisu": "woven.double",
+    "mien": "embroidered.zigzag",
+    "palaung": "woven.double",
+    "khamu": "woven.solid",
+    "lua": "woven.solid",
+    "mlabri": "none.raw_edge",
+    "mani": "none.raw_edge",
+    "moklen": "woven.solid",
+    "urak_lawoi": "none.raw_edge",
+    "thai_lue": "woven.double",
+    "tai_dam": "woven.double"
+  }
+}

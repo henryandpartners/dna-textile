@@ -1,0 +1,22 @@
+{
+  "community": "Moklen (Chao莱)",
+  "native_name": "มอเก็น (ชาวเล)",
+  "language_family": "Austroasiatic",
+  "region": "Southern Thailand coast (Phang Nga, Phuket)",
+  "textile_history": "The Moklen are sea nomads who traditionally had minimal textile production. They traded for cloth with mainland communities. Their material culture focused on boat-building and fishing rather than weaving.",
+  "cultural_significance": "Moklen patterns, when present, reflect marine life and ocean rhythms. The wave pattern is central to their visual culture, appearing on traded garments they adopted.",
+  "traditional_colors": {
+    "primary": ["#006994", "#00CED1", "#F5DEB3"],
+    "secondary": ["#FFFFFF", "#000000", "#8B4513"],
+    "accent": ["#FFD700", "#FF6347"]
+  },
+  "motif_categories": ["geometric", "animal", "plant"],
+  "preferred_border": "solid",
+  "preferred_pattern_types": ["stripe", "grid"],
+  "symmetry_preference": "horizontal",
+  "taboo_patterns": ["spiral_clockwise", "diagonal_cross"],
+  "sacred_motifs": ["wave_pattern", "sea_spirit", "tide_mark"],
+  "weaving_technique": "traded_cloth",
+  "complexity_range": ["beginner"],
+  "community_approval_required": ["wave_pattern", "sea_spirit", "tide_mark"]
+}

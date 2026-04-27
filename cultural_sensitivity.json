@@ -1,0 +1,240 @@
+{
+  "_description": "Cultural sensitivity rules for Thai indigenous textile patterns. Defines taboo patterns, sacred motifs requiring community approval, and usage guidelines.",
+  "_warning": "These rules are based on academic research and should be validated with community representatives before commercial use.",
+  "taboo_patterns": {
+    "_description": "Patterns that should never be used for specific communities",
+    "spiral_clockwise": {
+      "name": "Clockwise Spiral",
+      "description": "Clockwise spiral patterns are considered inauspicious in several communities, representing the wrong direction of spiritual energy",
+      "taboo_in": ["karen", "akha", "lahu", "palaung", "khamu", "lua", "mlabri", "mani", "moklen", "urak_lawoi"],
+      "severity": "high",
+      "reason": "Represents incorrect spiritual direction; associated with death rituals"
+    },
+    "diagonal_cross": {
+      "name": "Diagonal Cross (X)",
+      "description": "X-shaped cross patterns are restricted in some communities",
+      "taboo_in": ["karen", "akha", "khamu", "lua", "mlabri", "mani", "moklen", "urak_lawoi", "mien"],
+      "severity": "medium",
+      "reason": "Associated with negative spiritual symbols in some traditions"
+    },
+    "random_scatter": {
+      "name": "Random Scatter",
+      "description": "Completely random, non-patterned layouts are culturally inappropriate",
+      "taboo_in": ["hmong", "lahu", "palaung", "lua", "mlabri", "mani", "urak_lawoi", "thai_lue", "tai_dam"],
+      "severity": "medium",
+      "reason": "Textiles must have intentional pattern; randomness implies lack of cultural respect"
+    },
+    "solid_black": {
+      "name": "Solid Black Field",
+      "description": "Entirely black patterns are restricted",
+      "taboo_in": ["hmong", "lisu", "lua", "mlabri", "mani", "urak_lawoi", "thai_lue", "tai_dam"],
+      "severity": "medium",
+      "reason": "Solid black is reserved for specific ceremonial/mourning contexts"
+    },
+    "zigzag": {
+      "name": "Zigzag Pattern",
+      "description": "Zigzag patterns are restricted for some communities",
+      "taboo_in": ["mlabri", "mani", "urak_lawoi"],
+      "severity": "low",
+      "reason": "Not part of traditional visual vocabulary for these groups"
+    }
+  },
+  "sacred_motifs": {
+    "_description": "Motifs that require community approval before use. These are culturally significant and may only be used with permission.",
+    "karen": {
+      "spirit_band": {
+        "name": "Spirit Band",
+        "description": "Woven band representing the spirit pathway",
+        "approval_required": true,
+        "context": "Used in funeral and ancestor veneration ceremonies",
+        "restriction": "Community elder approval required"
+      },
+      "ancestor_diamond": {
+        "name": "Ancestor Diamond",
+        "description": "Diamond shape honoring deceased ancestors",
+        "approval_required": true,
+        "context": "Ancestral remembrance and clan identity",
+        "restriction": "Clan leader approval required"
+      },
+      "clan_stripe": {
+        "name": "Clan Stripe",
+        "description": "Horizontal stripe band indicating clan membership",
+        "approval_required": true,
+        "context": "Clan identity marker",
+        "restriction": "Only members of specific clans may use"
+      }
+    },
+    "hmong": {
+      "snail_path": {
+        "name": "Snail Path",
+        "description": "Spiral representing the Hmong migration journey",
+        "approval_required": true,
+        "context": "Historical migration narrative",
+        "restriction": "Cultural education context only"
+      },
+      "flower_carpet": {
+        "name": "Flower Carpet",
+        "description": "Intricate floral pattern on ceremonial cloth",
+        "approval_required": true,
+        "context": "New Year celebration and courtship",
+        "restriction": "Ceremonial use only"
+      },
+      "spirit_gate": {
+        "name": "Spirit Gate",
+        "description": "Gateway pattern for spiritual protection",
+        "approval_required": true,
+        "context": "Spiritual protection ceremony",
+        "restriction": "Shaman approval required"
+      }
+    },
+    "akha": {
+      "spirit_gate": {
+        "name": "Spirit Gate",
+        "description": "Village gate pattern marking spiritual boundary",
+        "approval_required": true,
+        "context": "Village entrance ceremony",
+        "restriction": "Village elder approval required"
+      },
+      "silver_circle": {
+        "name": "Silver Circle",
+        "description": "Circular motif representing silver coins on headdress",
+        "approval_required": true,
+        "context": "Headdress decoration, marital status",
+        "restriction": "Community approval required"
+      },
+      "ancestor_eye": {
+        "name": "Ancestor Eye",
+        "description": "Eye pattern for ancestral watchfulness",
+        "approval_required": true,
+        "context": "Ancestral protection",
+        "restriction": "Elder approval required"
+      }
+    },
+    "thai_lue": {
+      "naga_serpent": {
+        "name": "Naga Serpent",
+        "description": "Naga serpent, guardian of water and Buddhism",
+        "approval_required": true,
+        "context": "Buddhist temple textiles",
+        "restriction": "Temple/monk approval required"
+      },
+      "mount_meru": {
+        "name": "Mount Meru",
+        "description": "Cosmic mountain at center of Buddhist universe",
+        "approval_required": true,
+        "context": "Buddhist cosmological textiles",
+        "restriction": "Temple approval required"
+      },
+      "lotus_buddha": {
+        "name": "Lotus Buddha",
+        "description": "Lotus flower associated with Buddha",
+        "approval_required": true,
+        "context": "Buddhist devotional textiles",
+        "restriction": "Monk approval required"
+      },
+      "celestial_dance": {
+        "name": "Celestial Dance",
+        "description": "Dancing celestial being (apsara)",
+        "approval_required": true,
+        "context": "Temple decoration textiles",
+        "restriction": "Community and temple approval required"
+      },
+      "lai_kham": {
+        "name": "Lai Kham",
+        "description": "Golden pattern, most prized Thai Lue motif",
+        "approval_required": true,
+        "context": "Royal and temple textiles",
+        "restriction": "Master weaver community approval required"
+      }
+    },
+    "tai_dam": {
+      "soul_butterfly": {
+        "name": "Soul Butterfly",
+        "description": "Butterfly representing the soul's journey",
+        "approval_required": true,
+        "context": "Soul-calling ceremonies",
+        "restriction": "Ceremonial use only"
+      },
+      "silver_thread": {
+        "name": "Silver Thread",
+        "description": "Silver thread pattern from embroidery",
+        "approval_required": true,
+        "context": "Ceremonial garment decoration",
+        "restriction": "Community approval required"
+      },
+      "clan_diamond": {
+        "name": "Clan Diamond",
+        "description": "Diamond representing clan identity",
+        "approval_required": true,
+        "context": "Clan identification",
+        "restriction": "Clan member only"
+      },
+      "spirit_bridge": {
+        "name": "Spirit Bridge",
+        "description": "Bridge between the living and spirit worlds",
+        "approval_required": true,
+        "context": "Spirit communication ceremonies",
+        "restriction": "Shaman approval required"
+      },
+      "kingdom_mark": {
+        "name": "Kingdom Mark",
+        "description": "Mark of the historical Tai Dam kingdom",
+        "approval_required": true,
+        "context": "Historical identity",
+        "restriction": "Community elder approval required"
+      }
+    }
+  },
+  "general_guidelines": {
+    "commercial_use": {
+      "warning": "Commercial use of indigenous textile patterns requires explicit community consent and benefit-sharing agreements",
+      "recommendation": "Always consult with community representatives before commercializing any pattern",
+      "legal_framework": "Consider Thailand's Protection and Promotion of the Thai Traditional Wisdom Act"
+    },
+    "attribution": {
+      "requirement": "All generated patterns must include community attribution",
+      "format": "Pattern must credit: community name, motif names used, and cultural context"
+    },
+    "education": {
+      "encouraged": "Educational and cultural preservation use is encouraged with proper attribution"
+    },
+    "sacred_context": {
+      "warning": "Sacred motifs should not be used in contexts that could be considered disrespectful (e.g., footwear, bathroom items)",
+      "recommendation": "Avoid placing sacred motifs on items that touch the ground or feet"
+    }
+  },
+  "approval_workflow": {
+    "steps": [
+      {
+        "step": 1,
+        "name": "Identify",
+        "description": "Identify which motifs and patterns are sacred or restricted"
+      },
+      {
+        "step": 2,
+        "name": "Consult",
+        "description": "Consult community representatives or cultural organizations"
+      },
+      {
+        "step": 3,
+        "name": "Request",
+        "description": "Submit formal request for usage permission"
+      },
+      {
+        "step": 4,
+        "name": "Agree",
+        "description": "Negotiate terms of use, benefit sharing, and attribution"
+      },
+      {
+        "step": 5,
+        "name": "Document",
+        "description": "Document approval in writing with community representative"
+      },
+      {
+        "step": 6,
+        "name": "Implement",
+        "description": "Implement pattern with all agreed conditions met"
+      }
+    ]
+  }
+}

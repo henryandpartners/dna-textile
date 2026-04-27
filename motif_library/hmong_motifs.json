@@ -1,0 +1,15 @@
+{
+  "community": "Hmong",
+  "motifs": [
+    {"id": "hmong_01", "name": "snail_path", "type": "spiritual", "description": "Spiral representing the Hmong migration journey", "grid": [[1,1,1],[1,0,1],[1,1,1]], "complexity": "expert"},
+    {"id": "hmong_02", "name": "flower_carpet", "type": "plant", "description": "Intricate floral pattern on ceremonial cloth", "grid": [[1,0,1,0],[0,1,0,1],[1,0,1,0],[0,1,0,1]], "complexity": "expert"},
+    {"id": "hmong_03", "name": "triangle_mountain", "type": "geometric", "description": "Stacked triangles representing homeland mountains", "grid": [[0,1,0],[1,1,1],[1,1,1]], "complexity": "intermediate"},
+    {"id": "hmong_04", "name": "caterpillar_track", "type": "animal", "description": "Wavy line mimicking caterpillar movement", "grid": [[1,0,1],[0,1,0],[1,0,1]], "complexity": "intermediate"},
+    {"id": "hmong_05", "name": "spirit_gate", "type": "spiritual", "description": "Gateway pattern for spiritual protection", "grid": [[1,0,0,1],[0,1,1,0],[0,1,1,0],[1,0,0,1]], "complexity": "expert"},
+    {"id": "hmong_06", "name": "elephant_foot", "type": "animal", "description": "Round pattern inspired by elephant tracks", "grid": [[0,1,0],[1,1,1],[0,1,0]], "complexity": "beginner"},
+    {"id": "hmong_07", "name": "star_bright", "type": "geometric", "description": "Eight-pointed star for guidance", "grid": [[1,0,1,0,1],[0,1,0,1,0],[1,0,1,0,1],[0,1,0,1,0],[1,0,1,0,1]], "complexity": "intermediate"},
+    {"id": "hmong_08", "name": "water_buffalo", "type": "animal", "description": "Horn-like curves representing the buffalo", "grid": [[1,0,0,0,1],[0,1,0,1,0],[0,0,1,0,0]], "complexity": "intermediate"},
+    {"id": "hmong_09", "name": "pine_tree", "type": "plant", "description": "Evergreen tree symbolizing endurance", "grid": [[0,0,1,0,0],[0,1,1,1,0],[1,1,1,1,1]], "complexity": "beginner"},
+    {"id": "hmong_10", "name": "dragon_scale", "type": "animal", "description": "Overlapping scale pattern from Chinese influence", "grid": [[1,1,0],[1,1,0],[0,1,1]], "complexity": "intermediate"}
+  ]
+}
