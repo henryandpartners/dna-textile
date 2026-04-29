@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
+import Image from "next/image";
 import {
   parseDNA,
   generatePattern,
@@ -313,6 +314,74 @@ export default function Home() {
                       }}
                     />
                   </div>
+                </div>
+
+                {/* Comparison View */}
+                <div className="bg-gray-900 rounded-xl border border-gray-800 p-5">
+                  <h2 className="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-4">
+                    Comparison
+                  </h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <h3 className="text-xs font-semibold text-gray-400 uppercase">Traditional Reference</h3>
+                      <div className="bg-gray-950 rounded-lg p-2 flex items-center justify-center">
+                        <Image
+                          src={`/tribes/${community}-reference.svg`}
+                          alt={`${community} traditional pattern`}
+                          width={256}
+                          height={256}
+                          className="rounded border border-gray-800"
+                        />
+                      </div>
+                      <p className="text-xs text-gray-500 text-center">Traditional {community} weaving pattern</p>
+                    </div>
+                    <div className="space-y-2">
+                      <h3 className="text-xs font-semibold text-gray-400 uppercase">DNA Generated</h3>
+                      <div className="bg-gray-950 rounded-lg p-2 flex items-center justify-center">
+                        <canvas
+                          ref={canvasRef}
+                          width={256}
+                          height={256}
+                          className="rounded border border-gray-800"
+                          style={{
+                            width: 256,
+                            height: 256,
+                            imageRendering: "pixelated",
+                          }}
+                        />
+                      </div>
+                      <p className="text-xs text-gray-500 text-center">Generated from DNA sequence</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Costume Mockup */}
+                <div className="bg-gray-900 rounded-xl border border-gray-800 p-5">
+                  <h2 className="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-4">
+                    Costume Mockup
+                  </h2>
+                  <div className="flex justify-center">
+                    <div className="relative">
+                      <Image
+                        src="/costumes/garment-base.svg"
+                        alt="Costume mockup"
+                        width={300}
+                        height={400}
+                        className="rounded-lg"
+                      />
+                      <div
+                        className="absolute top-16 left-16 w-32 h-32 rounded border-2 border-dashed border-gray-600 flex items-center justify-center overflow-hidden"
+                        style={{
+                          backgroundImage: `url(${canvasRef.current?.toDataURL()})`,
+                          backgroundSize: "cover",
+                          backgroundPosition: "center",
+                        }}
+                      >
+                        <span className="text-xs text-gray-400 bg-black/50 px-2 py-1 rounded">Pattern Preview</span>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-xs text-gray-500 text-center mt-3">Generated pattern applied to traditional garment silhouette</p>
                 </div>
 
                 {/* Stats */}

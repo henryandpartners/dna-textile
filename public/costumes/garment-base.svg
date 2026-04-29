@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+  <defs>
+    <clipPath id="garment-clip">
+      <path d="M 100 50 L 150 20 L 250 20 L 300 50 L 320 150 L 300 450 L 100 450 L 80 150 Z"/>
+    </clipPath>
+  </defs>
+  <rect width="400" height="500" fill="#f5f5dc"/>
+  <g clip-path="url(#garment-clip)">
+    <rect x="0" y="0" width="400" height="500" fill="#fff"/>
+  </g>
+  <path d="M 100 50 L 150 20 L 250 20 L 300 50 L 320 150 L 300 450 L 100 450 L 80 150 Z" fill="none" stroke="#333" stroke-width="2"/>
+  <text x="200" y="480" text-anchor="middle" fill="#333" font-family="serif" font-size="14">Costume Mockup</text>
+</svg>

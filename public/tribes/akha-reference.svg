@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <rect width="400" height="400" fill="#0a0a1a"/>
+  <g fill="#4169e1">
+    <rect x="50" y="50" width="300" height="30"/>
+    <rect x="50" y="100" width="300" height="30"/>
+    <rect x="50" y="150" width="300" height="30"/>
+    <rect x="50" y="200" width="300" height="30"/>
+    <rect x="50" y="250" width="300" height="30"/>
+    <rect x="50" y="300" width="300" height="30"/>
+  </g>
+  <g fill="#c0c0c0">
+    <circle cx="200" cy="65" r="10"/>
+    <circle cx="200" cy="115" r="10"/>
+    <circle cx="200" cy="165" r="10"/>
+    <circle cx="200" cy="215" r="10"/>
+    <circle cx="200" cy="265" r="10"/>
+    <circle cx="200" cy="315" r="10"/>
+  </g>
+  <g fill="#ffd700">
+    <polygon points="150,50 170,80 150,110 130,80"/>
+    <polygon points="250,50 270,80 250,110 230,80"/>
+    <polygon points="150,100 170,130 150,160 130,130"/>
+    <polygon points="250,100 270,130 250,160 230,130"/>
+    <polygon points="150,150 170,180 150,210 130,180"/>
+    <polygon points="250,150 270,180 250,210 230,180"/>
+  </g>
+  <text x="200" y="390" text-anchor="middle" fill="#4169e1" font-family="serif" font-size="16">Akha Traditional Beadwork</text>
+</svg>

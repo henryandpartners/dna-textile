@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <rect width="400" height="400" fill="#0a1a0f"/>
+  <g fill="#2e8b57">
+    <rect x="50" y="50" width="40" height="40"/>
+    <rect x="110" y="50" width="40" height="40"/>
+    <rect x="170" y="50" width="40" height="40"/>
+    <rect x="230" y="50" width="40" height="40"/>
+    <rect x="290" y="50" width="40" height="40"/>
+    <rect x="50" y="110" width="40" height="40"/>
+    <rect x="110" y="110" width="40" height="40"/>
+    <rect x="170" y="110" width="40" height="40"/>
+    <rect x="230" y="110" width="40" height="40"/>
+    <rect x="290" y="110" width="40" height="40"/>
+    <rect x="50" y="170" width="40" height="40"/>
+    <rect x="110" y="170" width="40" height="40"/>
+    <rect x="170" y="170" width="40" height="40"/>
+    <rect x="230" y="170" width="40" height="40"/>
+    <rect x="290" y="170" width="40" height="40"/>
+    <rect x="50" y="230" width="40" height="40"/>
+    <rect x="110" y="230" width="40" height="40"/>
+    <rect x="170" y="230" width="40" height="40"/>
+    <rect x="230" y="230" width="40" height="40"/>
+    <rect x="290" y="230" width="40" height="40"/>
+    <rect x="50" y="290" width="40" height="40"/>
+    <rect x="110" y="290" width="40" height="40"/>
+    <rect x="170" y="290" width="40" height="40"/>
+    <rect x="230" y="290" width="40" height="40"/>
+    <rect x="290" y="290" width="40" height="40"/>
+  </g>
+  <g fill="#ff6347">
+    <polygon points="70,70 80,60 90,70 80,80"/>
+    <polygon points="130,70 140,60 150,70 140,80"/>
+    <polygon points="190,70 200,60 210,70 200,80"/>
+    <polygon points="250,70 260,60 270,70 260,80"/>
+    <polygon points="310,70 320,60 330,70 320,80"/>
+    <polygon points="70,130 80,120 90,130 80,140"/>
+    <polygon points="130,130 140,120 150,130 140,140"/>
+    <polygon points="190,130 200,120 210,130 200,140"/>
+    <polygon points="250,130 260,120 270,130 260,140"/>
+    <polygon points="310,130 320,120 330,130 320,140"/>
+  </g>
+  <text x="200" y="390" text-anchor="middle" fill="#2e8b57" font-family="serif" font-size="16">Hmong Traditional Embroidery</text>
+</svg>
