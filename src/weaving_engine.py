@@ -1,15 +1,25 @@
-"""Tribe Weaving Engine — 7 tribe-specific textile technique engines.
+"""
+Weaving Engine — tribe-specific pattern generation logic.
 
-Phase 3: Each engine implements actual weaving/embroidery techniques:
-- Karen (Kayah): Supplementary weft stripes, diamond/cross motifs
-- Hmong: Patchwork embroidery, X-stitch/square/dot/line stitches
-- Thai Lue: Jok supplementary weft, gold thread patterns
-- Tai Dam: Indigo reserve dyeing, resist patterns
-- Lisu: Vertical stripe blocks, bead patterns
-- Mien: Cross-stitch embroidery, silver thread accents
-- Akha: Beadwork patterns, silver coin motifs
+Phase 3: Each tribe has its own weaving engine that maps DNA features
+to culturally appropriate pattern structures, colors, and motifs.
 
-Each engine takes DNA features + palette and returns layer specifications.
+Tribes implement different weaving techniques:
+- Karen: weft-faced stripes → horizontal bands
+- Hmong: reverse appliqué (pau kuam) → layered patches + embroidery
+- Thai Lue: supplementary weft (jin/jok) → pattern threads
+- Tai Dam: indigo reserve dyeing → resist patterns
+- Lisu: color-block weaving → bold geometric blocks
+- Mien: cross-stitch embroidery → counted stitch grids
+- Akha: beaded weaving → dot/mosaic patterns
+- Lahu: striped with embroidery → bands + decorated panels
+- Palaung: woven bands → horizontal stripe patterns
+- Khamu: simple weave → basic geometric
+- Lua: traditional weave → earth-tone patterns
+- Mlabri: bark cloth → natural fiber textures
+- Mani: minimal decoration → simple bands
+- Moklen: sea-inspired → wave patterns
+- Urak Lawoi: coastal weaving → ocean motifs
 """
 
 from __future__ import annotations
@@ -22,588 +32,949 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 
+from .dna_features import DNAFeatures
+from .color_palette import get_all_colors, get_primary_colors, get_secondary_colors, hex_to_rgb
 
-# ── Layer Spec ─────────────────────────────────────────────
 
 @dataclass
-class LayerSpec:
-    """Specification for a single weaving layer."""
-    layer_name: str
-    grid: np.ndarray  # (H, W, 3) uint8
-    alpha: np.ndarray | None = None  # optional alpha mask (H, W) uint8
-    metadata: Dict[str, Any] = field(default_factory=dict)
+class PatternLayer:
+    """A single layer in the hierarchical pattern composition."""
+    name: str
+    grid: np.ndarray
+    opacity: float = 1.0
+    blend_mode: str = "over"  # over, multiply, screen, overlay
 
 
-# ── Helper: pick color from palette by index ──────────────
+@dataclass
+class WeavingParams:
+    """Parameters produced by a weaving engine for pattern generation."""
+    # Background
+    bg_color: Tuple[int, int, int] = (0, 0, 0)
+    bg_pattern: str = "solid"  # solid, gradient, noise, stripes
 
-def _pick_color(palette: List[Tuple[int, int, int]], index: int) -> Tuple[int, int, int]:
-    if not palette:
-        return (0, 0, 0)
-    return palette[index % len(palette)]
+    # Structure layer
+    structure_type: str = "none"  # none, stripes, grid, blocks, waves, diamonds
+    structure_color: Tuple[int, int, int] = (128, 128, 128)
+    structure_scale: int = 10  # pixel size of structural elements
+    structure_opacity: float = 0.7
 
+    # Detail layer
+    detail_type: str = "none"  # none, dots, lines, crosses, zigzag
+    detail_color: Tuple[int, int, int] = (255, 255, 255)
+    detail_density: float = 0.3  # 0-1, fraction of cells with detail
+    detail_scale: int = 4
 
-def _blend(base: np.ndarray, overlay: np.ndarray, alpha: Optional[np.ndarray] = None) -> np.ndarray:
-    """Alpha-blend overlay onto base."""
-    if overlay.shape != base.shape:
-        return base
-    if alpha is None:
-        # Use luminance of overlay as alpha
-        lum = 0.299 * overlay[:, :, 0].astype(np.float32) + \
-              0.587 * overlay[:, :, 1].astype(np.float32) + \
-              0.114 * overlay[:, :, 2].astype(np.float32)
-        alpha = (lum / 255.0).astype(np.float32)
-    a = alpha[:, :, np.newaxis].astype(np.float32)
-    result = base.astype(np.float32) * (1 - a) + overlay.astype(np.float32) * a
-    return np.clip(result, 0, 255).astype(np.uint8)
+    # Motif layer
+    motif_names: List[str] = field(default_factory=list)
+    motif_placement: str = "center"  # center, grid, scatter, border
+    motif_scale: int = 1
 
+    # Symbol layer
+    symbol_type: str = "none"  # none, clan_mark, spirit_sign, totem
+    symbol_placement: str = "center"
+    symbol_scale: int = 1
 
-# ── Base Engine ────────────────────────────────────────────
+    # Border
+    border_style: str = "solid"
+    border_color: Tuple[int, int, int] = (0, 0, 0)
+    border_width: int = 6
+
+    # Color palette
+    palette_colors: List[Tuple[int, int, int]] = field(default_factory=list)
+    dominant_color: Tuple[int, int, int] = (0, 0, 0)
+    accent_colors: List[Tuple[int, int, int]] = field(default_factory=list)
+
+    # Derived
+    complexity: float = 0.5
+    symmetry: str = "none"  # none, horizontal, vertical, radial, both
+
 
 class WeavingEngine(ABC):
-    """Abstract base for tribe-specific weaving engines."""
+    """Base class for tribe-specific weaving engines."""
 
-    def __init__(self, name: str, palette: List[Tuple[int, int, int]]):
-        self.name = name
-        self.palette = palette
-
-    @abstractmethod
-    def generate_background(self, features: Dict[str, Any], size: int, seed: int = 0) -> LayerSpec:
-        """Generate background layer."""
-        ...
+    def __init__(self, community: str, grid_size: int = 100):
+        self.community = community
+        self.grid_size = grid_size
+        self._palette = get_all_colors(community)
+        self._primary = get_primary_colors(community)
+        self._secondary = get_secondary_colors(community)
 
     @abstractmethod
-    def generate_structure(self, features: Dict[str, Any], size: int, seed: int = 0) -> LayerSpec:
-        """Generate structure layer (stripes/patches/resist/etc)."""
-        ...
+    def generate_params(self, features: DNAFeatures) -> WeavingParams:
+        """Generate weaving parameters from DNA features."""
+        pass
 
     @abstractmethod
-    def generate_detail(self, features: Dict[str, Any], size: int, seed: int = 0) -> LayerSpec:
-        """Generate detail layer (stitches/threads/etc)."""
-        ...
+    def render_background(self, params: WeavingParams, features: DNAFeatures) -> np.ndarray:
+        """Render the background layer."""
+        pass
 
-    def _empty_layer(self, size: int) -> LayerSpec:
-        return LayerSpec(
-            layer_name="empty",
-            grid=np.zeros((size, size, 3), dtype=np.uint8),
-        )
+    @abstractmethod
+    def render_structure(self, params: WeavingParams, features: DNAFeatures) -> np.ndarray:
+        """Render the structural layer."""
+        pass
+
+    @abstractmethod
+    def render_detail(self, params: WeavingParams, features: DNAFeatures) -> np.ndarray:
+        """Render the detail layer."""
+        pass
+
+    def compose(self, features: DNAFeatures) -> np.ndarray:
+        """Full composition pipeline for this tribe."""
+        params = self.generate_params(features)
+        bg = self.render_background(params, features)
+        struct = self.render_structure(params, features)
+        detail = self.render_detail(params, features)
+
+        # Composite layers
+        result = bg.copy()
+        result = self._blend(result, struct, params.structure_opacity, params.blend_mode if hasattr(params, 'blend_mode') else 'over')
+        result = self._blend(result, detail, 0.5, 'over')
+
+        return result
+
+    def _blend(self, base: np.ndarray, overlay: np.ndarray, opacity: float, mode: str) -> np.ndarray:
+        """Blend two layers."""
+        if mode == "multiply":
+            blended = (base.astype(np.float32) * overlay.astype(np.float32) / 255.0)
+        elif mode == "screen":
+            blended = 255 - (255 - base.astype(np.float32)) * (255 - overlay.astype(np.float32)) / 255.0
+        elif mode == "overlay":
+            mask = base.astype(np.float32) < 128
+            blended = np.where(mask,
+                              2 * base * overlay / 255.0,
+                              255 - 2 * (255 - base) * (255 - overlay) / 255.0)
+        else:  # over (alpha blend)
+            blended = base.astype(np.float32) * (1 - opacity) + overlay.astype(np.float32) * opacity
+
+        return np.clip(blended, 0, 255).astype(np.uint8)
+
+    def _select_colors(self, count: int, features: DNAFeatures) -> List[Tuple[int, int, int]]:
+        """Select colors from palette based on DNA features."""
+        if not self._palette:
+            return [(0, 0, 0)] * count
+        # Use GC content to bias color selection
+        gc = features.gc_content
+        indices = []
+        for i in range(count):
+            # Spread across palette, biased by GC
+            pos = (i / max(count, 1)) * len(self._palette)
+            pos += (gc - 0.5) * len(self._palette) * 0.3  # GC bias
+            idx = int(pos) % len(self._palette)
+            indices.append(idx)
+        return [self._palette[i] for i in indices]
 
 
-# ── Karen (Kayah) Engine ──────────────────────────────────
+# ── Karen Engine ───────────────────────────────────────────
 
 class KarenEngine(WeavingEngine):
-    """Supplementary weft stripes with diamond/cross motifs.
-
-    Traditional technique: extra weft threads create geometric patterns
-    on a dark background.
+    """
+    Karen weaving: weft-faced stripes.
+    Horizontal bands of color, each band driven by a chunk of DNA.
+    Geometric motifs (diamonds, zigzags) embroidered on top.
     """
 
-    def __init__(self, palette: List[Tuple[int, int, int]]):
-        super().__init__("Karen (Kayah)", palette)
+    def generate_params(self, features: DNAFeatures) -> WeavingParams:
+        params = WeavingParams()
+        params.bg_color = self._primary[0] if self._primary else (0, 0, 0)
+        params.bg_pattern = "solid"
 
-    def generate_background(self, features: Dict[str, Any], size: int, seed: int = 0) -> LayerSpec:
-        random.seed(seed)
-        # Dark base (black or deep red)
-        bg_color = _pick_color(self.palette, 0)
-        grid = np.full((size, size, 3), bg_color, dtype=np.uint8)
-        # Subtle texture from DNA
-        gc = features.get("gc_content", 0.5)
-        texture_color = _pick_color(self.palette, 1)
-        for r in range(size):
-            for c in range(size):
-                if random.random() < gc * 0.3:
-                    grid[r, c] = texture_color
-        return LayerSpec("karen_background", grid, metadata={"technique": "supplementary_weft"})
+        # Structure: horizontal stripes — each stripe = chunk of sequence
+        num_stripes = max(3, int(features.complexity_score * 12))
+        params.structure_type = "stripes"
+        params.structure_scale = max(3, self.grid_size // num_stripes)
 
-    def generate_structure(self, features: Dict[str, Any], size: int, seed: int = 0) -> LayerSpec:
-        random.seed(seed + 1)
-        grid = np.zeros((size, size, 3), dtype=np.uint8)
-        # Horizontal supplementary weft stripes
-        stripe_colors = [self.palette[i % len(self.palette)] for i in range(4)]
-        stripe_height = max(2, size // 20)
-        base = features.get("base_composition", {})
-        dominant = max(base, key=base.get) if base else "A"
-        # A→red stripes, T→white, G→brown, C→gold
-        color_map = {"A": 0, "T": 1, "G": 2, "C": 3}
-        stripe_idx = color_map.get(dominant, 0)
-        y = 0
-        while y < size:
-            h = stripe_height + random.randint(-2, 2)
-            h = max(1, min(h, size - y))
-            color = stripe_colors[stripe_idx % len(stripe_colors)]
-            grid[y:y+h, :, :] = color
+        # Colors from DNA base frequencies
+        color_count = min(4 + int(features.gc_content * 4), len(self._palette))
+        params.palette_colors = self._select_colors(color_count, features)
+        params.dominant_color = params.palette_colors[0]
+
+        # Detail: geometric embroidery (diamonds, crosses)
+        params.detail_type = "diamonds" if features.symmetry_score > 0.4 else "crosses"
+        params.detail_density = 0.2 + features.rhythm_score * 0.4
+        params.detail_scale = max(2, 6 - int(features.complexity_score * 3))
+
+        # Motif: spirit diamonds, clan marks
+        params.motif_placement = "grid"
+        params.motif_scale = 1
+
+        # Border: double red stripe
+        params.border_style = "double"
+        params.border_color = (139, 0, 0)
+        params.border_width = 6
+
+        params.complexity = features.complexity_score
+        params.symmetry = "horizontal"
+
+        return params
+
+    def render_background(self, params: WeavingParams, features: DNAFeatures) -> np.ndarray:
+        grid = np.full((self.grid_size, self.grid_size, 3), params.bg_color, dtype=np.uint8)
+        # Subtle vertical texture (warp threads visible)
+        texture = np.random.RandomState(42).randint(0, 15, (self.grid_size, self.grid_size))
+        texture = np.stack([texture] * 3, axis=-1)
+        grid = np.clip(grid.astype(np.int16) + texture - 7, 0, 255).astype(np.uint8)
+        return grid
+
+    def render_structure(self, params: WeavingParams, features: DNAFeatures) -> np.ndarray:
+        grid = np.zeros((self.grid_size, self.grid_size, 3), dtype=np.uint8)
+        stripe_h = params.structure_scale
+        colors = params.palette_colors
+        seq = features.sequence
+
+        # Each stripe gets a color based on DNA chunk
+        chunk_size = max(1, len(seq) // (self.grid_size // max(stripe_h, 1)))
+        stripe_idx = 0
+        for r in range(0, self.grid_size, stripe_h):
+            end_r = min(r + stripe_h, self.grid_size)
+            # Color from DNA chunk
+            chunk = seq[stripe_idx * chunk_size:(stripe_idx + 1) * chunk_size]
+            if chunk:
+                dominant = max(set(chunk), key=chunk.count)
+                color_idx = {"A": 0, "T": 1, "G": 2, "C": 3}[dominant] % len(colors)
+            else:
+                color_idx = stripe_idx % len(colors)
+            grid[r:end_r, :, :] = colors[color_idx]
             stripe_idx += 1
-            y += h + random.randint(1, 3)
-        return LayerSpec("karen_structure", grid, metadata={"technique": "supplementary_weft_stripes"})
 
-    def generate_detail(self, features: Dict[str, Any], size: int, seed: int = 0) -> LayerSpec:
-        random.seed(seed + 2)
-        grid = np.zeros((size, size, 3), dtype=np.uint8)
-        # Diamond and cross motifs
-        motif_color = _pick_color(self.palette, 6)  # gold accent
-        diamond_color = _pick_color(self.palette, 7)  # silver
-        spacing = max(8, size // 12)
-        for r in range(spacing, size - spacing, spacing):
-            for c in range(spacing, size - spacing, spacing):
-                if random.random() < 0.4:
-                    self._draw_diamond(grid, r, c, 3, motif_color)
-                elif random.random() < 0.3:
-                    self._draw_cross(grid, r, c, 2, diamond_color)
-        return LayerSpec("karen_detail", grid, metadata={"technique": "diamond_cross_motifs"})
+        return grid
 
-    @staticmethod
-    def _draw_diamond(grid: np.ndarray, cy: int, cx: int, radius: int, color: Tuple[int, int, int]) -> None:
-        h, w = grid.shape[:2]
-        for dy in range(-radius, radius + 1):
-            for dx in range(-radius, radius + 1):
-                if abs(dx) + abs(dy) <= radius:
-                    ny, nx = cy + dy, cx + dx
-                    if 0 <= ny < h and 0 <= nx < w:
-                        grid[ny, nx] = color
+    def render_detail(self, params: WeavingParams, features: DNAFeatures) -> np.ndarray:
+        grid = np.zeros((self.grid_size, self.grid_size, 3), dtype=np.uint8)
+        alpha = np.zeros((self.grid_size, self.grid_size), dtype=np.float32)
 
-    @staticmethod
-    def _draw_cross(grid: np.ndarray, cy: int, cx: int, arm: int, color: Tuple[int, int, int]) -> None:
-        h, w = grid.shape[:2]
-        for i in range(-arm, arm + 1):
-            for j in range(-arm, arm + 1):
-                if abs(i) <= 1 or abs(j) <= 1:
-                    ny, nx = cy + i, cx + j
-                    if 0 <= ny < h and 0 <= nx < w:
-                        grid[ny, nx] = color
+        detail_color = params.palette_colors[1] if len(params.palette_colors) > 1 else (255, 255, 255)
+        scale = params.detail_scale
+        density = params.detail_density
+
+        seq = features.sequence
+
+        if params.detail_type == "diamonds":
+            for r in range(scale, self.grid_size - scale, scale * 2):
+                for c in range(scale, self.grid_size - scale, scale * 2):
+                    idx = (r * self.grid_size + c) % max(len(seq), 1)
+                    if seq[idx] in "AG" and random.random() < density:
+                        self._draw_diamond(grid, alpha, r, c, scale, detail_color)
+
+        elif params.detail_type == "crosses":
+            for r in range(scale, self.grid_size - scale, scale * 2):
+                for c in range(scale, self.grid_size - scale, scale * 2):
+                    idx = (r * self.grid_size + c) % max(len(seq), 1)
+                    if seq[idx] in "TC" and random.random() < density:
+                        self._draw_cross(grid, alpha, r, c, scale, detail_color)
+
+        elif params.detail_type == "zigzag":
+            for r in range(0, self.grid_size, scale * 4):
+                for c in range(0, self.grid_size, scale):
+                    phase = (c // scale) % 4
+                    offset = scale if phase < 2 else -scale
+                    pr, pc = r + offset, c
+                    if 0 <= pr < self.grid_size:
+                        grid[pr, pc] = detail_color
+                        alpha[pr, pc] = 1.0
+
+        return grid
+
+    def _draw_diamond(self, grid, alpha, cy, cx, size, color):
+        for dy in range(-size, size + 1):
+            for dx in range(-size, size + 1):
+                if abs(dy) + abs(dx) <= size:
+                    py, px = cy + dy, cx + dx
+                    if 0 <= py < self.grid_size and 0 <= px < self.grid_size:
+                        grid[py, px] = color
+                        alpha[py, px] = 1.0
+
+    def _draw_cross(self, grid, alpha, cy, cx, size, color):
+        for i in range(-size, size + 1):
+            for j in range(-size // 2, size // 2 + 1):
+                py1, px1 = cy + i, cx + j
+                py2, px2 = cy + j, cx + i
+                if 0 <= py1 < self.grid_size and 0 <= px1 < self.grid_size:
+                    grid[py1, px1] = color
+                    alpha[py1, px1] = 1.0
+                if 0 <= py2 < self.grid_size and 0 <= px2 < self.grid_size:
+                    grid[py2, px2] = color
+                    alpha[py2, px2] = 1.0
 
 
 # ── Hmong Engine ──────────────────────────────────────────
 
 class HmongEngine(WeavingEngine):
-    """Patchwork embroidery with X-stitch, square, dot, and line stitches.
-
-    Traditional technique: reverse appliqué and embroidery on indigo cloth.
+    """
+    Hmong weaving: reverse appliqué (pau kuam) + embroidery.
+    Layered fabric patches with embroidered geometric symbols.
+    Bright, contrasting colors.
     """
 
-    def __init__(self, palette: List[Tuple[int, int, int]]):
-        super().__init__("Hmong", palette)
+    def generate_params(self, features: DNAFeatures) -> WeavingParams:
+        params = WeavingParams()
+        params.bg_color = self._primary[0] if self._primary else (0, 0, 128)
+        params.bg_pattern = "solid"
 
-    def generate_background(self, features: Dict[str, Any], size: int, seed: int = 0) -> LayerSpec:
-        random.seed(seed)
-        # Indigo background
-        bg_color = _pick_color(self.palette, 0)
-        grid = np.full((size, size, 3), bg_color, dtype=np.uint8)
-        # Patchwork blocks
-        block_size = max(4, size // 16)
-        for r in range(0, size, block_size):
-            for c in range(0, size, block_size):
-                if random.random() < 0.15:
-                    color = _pick_color(self.palette, random.randint(1, len(self.palette) - 1))
-                    end_r = min(r + block_size, size)
-                    end_c = min(c + block_size, size)
+        # Structure: layered patches (like appliqué layers)
+        params.structure_type = "patches"
+        num_patches = max(2, int(features.complexity_score * 6))
+        params.structure_scale = max(8, self.grid_size // num_patches)
+
+        # Colors: bright, high contrast
+        color_count = min(5 + int(features.complexity_score * 3), len(self._palette))
+        params.palette_colors = self._select_colors(color_count, features)
+        params.dominant_color = params.palette_colors[0]
+
+        # Detail: embroidery stitches (cross-stitch, chain-stitch)
+        params.detail_type = "stitches"
+        params.detail_density = 0.3 + features.rhythm_score * 0.5
+        params.detail_scale = max(2, 5 - int(features.complexity_score * 2))
+
+        # Motif: flower carpet (tom qeej), snail patterns
+        params.motif_placement = "scatter"
+        params.motif_scale = 1
+
+        # Border: zigzag (Hmong signature)
+        params.border_style = "zigzag"
+        params.border_color = (255, 255, 255)
+        params.border_width = 4
+
+        params.complexity = features.complexity_score
+        params.symmetry = "both" if features.symmetry_score > 0.5 else "none"
+
+        return params
+
+    def render_background(self, params: WeavingParams, features: DNAFeatures) -> np.ndarray:
+        return np.full((self.grid_size, self.grid_size, 3), params.bg_color, dtype=np.uint8)
+
+    def render_structure(self, params: WeavingParams, features: DNAFeatures) -> np.ndarray:
+        grid = np.zeros((self.grid_size, self.grid_size, 3), dtype=np.uint8)
+        alpha = np.zeros((self.grid_size, self.grid_size), dtype=np.float32)
+        colors = params.palette_colors
+        seq = features.sequence
+
+        # Layered patches — like reverse appliqué
+        patch_size = params.structure_scale
+        patch_idx = 0
+        for r in range(0, self.grid_size, patch_size):
+            for c in range(0, self.grid_size, patch_size):
+                # Each patch color from DNA
+                chunk_start = patch_idx * 4 % len(seq)
+                chunk = seq[chunk_start:chunk_start + 4]
+                gc = chunk.count("G") + chunk.count("C")
+                color_idx = gc % len(colors)
+                color = colors[color_idx]
+
+                # Patch shape varies: square, diamond, triangle
+                shape_idx = hash(chunk) % 3
+                end_r = min(r + patch_size, self.grid_size)
+                end_c = min(c + patch_size, self.grid_size)
+
+                if shape_idx == 0:  # Square
                     grid[r:end_r, c:end_c] = color
-        return LayerSpec("hmong_background", grid, metadata={"technique": "patchwork_indigo"})
+                    alpha[r:end_r, c:end_c] = 0.8
+                elif shape_idx == 1:  # Diamond
+                    cy, cx = (r + end_r) // 2, (c + end_c) // 2
+                    half = patch_size // 2
+                    for dy in range(-half, half + 1):
+                        for dx in range(-half, half + 1):
+                            if abs(dy) + abs(dx) <= half:
+                                py, px = cy + dy, cx + dx
+                                if 0 <= py < self.grid_size and 0 <= px < self.grid_size:
+                                    grid[py, px] = color
+                                    alpha[py, px] = 0.8
+                else:  # Triangle
+                    for dy in range(end_r - r):
+                        width = int((dy + 1) / (end_r - r) * (end_c - c))
+                        for dx in range(width):
+                            py, px = r + dy, c + dx
+                            if 0 <= py < self.grid_size and 0 <= px < self.grid_size:
+                                grid[py, px] = color
+                                alpha[py, px] = 0.8
 
-    def generate_structure(self, features: Dict[str, Any], size: int, seed: int = 0) -> LayerSpec:
-        random.seed(seed + 1)
-        grid = np.zeros((size, size, 3), dtype=np.uint8)
-        # Geometric bands from DNA features
-        gc = features.get("gc_content", 0.5)
-        band_count = max(3, int(gc * 12))
-        band_height = max(2, size // (band_count * 2))
-        for i in range(band_count):
-            y = (i * 2 + 1) * band_height
-            color = _pick_color(self.palette, (i + 1) % len(self.palette))
-            if y + band_height <= size:
-                grid[y:y+band_height, :, :] = color
-        return LayerSpec("hmong_structure", grid, metadata={"technique": "embroidery_bands"})
+                patch_idx += 1
 
-    def generate_detail(self, features: Dict[str, Any], size: int, seed: int = 0) -> LayerSpec:
-        random.seed(seed + 2)
-        grid = np.zeros((size, size, 3), dtype=np.uint8)
-        # X-stitches scattered across the pattern
-        stitch_color = _pick_color(self.palette, 3)  # red
-        spacing = max(6, size // 16)
-        for r in range(spacing, size - spacing, spacing):
-            for c in range(spacing, size - spacing, spacing):
-                if random.random() < 0.5:
-                    self._draw_x_stitch(grid, r, c, 2, stitch_color)
-                elif random.random() < 0.3:
-                    self._draw_square_stitch(grid, r, c, 2, _pick_color(self.palette, 4))
-        return LayerSpec("hmong_detail", grid, metadata={"technique": "x_stitch_embroidery"})
+        return grid
 
-    @staticmethod
-    def _draw_x_stitch(grid: np.ndarray, cy: int, cx: int, size: int, color: Tuple[int, int, int]) -> None:
-        h, w = grid.shape[:2]
-        for dy in range(-size, size + 1):
-            for dx in range(-size, size + 1):
-                if abs(dx) == abs(dy):
-                    ny, nx = cy + dy, cx + dx
-                    if 0 <= ny < h and 0 <= nx < w:
-                        grid[ny, nx] = color
+    def render_detail(self, params: WeavingParams, features: DNAFeatures) -> np.ndarray:
+        grid = np.zeros((self.grid_size, self.grid_size, 3), dtype=np.uint8)
+        seq = features.sequence
+        scale = params.detail_scale
+        density = params.detail_density
+        color = params.palette_colors[1] if len(params.palette_colors) > 1 else (255, 255, 255)
 
-    @staticmethod
-    def _draw_square_stitch(grid: np.ndarray, cy: int, cx: int, size: int, color: Tuple[int, int, int]) -> None:
-        h, w = grid.shape[:2]
-        for dy in range(-size, size + 1):
-            for dx in range(-size, size + 1):
-                if abs(dy) == size or abs(dx) == size:
-                    ny, nx = cy + dy, cx + dx
-                    if 0 <= ny < h and 0 <= nx < w:
-                        grid[ny, nx] = color
+        # Cross-stitch embroidery pattern
+        step = scale * 2
+        for r in range(0, self.grid_size, step):
+            for c in range(0, self.grid_size, step):
+                idx = (r * self.grid_size + c) % len(seq)
+                base = seq[idx]
+                if random.random() < density:
+                    if base == "A":
+                        self._draw_x_stitch(grid, r, c, scale, color)
+                    elif base == "T":
+                        self._draw_square_stitch(grid, r, c, scale, color)
+                    elif base == "G":
+                        self._draw_dot_stitch(grid, r, c, scale, color)
+                    else:  # C
+                        self._draw_line_stitch(grid, r, c, scale, color)
+
+        return grid
+
+    def _draw_x_stitch(self, grid, r, c, size, color):
+        for i in range(-size, size + 1):
+            if 0 <= r + i < self.grid_size and 0 <= c + i < self.grid_size:
+                grid[r + i, c + i] = color
+            if 0 <= r + i < self.grid_size and 0 <= c - i < self.grid_size:
+                grid[r + i, c - i] = color
+
+    def _draw_square_stitch(self, grid, r, c, size, color):
+        for i in range(-size, size + 1):
+            for j in range(-size, size + 1):
+                if abs(i) == size or abs(j) == size:
+                    py, px = r + i, c + j
+                    if 0 <= py < self.grid_size and 0 <= px < self.grid_size:
+                        grid[py, px] = color
+
+    def _draw_dot_stitch(self, grid, r, c, size, color):
+        for dy in range(-size // 2, size // 2 + 1):
+            for dx in range(-size // 2, size // 2 + 1):
+                py, px = r + dy, c + dx
+                if 0 <= py < self.grid_size and 0 <= px < self.grid_size:
+                    grid[py, px] = color
+
+    def _draw_line_stitch(self, grid, r, c, size, color):
+        for i in range(-size, size + 1):
+            if 0 <= r < self.grid_size and 0 <= c + i < self.grid_size:
+                grid[r, c + i] = color
 
 
 # ── Thai Lue Engine ───────────────────────────────────────
 
 class ThaiLueEngine(WeavingEngine):
-    """Jok supplementary weft with gold thread patterns.
-
-    Traditional technique: discontinuous supplementary weft creating
-    elaborate geometric and figurative motifs on indigo ground.
+    """
+    Thai Lue: supplementary weft (jin/jok) patterning.
+    Buddhist motifs, naga serpents, lotus patterns.
+    Rich colors with gold accents.
     """
 
-    def __init__(self, palette: List[Tuple[int, int, int]]):
-        super().__init__("Thai Lue", palette)
+    def generate_params(self, features: DNAFeatures) -> WeavingParams:
+        params = WeavingParams()
+        params.bg_color = (139, 0, 0)  # Deep red base
+        params.bg_pattern = "stripes"
 
-    def generate_background(self, features: Dict[str, Any], size: int, seed: int = 0) -> LayerSpec:
-        random.seed(seed)
-        # Navy/indigo background
-        bg_color = _pick_color(self.palette, 1)
-        grid = np.full((size, size, 3), bg_color, dtype=np.uint8)
-        # Subtle warp texture
-        for c in range(size):
-            shade = random.randint(-15, 15)
-            r = max(0, min(255, bg_color[0] + shade))
-            g = max(0, min(255, bg_color[1] + shade))
-            b = max(0, min(255, bg_color[2] + shade))
-            grid[:, c] = (r, g, b)
-        return LayerSpec("thai_lue_background", grid, metadata={"technique": "indigo_ground"})
+        # Structure: horizontal warp stripes with supplementary weft blocks
+        params.structure_type = "jok_blocks"
+        params.structure_scale = max(6, self.grid_size // 10)
 
-    def generate_structure(self, features: Dict[str, Any], size: int, seed: int = 0) -> LayerSpec:
-        random.seed(seed + 1)
-        grid = np.zeros((size, size, 3), dtype=np.uint8)
-        # Jok supplementary weft bands
-        gc = features.get("gc_content", 0.5)
-        band_positions = [int(size * gc * 0.5), int(size * 0.5), int(size * (0.5 + gc * 0.5))]
-        band_height = max(3, size // 15)
-        for pos in band_positions:
-            if 0 <= pos < size:
-                color = _pick_color(self.palette, 2)  # gold
-                end = min(pos + band_height, size)
-                grid[pos:end, :, :] = color
-                # Secondary band
-                if pos - band_height > 0:
-                    grid[pos - band_height:pos, :, :] = _pick_color(self.palette, 0)  # deep red
-        return LayerSpec("thai_lue_structure", grid, metadata={"technique": "jok_supplementary_weft"})
+        color_count = min(6 + int(features.gc_content * 4), len(self._palette))
+        params.palette_colors = self._select_colors(color_count, features)
+        params.dominant_color = (139, 0, 0)
 
-    def generate_detail(self, features: Dict[str, Any], size: int, seed: int = 0) -> LayerSpec:
-        random.seed(seed + 2)
-        grid = np.zeros((size, size, 3), dtype=np.uint8)
-        # Gold thread patterns and temple motifs
-        gold = _pick_color(self.palette, 2)
-        silver = _pick_color(self.palette, 8)
-        spacing = max(8, size // 14)
-        for r in range(spacing, size - spacing, spacing):
-            for c in range(spacing, size - spacing, spacing):
-                if random.random() < 0.35:
-                    self._draw_lai_kham(grid, r, c, 3, gold)
-                elif random.random() < 0.25:
-                    self._draw_small_diamond(grid, r, c, 2, silver)
-        return LayerSpec("thai_lue_detail", grid, metadata={"technique": "gold_thread_lai_kham"})
+        # Detail: supplementary weft threads
+        params.detail_type = "supplementary_weft"
+        params.detail_density = 0.4 + features.complexity_score * 0.4
+        params.detail_scale = 3
 
-    @staticmethod
-    def _draw_lai_kham(grid: np.ndarray, cy: int, cx: int, size: int, color: Tuple[int, int, int]) -> None:
-        """Draw a small Lai Kham (gold pattern) motif."""
-        h, w = grid.shape[:2]
-        for dy in range(-size, size + 1):
-            for dx in range(-size, size + 1):
-                dist = math.sqrt(dx*dx + dy*dy)
-                if size - 1 <= dist <= size + 0.5:
-                    ny, nx = cy + dy, cx + dx
-                    if 0 <= ny < h and 0 <= nx < w:
-                        grid[ny, nx] = color
+        # Motif: naga, lotus, mount meru
+        params.motif_placement = "center"
+        params.motif_scale = 2
 
-    @staticmethod
-    def _draw_small_diamond(grid: np.ndarray, cy: int, cx: int, radius: int, color: Tuple[int, int, int]) -> None:
-        h, w = grid.shape[:2]
-        for dy in range(-radius, radius + 1):
-            for dx in range(-radius, radius + 1):
-                if abs(dx) + abs(dy) <= radius:
-                    ny, nx = cy + dy, cx + dx
-                    if 0 <= ny < h and 0 <= nx < w:
-                        grid[ny, nx] = color
+        # Border: gold lai kham pattern
+        params.border_style = "solid"
+        params.border_color = (255, 215, 0)
+        params.border_width = 8
+
+        params.complexity = features.complexity_score
+        params.symmetry = "radial" if features.symmetry_score > 0.5 else "vertical"
+
+        return params
+
+    def render_background(self, params: WeavingParams, features: DNAFeatures) -> np.ndarray:
+        grid = np.full((self.grid_size, self.grid_size, 3), params.bg_color, dtype=np.uint8)
+        # Subtle horizontal stripe texture (warp threads)
+        stripe_h = 2
+        for r in range(0, self.grid_size, stripe_h * 2):
+            end = min(r + stripe_h, self.grid_size)
+            grid[r:end, :, :] = np.clip(
+                np.array(params.bg_color) + 20, 0, 255
+            ).astype(np.uint8)
+        return grid
+
+    def render_structure(self, params: WeavingParams, features: DNAFeatures) -> np.ndarray:
+        grid = np.zeros((self.grid_size, self.grid_size, 3), dtype=np.uint8)
+        colors = params.palette_colors
+        seq = features.sequence
+
+        # Jok blocks: rectangular pattern areas (supplementary weft)
+        block_h = params.structure_scale
+        block_w = block_h * 2
+        block_idx = 0
+
+        for r in range(0, self.grid_size, block_h * 3):
+            for c in range(0, self.grid_size, block_w * 2):
+                # Block presence and color from DNA
+                chunk_start = block_idx * 8 % len(seq)
+                chunk = seq[chunk_start:chunk_start + 8]
+                gc_content = (chunk.count("G") + chunk.count("C")) / max(len(chunk), 1)
+
+                if gc_content > 0.3:  # Only some blocks appear
+                    end_r = min(r + block_h, self.grid_size)
+                    end_c = min(c + block_w, self.grid_size)
+                    color_idx = int(gc_content * (len(colors) - 1))
+                    color = colors[min(color_idx, len(colors) - 1)]
+                    grid[r:end_r, c:end_c] = color
+                block_idx += 1
+
+        return grid
+
+    def render_detail(self, params: WeavingParams, features: DNAFeatures) -> np.ndarray:
+        grid = np.zeros((self.grid_size, self.grid_size, 3), dtype=np.uint8)
+        seq = features.sequence
+        scale = params.detail_scale
+        density = params.detail_density
+        color = (255, 215, 0)  # Gold
+
+        # Supplementary weft: horizontal threads with pattern
+        for r in range(0, self.grid_size, scale * 2):
+            for c in range(0, self.grid_size, scale):
+                idx = (r * self.grid_size + c) % len(seq)
+                if seq[idx] in "GC" and random.random() < density:
+                    # Horizontal thread segment
+                    for dx in range(scale):
+                        px = c + dx
+                        if 0 <= px < self.grid_size:
+                            grid[r, px] = color
+                    # Vertical connector
+                    if random.random() < 0.3:
+                        for dy in range(scale):
+                            py = r + dy
+                            if 0 <= py < self.grid_size:
+                                grid[py, c] = color
+
+        return grid
 
 
 # ── Tai Dam Engine ────────────────────────────────────────
 
 class TaiDamEngine(WeavingEngine):
-    """Indigo reserve dyeing with resist patterns.
-
-    Traditional technique: black cloth with resist-dyed patterns,
-    silver thread accents.
+    """
+    Tai Dam (Black Tai): indigo reserve dyeing.
+    Black base with silver/gold accents.
+    Clan symbols and spirit motifs.
     """
 
-    def __init__(self, palette: List[Tuple[int, int, int]]):
-        super().__init__("Tai Dam", palette)
+    def generate_params(self, features: DNAFeatures) -> WeavingParams:
+        params = WeavingParams()
+        params.bg_color = (0, 0, 0)  # Black base
+        params.bg_pattern = "solid"
 
-    def generate_background(self, features: Dict[str, Any], size: int, seed: int = 0) -> LayerSpec:
-        random.seed(seed)
-        # Black background (identity color)
-        bg_color = _pick_color(self.palette, 0)
-        grid = np.full((size, size, 3), bg_color, dtype=np.uint8)
-        # Subtle variation from entropy
-        entropy = features.get("shannon_entropy", 1.5)
-        variation = int(entropy * 8)
-        for r in range(0, size, 2):
-            for c in range(0, size, 2):
-                shade = random.randint(-variation, variation)
-                grid[r, c] = tuple(max(0, min(255, bg_color[i] + shade)) for i in range(3))
-        return LayerSpec("tai_dam_background", grid, metadata={"technique": "indigo_reserve"})
+        # Structure: resist pattern (like tie-dye but geometric)
+        params.structure_type = "resist"
+        params.structure_scale = max(5, self.grid_size // 15)
 
-    def generate_structure(self, features: Dict[str, Any], size: int, seed: int = 0) -> LayerSpec:
-        random.seed(seed + 1)
-        grid = np.zeros((size, size, 3), dtype=np.uint8)
-        # Resist pattern: geometric blocks
-        gc = features.get("gc_content", 0.5)
-        block_size = max(4, int(size * 0.08))
-        for r in range(0, size, block_size):
-            for c in range(0, size, block_size):
-                if random.random() < gc:
-                    color = _pick_color(self.palette, random.choice([1, 2, 3]))  # silver, gold, red
-                    end_r = min(r + block_size, size)
-                    end_c = min(c + block_size, size)
-                    grid[r:end_r, c:end_c] = color
-        return LayerSpec("tai_dam_structure", grid, metadata={"technique": "resist_patterns"})
+        color_count = min(4 + int(features.complexity_score * 3), len(self._palette))
+        params.palette_colors = self._select_colors(color_count, features)
+        params.dominant_color = (0, 0, 0)
 
-    def generate_detail(self, features: Dict[str, Any], size: int, seed: int = 0) -> LayerSpec:
-        random.seed(seed + 2)
-        grid = np.zeros((size, size, 3), dtype=np.uint8)
-        # Silver thread accents in geometric lines
-        silver = _pick_color(self.palette, 1)
-        spacing = max(6, size // 16)
-        for r in range(spacing, size - spacing, spacing):
-            # Horizontal silver lines
-            for c in range(0, size, 3):
-                if random.random() < 0.6:
-                    grid[r, c:c+2] = silver
-        for c in range(spacing, size - spacing, spacing):
-            # Vertical silver lines
-            for r in range(0, size, 3):
-                if random.random() < 0.4:
-                    grid[r:r+2, c] = silver
-        return LayerSpec("tai_dam_detail", grid, metadata={"technique": "silver_thread_accents"})
+        # Detail: silver thread patterns
+        params.detail_type = "silver_threads"
+        params.detail_density = 0.2 + features.rhythm_score * 0.4
+        params.detail_scale = 3
+
+        # Motif: clan diamonds, soul butterflies
+        params.motif_placement = "grid"
+        params.motif_scale = 1
+
+        # Border: silver thread
+        params.border_style = "solid"
+        params.border_color = (192, 192, 192)
+        params.border_width = 6
+
+        params.complexity = features.complexity_score
+        params.symmetry = "both"
+
+        return params
+
+    def render_background(self, params: WeavingParams, features: DNAFeatures) -> np.ndarray:
+        grid = np.full((self.grid_size, self.grid_size, 3), params.bg_color, dtype=np.uint8)
+        # Subtle texture
+        noise = np.random.RandomState(123).randint(0, 10, (self.grid_size, self.grid_size))
+        noise = np.stack([noise] * 3, axis=-1)
+        return np.clip(grid.astype(np.int16) + noise - 5, 0, 255).astype(np.uint8)
+
+    def render_structure(self, params: WeavingParams, features: DNAFeatures) -> np.ndarray:
+        grid = np.zeros((self.grid_size, self.grid_size, 3), dtype=np.uint8)
+        seq = features.sequence
+        scale = params.structure_scale
+        colors = params.palette_colors
+
+        # Resist pattern: geometric shapes where dye was blocked
+        # Based on DNA palindrome locations
+        for motif_seq, start, length in features.palindromes[:8]:
+            cy = (start * self.grid_size) % self.grid_size
+            cx = (start * 7) % self.grid_size
+            size = min(length, scale * 2)
+
+            color_idx = start % len(colors)
+            color = colors[color_idx]
+
+            # Diamond resist shape
+            for dy in range(-size, size + 1):
+                for dx in range(-size, size + 1):
+                    if abs(dy) + abs(dx) <= size:
+                        py, px = cy + dy, cx + dx
+                        if 0 <= py < self.grid_size and 0 <= px < self.grid_size:
+                            grid[py, px] = color
+
+        # Also add some circular resist patterns from homopolymers
+        for base, start, length in features.homopolymer_runs[:5]:
+            cy = (start * 3) % self.grid_size
+            cx = (start * 11) % self.grid_size
+            radius = min(length, scale)
+
+            color_idx = {"A": 0, "T": 1, "G": 2, "C": 3}[base] % len(colors)
+            color = colors[color_idx]
+
+            for dy in range(-radius, radius + 1):
+                for dx in range(-radius, radius + 1):
+                    if dy * dy + dx * dx <= radius * radius:
+                        py, px = cy + dy, cx + dx
+                        if 0 <= py < self.grid_size and 0 <= px < self.grid_size:
+                            grid[py, px] = color
+
+        return grid
+
+    def render_detail(self, params: WeavingParams, features: DNAFeatures) -> np.ndarray:
+        grid = np.zeros((self.grid_size, self.grid_size, 3), dtype=np.uint8)
+        seq = features.sequence
+        scale = params.detail_scale
+        density = params.detail_density
+        color = (192, 192, 192)  # Silver
+
+        # Silver thread: fine linear patterns
+        for r in range(0, self.grid_size, scale * 3):
+            for c in range(0, self.grid_size, scale):
+                idx = (r + c) % len(seq)
+                if seq[idx] in "AT" and random.random() < density:
+                    # Horizontal silver thread
+                    for dx in range(scale):
+                        px = c + dx
+                        if 0 <= px < self.grid_size:
+                            grid[r, px] = color
+                    # Vertical cross
+                    if random.random() < 0.4:
+                        for dy in range(scale):
+                            py = r + dy
+                            if 0 <= py < self.grid_size:
+                                grid[py, c] = color
+
+        return grid
 
 
 # ── Lisu Engine ───────────────────────────────────────────
 
 class LisuEngine(WeavingEngine):
-    """Vertical stripe blocks with bead patterns.
-
-    Traditional technique: bold vertical color blocks with beadwork.
+    """
+    Lisu: bold color-block weaving.
+    Vertical stripes with bright, saturated colors.
     """
 
-    def __init__(self, palette: List[Tuple[int, int, int]]):
-        super().__init__("Lisu", palette)
+    def generate_params(self, features: DNAFeatures) -> WeavingParams:
+        params = WeavingParams()
+        params.bg_color = (255, 0, 0)  # Red base
+        params.bg_pattern = "solid"
 
-    def generate_background(self, features: Dict[str, Any], size: int, seed: int = 0) -> LayerSpec:
-        random.seed(seed)
-        # Red base
-        bg_color = _pick_color(self.palette, 0)
-        grid = np.full((size, size, 3), bg_color, dtype=np.uint8)
-        return LayerSpec("lisu_background", grid, metadata={"technique": "vertical_stripes"})
+        # Structure: vertical color blocks
+        params.structure_type = "vblocks"
+        num_blocks = max(3, int(features.complexity_score * 8))
+        params.structure_scale = max(4, self.grid_size // num_blocks)
 
-    def generate_structure(self, features: Dict[str, Any], size: int, seed: int = 0) -> LayerSpec:
-        random.seed(seed + 1)
-        grid = np.zeros((size, size, 3), dtype=np.uint8)
-        # Vertical stripe blocks
-        gc = features.get("gc_content", 0.5)
-        num_blocks = max(3, int(gc * 10))
-        block_width = max(2, size // num_blocks)
-        for i in range(num_blocks):
-            x = i * block_width
-            color = _pick_color(self.palette, (i + 1) % len(self.palette))
-            end_x = min(x + block_width, size)
-            grid[:, x:end_x] = color
-        return LayerSpec("lisu_structure", grid, metadata={"technique": "vertical_stripe_blocks"})
+        color_count = min(6 + int(features.complexity_score * 3), len(self._palette))
+        params.palette_colors = self._select_colors(color_count, features)
+        params.dominant_color = params.palette_colors[0]
 
-    def generate_detail(self, features: Dict[str, Any], size: int, seed: int = 0) -> LayerSpec:
-        random.seed(seed + 2)
-        grid = np.zeros((size, size, 3), dtype=np.uint8)
-        # Bead patterns: small circles in rows
-        bead_colors = [
-            _pick_color(self.palette, 4),  # blue
-            _pick_color(self.palette, 5),  # purple
-            _pick_color(self.palette, 7),  # white
-            _pick_color(self.palette, 8),  # hot pink
-        ]
-        spacing = max(6, size // 16)
-        for r in range(spacing, size - spacing, spacing):
-            for c in range(spacing, size - spacing, spacing):
-                if random.random() < 0.5:
-                    color = bead_colors[random.randint(0, len(bead_colors) - 1)]
-                    self._draw_bead(grid, r, c, 2, color)
-        return LayerSpec("lisu_detail", grid, metadata={"technique": "bead_patterns"})
+        # Detail: horizontal accent lines
+        params.detail_type = "hlines"
+        params.detail_density = 0.5
+        params.detail_scale = 2
 
-    @staticmethod
-    def _draw_bead(grid: np.ndarray, cy: int, cx: int, radius: int, color: Tuple[int, int, int]) -> None:
-        h, w = grid.shape[:2]
-        for dy in range(-radius, radius + 1):
-            for dx in range(-radius, radius + 1):
-                if dx*dx + dy*dy <= radius*radius:
-                    ny, nx = cy + dy, cx + dx
-                    if 0 <= ny < h and 0 <= nx < w:
-                        grid[ny, nx] = color
+        # Border: multi-stripe
+        params.border_style = "striped"
+        params.border_color = (255, 140, 0)
+        params.border_width = 8
+
+        params.complexity = features.complexity_score
+        params.symmetry = "vertical"
+
+        return params
+
+    def render_background(self, params: WeavingParams, features: DNAFeatures) -> np.ndarray:
+        return np.full((self.grid_size, self.grid_size, 3), params.bg_color, dtype=np.uint8)
+
+    def render_structure(self, params: WeavingParams, features: DNAFeatures) -> np.ndarray:
+        grid = np.zeros((self.grid_size, self.grid_size, 3), dtype=np.uint8)
+        colors = params.palette_colors
+        seq = features.sequence
+        block_w = params.structure_scale
+
+        block_idx = 0
+        for c in range(0, self.grid_size, block_w):
+            end_c = min(c + block_w, self.grid_size)
+            chunk_start = block_idx * 6 % len(seq)
+            chunk = seq[chunk_start:chunk_start + 6]
+            gc = (chunk.count("G") + chunk.count("C")) / max(len(chunk), 1)
+            color_idx = int(gc * (len(colors) - 1))
+            color = colors[min(color_idx, len(colors) - 1)]
+            grid[:, c:end_c] = color
+            block_idx += 1
+
+        return grid
+
+    def render_detail(self, params: WeavingParams, features: DNAFeatures) -> np.ndarray:
+        grid = np.zeros((self.grid_size, self.grid_size, 3), dtype=np.uint8)
+        seq = features.sequence
+        scale = params.detail_scale
+        color = (255, 255, 255)
+
+        # Horizontal accent lines at DNA-driven intervals
+        for r in range(0, self.grid_size, scale * 4):
+            idx = r % len(seq)
+            if seq[idx] in "GC":
+                for dy in range(scale):
+                    pr = r + dy
+                    if 0 <= pr < self.grid_size:
+                        grid[pr, :] = color
+
+        return grid
 
 
 # ── Mien Engine ───────────────────────────────────────────
 
 class MienEngine(WeavingEngine):
-    """Cross-stitch embroidery with silver thread accents.
-
-    Traditional technique: detailed cross-stitch on indigo cloth
-    with silver ornament accents.
+    """
+    Mien (Yao): cross-stitch embroidery on dark fabric.
+    Counted-stitch patterns with imperial motifs.
     """
 
-    def __init__(self, palette: List[Tuple[int, int, int]]):
-        super().__init__("Mien", palette)
+    def generate_params(self, features: DNAFeatures) -> WeavingParams:
+        params = WeavingParams()
+        params.bg_color = (0, 0, 128)  # Indigo base
+        params.bg_pattern = "solid"
 
-    def generate_background(self, features: Dict[str, Any], size: int, seed: int = 0) -> LayerSpec:
-        random.seed(seed)
-        # Deep red background
-        bg_color = _pick_color(self.palette, 0)
-        grid = np.full((size, size, 3), bg_color, dtype=np.uint8)
-        return LayerSpec("mien_background", grid, metadata={"technique": "cross_stitch_base"})
+        # Structure: counted stitch grid
+        params.structure_type = "stitch_grid"
+        params.structure_scale = max(3, 8 - int(features.complexity_score * 4))
 
-    def generate_structure(self, features: Dict[str, Any], size: int, seed: int = 0) -> LayerSpec:
-        random.seed(seed + 1)
-        grid = np.zeros((size, size, 3), dtype=np.uint8)
-        # Horizontal bands from DNA base composition
-        base = features.get("base_composition", {})
-        gc = features.get("gc_content", 0.5)
-        num_bands = max(4, int(gc * 15))
-        band_height = max(2, size // num_bands)
-        for i in range(num_bands):
-            y = i * band_height
-            color_idx = i % len(self.palette)
-            color = _pick_color(self.palette, color_idx)
-            end_y = min(y + band_height, size)
-            grid[y:end_y, :, :] = color
-        return LayerSpec("mien_structure", grid, metadata={"technique": "embroidery_bands"})
+        color_count = min(5 + int(features.gc_content * 3), len(self._palette))
+        params.palette_colors = self._select_colors(color_count, features)
+        params.dominant_color = (139, 0, 0)
 
-    def generate_detail(self, features: Dict[str, Any], size: int, seed: int = 0) -> LayerSpec:
-        random.seed(seed + 2)
-        grid = np.zeros((size, size, 3), dtype=np.uint8)
-        # Cross-stitch patterns
-        stitch_color = _pick_color(self.palette, 2)  # white
-        silver = _pick_color(self.palette, 4)  # silver
-        spacing = max(5, size // 18)
-        for r in range(spacing, size - spacing, spacing):
-            for c in range(spacing, size - spacing, spacing):
-                if random.random() < 0.45:
-                    self._draw_cross_stitch(grid, r, c, 2, stitch_color)
-                elif random.random() < 0.2:
-                    self._draw_silver_line(grid, r, c, 3, silver)
-        return LayerSpec("mien_detail", grid, metadata={"technique": "cross_stitch_silver"})
+        # Detail: cross-stitch patterns
+        params.detail_type = "cross_stitch"
+        params.detail_density = 0.4 + features.rhythm_score * 0.4
+        params.detail_scale = params.structure_scale
 
-    @staticmethod
-    def _draw_cross_stitch(grid: np.ndarray, cy: int, cx: int, size: int, color: Tuple[int, int, int]) -> None:
-        h, w = grid.shape[:2]
-        for dy in range(-size, size + 1):
-            for dx in range(-size, size + 1):
-                if abs(dx) == abs(dy) and dx != 0:
-                    ny, nx = cy + dy, cx + dx
-                    if 0 <= ny < h and 0 <= nx < w:
-                        grid[ny, nx] = color
-        # Center dot
-        if 0 <= cy < h and 0 <= cx < w:
-            grid[cy, cx] = color
+        # Border: gold trim
+        params.border_style = "solid"
+        params.border_color = (255, 215, 0)
+        params.border_width = 6
 
-    @staticmethod
-    def _draw_silver_line(grid: np.ndarray, cy: int, cx: int, length: int, color: Tuple[int, int, int]) -> None:
-        h, w = grid.shape[:2]
-        for dx in range(-length, length + 1):
-            nx = cx + dx
-            if 0 <= cy < h and 0 <= nx < w:
-                grid[cy, nx] = color
+        params.complexity = features.complexity_score
+        params.symmetry = "both"
+
+        return params
+
+    def render_background(self, params: WeavingParams, features: DNAFeatures) -> np.ndarray:
+        return np.full((self.grid_size, self.grid_size, 3), params.bg_color, dtype=np.uint8)
+
+    def render_structure(self, params: WeavingParams, features: DNAFeatures) -> np.ndarray:
+        grid = np.zeros((self.grid_size, self.grid_size, 3), dtype=np.uint8)
+        seq = features.sequence
+        scale = params.structure_scale
+        colors = params.palette_colors
+
+        # Counted stitch grid: each stitch = one DNA base
+        for r in range(0, self.grid_size, scale * 2):
+            for c in range(0, self.grid_size, scale * 2):
+                idx = ((r // (scale * 2)) * (self.grid_size // (scale * 2)) +
+                       c // (scale * 2)) % len(seq)
+                base = seq[idx]
+                color_idx = {"A": 0, "T": 1, "G": 2, "C": 3}[base] % len(colors)
+                color = colors[color_idx]
+
+                # Draw cross stitch
+                for dy in range(-scale // 2, scale // 2 + 1):
+                    for dx in range(-scale // 2, scale // 2 + 1):
+                        py, px = r + dy, c + dx
+                        if 0 <= py < self.grid_size and 0 <= px < self.grid_size:
+                            grid[py, px] = color
+
+        return grid
+
+    def render_detail(self, params: WeavingParams, features: DNAFeatures) -> np.ndarray:
+        grid = np.zeros((self.grid_size, self.grid_size, 3), dtype=np.uint8)
+        seq = features.sequence
+        scale = params.detail_scale
+        density = params.detail_density
+        color = (255, 215, 0)  # Gold
+
+        # Additional gold cross-stitches
+        for r in range(scale, self.grid_size - scale, scale * 3):
+            for c in range(scale, self.grid_size - scale, scale * 3):
+                idx = (r + c) % len(seq)
+                if seq[idx] == "A" and random.random() < density:
+                    for dy in range(-scale, scale + 1):
+                        for dx in range(-scale, scale + 1):
+                            if abs(dy) + abs(dx) <= scale:
+                                py, px = r + dy, c + dx
+                                if 0 <= py < self.grid_size and 0 <= px < self.grid_size:
+                                    grid[py, px] = color
+
+        return grid
 
 
 # ── Akha Engine ───────────────────────────────────────────
 
 class AkhaEngine(WeavingEngine):
-    """Beadwork patterns with silver coin motifs.
-
-    Traditional technique: dense beadwork on black cloth with
-    silver coin decorations.
+    """
+    Akha: beaded weaving with silver coins.
+    Dark base with silver/gold dot patterns.
     """
 
-    def __init__(self, palette: List[Tuple[int, int, int]]):
-        super().__init__("Akha", palette)
+    def generate_params(self, features: DNAFeatures) -> WeavingParams:
+        params = WeavingParams()
+        params.bg_color = (0, 0, 0)
+        params.bg_pattern = "solid"
 
-    def generate_background(self, features: Dict[str, Any], size: int, seed: int = 0) -> LayerSpec:
-        random.seed(seed)
-        # Black background
-        bg_color = _pick_color(self.palette, 0)
-        grid = np.full((size, size, 3), bg_color, dtype=np.uint8)
-        return LayerSpec("akha_background", grid, metadata={"technique": "beadwork_base"})
+        # Structure: bead grid
+        params.structure_type = "beads"
+        params.structure_scale = max(2, 5 - int(features.complexity_score * 2))
 
-    def generate_structure(self, features: Dict[str, Any], size: int, seed: int = 0) -> LayerSpec:
-        random.seed(seed + 1)
-        grid = np.zeros((size, size, 3), dtype=np.uint8)
-        # Horizontal beadwork bands
-        gc = features.get("gc_content", 0.5)
-        num_bands = max(4, int(gc * 12))
-        band_height = max(3, size // num_bands)
-        for i in range(num_bands):
-            y = i * band_height
-            # Alternate red and silver
-            color = _pick_color(self.palette, 1 if i % 2 == 0 else 2)
-            end_y = min(y + band_height, size)
-            grid[y:end_y, :, :] = color
-        return LayerSpec("akha_structure", grid, metadata={"technique": "beadwork_bands"})
+        color_count = min(5 + int(features.complexity_score * 3), len(self._palette))
+        params.palette_colors = self._select_colors(color_count, features)
+        params.dominant_color = (0, 0, 0)
 
-    def generate_detail(self, features: Dict[str, Any], size: int, seed: int = 0) -> LayerSpec:
-        random.seed(seed + 2)
-        grid = np.zeros((size, size, 3), dtype=np.uint8)
-        # Beadwork dots and silver coin motifs
-        bead_colors = [
-            _pick_color(self.palette, 3),  # red
-            _pick_color(self.palette, 4),  # gold
-            _pick_color(self.palette, 5),  # white
-            _pick_color(self.palette, 6),  # purple
-        ]
-        silver = _pick_color(self.palette, 2)
-        spacing = max(6, size // 14)
-        for r in range(spacing, size - spacing, spacing):
-            for c in range(spacing, size - spacing, spacing):
-                if random.random() < 0.5:
-                    color = bead_colors[random.randint(0, len(bead_colors) - 1)]
-                    self._draw_bead(grid, r, c, 2, color)
-                elif random.random() < 0.15:
-                    self._draw_silver_coin(grid, r, c, 3, silver)
-        return LayerSpec("akha_detail", grid, metadata={"technique": "beadwork_silver_coins"})
+        # Detail: silver coin circles
+        params.detail_type = "coin_circles"
+        params.detail_density = 0.15 + features.rhythm_score * 0.3
+        params.detail_scale = 4
 
-    @staticmethod
-    def _draw_bead(grid: np.ndarray, cy: int, cx: int, radius: int, color: Tuple[int, int, int]) -> None:
-        h, w = grid.shape[:2]
-        for dy in range(-radius, radius + 1):
-            for dx in range(-radius, radius + 1):
-                if dx*dx + dy*dy <= radius*radius:
-                    ny, nx = cy + dy, cx + dx
-                    if 0 <= ny < h and 0 <= nx < w:
-                        grid[ny, nx] = color
+        # Border: bead pattern
+        params.border_style = "solid"
+        params.border_color = (192, 192, 192)
+        params.border_width = 6
 
-    @staticmethod
-    def _draw_silver_coin(grid: np.ndarray, cy: int, cx: int, radius: int, color: Tuple[int, int, int]) -> None:
-        """Draw a silver coin motif (circle with center hole)."""
-        h, w = grid.shape[:2]
-        for dy in range(-radius, radius + 1):
-            for dx in range(-radius, radius + 1):
-                dist_sq = dx*dx + dy*dy
-                if (radius - 1) * (radius - 1) <= dist_sq <= radius * radius:
-                    ny, nx = cy + dy, cx + dx
-                    if 0 <= ny < h and 0 <= nx < w:
-                        grid[ny, nx] = color
+        params.complexity = features.complexity_score
+        params.symmetry = "both"
+
+        return params
+
+    def render_background(self, params: WeavingParams, features: DNAFeatures) -> np.ndarray:
+        return np.full((self.grid_size, self.grid_size, 3), params.bg_color, dtype=np.uint8)
+
+    def render_structure(self, params: WeavingParams, features: DNAFeatures) -> np.ndarray:
+        grid = np.zeros((self.grid_size, self.grid_size, 3), dtype=np.uint8)
+        seq = features.sequence
+        scale = params.structure_scale
+        colors = params.palette_colors
+
+        # Bead grid
+        for r in range(0, self.grid_size, scale * 2):
+            for c in range(0, self.grid_size, scale * 2):
+                idx = ((r * self.grid_size + c) // (scale * 2)) % len(seq)
+                base = seq[idx]
+                color_idx = {"A": 0, "T": 1, "G": 2, "C": 3}[base] % len(colors)
+                color = colors[color_idx]
+
+                # Circular bead
+                for dy in range(-scale // 2, scale // 2 + 1):
+                    for dx in range(-scale // 2, scale // 2 + 1):
+                        if dy * dy + dx * dx <= (scale // 2) ** 2 + 1:
+                            py, px = r + dy, c + dx
+                            if 0 <= py < self.grid_size and 0 <= px < self.grid_size:
+                                grid[py, px] = color
+
+        return grid
+
+    def render_detail(self, params: WeavingParams, features: DNAFeatures) -> np.ndarray:
+        grid = np.zeros((self.grid_size, self.grid_size, 3), dtype=np.uint8)
+        seq = features.sequence
+        scale = params.detail_scale
+        density = params.detail_density
+        color = (192, 192, 192)  # Silver
+
+        # Silver coin circles at DNA-driven positions
+        for i, (base, start, length) in enumerate(features.homopolymer_runs[:10]):
+            cy = (start * 5) % self.grid_size
+            cx = (start * 13) % self.grid_size
+            radius = min(length, scale)
+
+            if random.random() < density:
+                for dy in range(-radius, radius + 1):
+                    for dx in range(-radius, radius + 1):
+                        if dy * dy + dx * dx <= radius * radius:
+                            py, px = cy + dy, cx + dx
+                            if 0 <= py < self.grid_size and 0 <= px < self.grid_size:
+                                grid[py, px] = color
+
+        return grid
+
+
+# ── Generic/Fallback Engine ───────────────────────────────
+
+class GenericEngine(WeavingEngine):
+    """Generic weaving engine for communities without specific logic."""
+
+    def generate_params(self, features: DNAFeatures) -> WeavingParams:
+        params = WeavingParams()
+        params.bg_color = (0, 0, 0)
+        params.bg_pattern = "solid"
+        params.structure_type = "grid"
+        params.structure_scale = max(4, self.grid_size // 10)
+
+        color_count = min(4, len(self._palette)) if self._palette else 4
+        params.palette_colors = self._select_colors(color_count, features)
+        params.dominant_color = params.palette_colors[0] if params.palette_colors else (0, 0, 0)
+
+        params.detail_type = "dots"
+        params.detail_density = 0.3
+        params.detail_scale = 3
+
+        params.border_style = "solid"
+        params.border_color = (128, 128, 128)
+        params.border_width = 4
+
+        params.complexity = features.complexity_score
+        params.symmetry = "none"
+
+        return params
+
+    def render_background(self, params: WeavingParams, features: DNAFeatures) -> np.ndarray:
+        return np.full((self.grid_size, self.grid_size, 3), params.bg_color, dtype=np.uint8)
+
+    def render_structure(self, params: WeavingParams, features: DNAFeatures) -> np.ndarray:
+        grid = np.zeros((self.grid_size, self.grid_size, 3), dtype=np.uint8)
+        colors = params.palette_colors
+        seq = features.sequence
+        scale = params.structure_scale
+
+        for r in range(0, self.grid_size, scale):
+            for c in range(0, self.grid_size, scale):
+                idx = ((r * self.grid_size + c) // scale) % len(seq)
+                base = seq[idx]
+                color_idx = {"A": 0, "T": 1, "G": 2, "C": 3}[base] % len(colors)
+                end_r = min(r + scale, self.grid_size)
+                end_c = min(c + scale, self.grid_size)
+                grid[end_r if end_r > r else r:end_r, end_c if end_c > c else c:end_c] = colors[color_idx]
+
+        return grid
+
+    def render_detail(self, params: WeavingParams, features: DNAFeatures) -> np.ndarray:
+        grid = np.zeros((self.grid_size, self.grid_size, 3), dtype=np.uint8)
+        return grid
 
 
 # ── Engine Registry ───────────────────────────────────────
 
-_ENGINES: Dict[str, type] = {
+ENGINE_REGISTRY: Dict[str, type] = {
     "karen": KarenEngine,
-    "karen_kayah": KarenEngine,
     "hmong": HmongEngine,
     "thai_lue": ThaiLueEngine,
     "tai_dam": TaiDamEngine,
@@ -613,16 +984,13 @@ _ENGINES: Dict[str, type] = {
 }
 
 
-def get_engine(community: str, palette: List[Tuple[int, int, int]]) -> WeavingEngine:
+def get_engine(community: str, grid_size: int = 100) -> WeavingEngine:
     """Get the appropriate weaving engine for a community."""
     key = community.lower().replace(" ", "_")
-    engine_cls = _ENGINES.get(key)
-    if engine_cls is None:
-        # Default to Karen-style supplementary weft
-        engine_cls = KarenEngine
-    return engine_cls(palette)
+    engine_class = ENGINE_REGISTRY.get(key, GenericEngine)
+    return engine_class(community, grid_size)
 
 
 def list_engines() -> List[str]:
-    """List all available weaving engine community keys."""
-    return list(_ENGINES.keys())
+    """List all available weaving engines."""
+    return list(ENGINE_REGISTRY.keys())

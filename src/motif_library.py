@@ -174,3 +174,29 @@ def validate_all_motifs() -> Dict[str, List[str]]:
         if errors:
             results[community] = errors
     return results
+
+
+class MotifLibrary:
+    """Thin wrapper for motif library functions."""
+
+    def __init__(self, community: str = "generic"):
+        self.community = community
+        self._custom_motifs: List[Dict[str, Any]] = []
+
+    def get_motifs(self, community: Optional[str] = None) -> List[Dict[str, Any]]:
+        c = community or self.community
+        motifs = get_motifs(c)
+        # If no motifs found for this community, aggregate from all communities
+        if not motifs:
+            all_motifs: List[Dict[str, Any]] = []
+            for comm in list_communities_with_motifs():
+                all_motifs.extend(get_motifs(comm))
+            motifs = all_motifs
+        # Include custom motifs
+        return motifs + list(self._custom_motifs)
+
+    def search(self, query: str) -> List[Dict[str, Any]]:
+        return search_motifs(query)
+
+    def add_motif(self, motif: Dict[str, Any]) -> None:
+        self._custom_motifs.append(motif)

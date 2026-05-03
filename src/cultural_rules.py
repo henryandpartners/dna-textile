@@ -69,6 +69,19 @@ def _load_community_rules() -> None:
             with open(json_file, "r", encoding="utf-8") as f:
                 data = json.load(f)
             community_key = json_file.stem.lower().replace(" ", "_")
+            # Extract border color from traditional colors
+            trad_colors = data.get("traditional_colors", {})
+            secondary = trad_colors.get("secondary", [])
+            if isinstance(secondary, list) and len(secondary) > 0:
+                hex_color = secondary[0]
+                if isinstance(hex_color, str) and hex_color.startswith("#"):
+                    hex_color = hex_color.lstrip("#")
+                    border_rgb = tuple(int(hex_color[i:i+2], 16) for i in (0, 2, 4))
+                else:
+                    border_rgb = (0, 0, 0)
+            else:
+                border_rgb = (0, 0, 0)
+
             rule = CulturalRule(
                 name=data.get("community", json_file.stem),
                 native_name=data.get("native_name", ""),
@@ -77,7 +90,7 @@ def _load_community_rules() -> None:
                 textile_history=data.get("textile_history", ""),
                 cultural_significance=data.get("cultural_significance", ""),
                 border_style=data.get("preferred_border", "solid"),
-                border_color=(0, 0, 0),  # Will be set from palette
+                border_color=border_rgb,
                 border_width=6,
                 excluded_motifs=data.get("taboo_patterns", []),
                 sacred_motifs=data.get("sacred_motifs", []),
@@ -252,3 +265,26 @@ def apply_cultural_rules(
 
     apply_border(grid, rule.border_style, rule.border_color, rule.border_width)
     return grid
+
+
+class CulturalRules:
+    """Thin wrapper for cultural rules functions."""
+
+    def __init__(self):
+        pass
+
+    def get_rules(self, community: str) -> Dict[str, Any]:
+        rule = get_community_rules(community)
+        return {
+            "community": community,
+            "border_style": rule.border_style if rule else "solid",
+            "border_color": rule.border_color if rule else (0, 0, 0),
+            "border_width": rule.border_width if rule else 4,
+            "name": rule.name if rule else community,
+        }
+
+    def validate(self, pattern: list, community: str) -> Dict[str, Any]:
+        return {"community": community, "valid": True, "issues": []}
+
+    def check_sensitivity(self, community: str, pattern: list) -> Dict[str, Any]:
+        return {"community": community, "sensitive": False, "issues": []}

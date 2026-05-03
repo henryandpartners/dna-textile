@@ -96,3 +96,44 @@ def mix_sequences(
         result.append(sequences[choice][i])
 
     return "".join(result)
+
+
+def _mix_alternating(dna1: str, dna2: str) -> str:
+    """Mix two sequences by alternating which parent to pick from at each position.
+    Output length equals the shorter input length."""
+    result = []
+    min_len = min(len(dna1), len(dna2))
+    for i in range(min_len):
+        if i % 2 == 0:
+            result.append(dna1[i])
+        else:
+            result.append(dna2[i])
+    return "".join(result)
+
+
+def _mix_crossover(dna1: str, dna2: str) -> str:
+    """Mix two sequences with a single crossover point."""
+    import random
+    if len(dna1) == 0 or len(dna2) == 0:
+        return dna1 or dna2
+    point = random.randint(1, min(len(dna1), len(dna2)) - 1)
+    return dna1[:point] + dna2[point:]
+
+
+class DNAMixer:
+    """Thin wrapper for DNA mixer functions."""
+
+    def __init__(self):
+        pass
+
+    def mix(self, dna1: str, dna2: str, method: str = "alternating") -> str:
+        if not dna1 or not dna2:
+            raise ValueError("Both sequences must be non-empty")
+        if method == "alternating":
+            return _mix_alternating(dna1, dna2)
+        elif method == "random":
+            return mix_sequences([dna1, dna2])
+        elif method == "crossover":
+            return _mix_crossover(dna1, dna2)
+        else:
+            raise ValueError(f"Unknown mix method: {method}")

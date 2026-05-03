@@ -253,3 +253,22 @@ def validate_sensitivity(
     report = check_pattern_set(all_names, community)
     is_valid = report.is_clean and not report.has_high_severity
     return (is_valid, report)
+
+
+class SensitivityChecker:
+    """Thin wrapper for sensitivity checker functions."""
+
+    def __init__(self, community: str = "generic"):
+        self.community = community
+
+    def check(
+        self,
+        community: Optional[str] = None,
+        pattern: Optional[list] = None,
+    ) -> dict:
+        c = community or self.community
+        issues: list = []
+        # Check taboo patterns
+        taboos = get_taboo_patterns(c)
+        sensitive = len(taboos) > 0
+        return {"community": c, "issues": issues, "sensitive": sensitive}

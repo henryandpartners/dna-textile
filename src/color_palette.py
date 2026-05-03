@@ -164,7 +164,7 @@ def list_available_palettes() -> List[str]:
 
 
 def validate_palette(community: str) -> Tuple[bool, List[str]]:
-    """Validate a community's color palette. Returns (is_valid, errors)."""
+    """Validate a community's palette. Returns (is_valid, errors)."""
     palette = get_community_palette(community)
     errors = []
     if palette is None:
@@ -181,3 +181,43 @@ def validate_palette(community: str) -> Tuple[bool, List[str]]:
             errors.append(f"Color '{color.get('name', 'unknown')}' missing cultural meaning")
 
     return (len(errors) == 0, errors)
+
+
+# Default fallback colors
+_DEFAULT_COLORS: List[Tuple[int, int, int]] = [
+    (255, 0, 0),    # Red
+    (0, 255, 0),    # Green
+    (0, 0, 255),    # Blue
+    (255, 255, 0),  # Yellow
+    (128, 128, 128),# Gray
+]
+
+
+class ColorPalette:
+    """Thin wrapper for color palette functions."""
+
+    def __init__(self, community: str = "generic"):
+        self.community = community
+        self._custom_palettes: Dict[str, List[Tuple[int, int, int]]] = {}
+
+    def get_colors(self, community: Optional[str] = None) -> List[Tuple[int, int, int]]:
+        c = community or self.community
+        # Check custom palettes first
+        if c in self._custom_palettes:
+            return self._custom_palettes[c]
+        colors = get_all_colors(c)
+        # Fallback to default colors if no community palette found
+        if not colors or colors == [(0, 0, 0)]:
+            return list(_DEFAULT_COLORS)
+        return colors
+
+    def get_all_palettes(self) -> List[str]:
+        return list(self._custom_palettes.keys()) + list_available_palettes()
+
+    def set_custom_palette(self, name: str, colors: List[Tuple[int, int, int]]) -> None:
+        self._custom_palettes[name] = colors
+
+    def add_color(self, community: str, color: Tuple[int, int, int]) -> None:
+        if community not in self._custom_palettes:
+            self._custom_palettes[community] = list(self.get_colors(community))
+        self._custom_palettes[community].append(color)

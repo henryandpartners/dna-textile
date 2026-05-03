@@ -203,3 +203,32 @@ def validate_border_style(style_key: str) -> Tuple[bool, List[str]]:
             errors.append(f"Unknown technique '{parts[1]}' in category '{parts[0]}'")
 
     return (len(errors) == 0, errors)
+
+
+class BorderStyle:
+    """Thin wrapper for border style functions."""
+
+    def __init__(self, community: str = "generic"):
+        self.community = community
+
+    def get_styles(self) -> List[str]:
+        return get_all_border_styles()
+
+    def get_style(self, style_key: str) -> Optional[Dict[str, Any]]:
+        if style_key == "default":
+            default_key = get_community_default_border(self.community)
+            return get_border_style(default_key)
+        # Try as a community name
+        default_key = get_community_default_border(style_key)
+        if default_key:
+            return get_border_style(default_key)
+        return get_border_style(style_key)
+
+    def apply(self, pattern: list, style_key: str = "default") -> list:
+        # Convert list pattern to numpy, apply border, return list
+        arr = np.array(pattern, dtype=np.uint8)
+        # Ensure 3-channel
+        if arr.ndim == 2:
+            arr = np.stack([arr] * 3, axis=-1)
+        bordered = render_border(arr, style_key, width=6)
+        return bordered.tolist()

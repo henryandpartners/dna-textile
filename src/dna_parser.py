@@ -87,3 +87,35 @@ def parse_input(source: str | Path, is_fasta: bool = False) -> List[Tuple[str, s
         return parse_fasta(source)
     seq = parse_string(source_str)
     return [("input", seq)]
+
+
+class DNAParser:
+    """Thin wrapper for DNA parser functions."""
+
+    def __init__(self):
+        pass
+
+    def parse(self, sequence: str) -> str:
+        cleaned = clean_sequence(sequence)
+        if not cleaned:
+            raise ValueError("empty sequence")
+        return cleaned
+
+    def count_nucleotides(self, sequence: str) -> dict:
+        from collections import Counter
+        counts = Counter(sequence.upper())
+        return {b: counts.get(b, 0) for b in "ATGC"}
+
+    def gc_content(self, sequence: str) -> float:
+        seq = sequence.upper()
+        gc = seq.count("G") + seq.count("C")
+        return gc / max(len(seq), 1)
+
+    def find_repeats(self, sequence: str) -> list:
+        from .dna_features import extract_features
+        features = extract_features(sequence)
+        return [(m, s, c) for m, s, c in features.repeats]
+
+    def extract_codons(self, sequence: str) -> list:
+        seq = sequence.upper()
+        return [seq[i:i+3] for i in range(0, len(seq) - 2, 3)]

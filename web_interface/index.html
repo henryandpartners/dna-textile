@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNA Textile Pattern Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <h1>🧬 DNA Textile Pattern Generator</h1>
+            <p class="subtitle">Map DNA sequences to textile patterns for 15 Thai indigenous communities</p>
+        </header>
+
+        <div class="main-layout">
+            <!-- Sidebar Controls -->
+            <aside class="controls-panel">
+                <div class="control-section">
+                    <h3>🧬 DNA Sequence</h3>
+                    <textarea id="dna-input" placeholder="Enter DNA sequence (A/T/G/C)..." rows="4">ATGCATGCATGCATGCATGCATGCATGCATGCATGCATGCATGCATGCATGCATGCATGCATGCATGCATGCATGCATGCATGCATGC</textarea>
+                    <div class="input-actions">
+                        <button id="btn-random" class="btn btn-secondary">Random DNA</button>
+                        <button id="btn-sample" class="btn btn-secondary">Sample</button>
+                        <span id="seq-length" class="seq-info">Length: 0</span>
+                    </div>
+                </div>
+
+                <div class="control-section">
+                    <h3>⚙️ Parameters</h3>
+                    <div class="control-group">
+                        <label for="pattern-type">Pattern Type</label>
+                        <select id="pattern-type">
+                            <option value="stripe">Stripe</option>
+                            <option value="grid">Grid</option>
+                            <option value="spiral">Spiral</option>
+                            <option value="random">Random</option>
+                            <option value="cellular_automata">Cellular Automata</option>
+                            <option value="lace">Lace</option>
+                            <option value="codon_tile">Codon Tile</option>
+                            <option value="phase_shift">Phase Shift</option>
+                            <option value="fractal_koch">Fractal Koch</option>
+                            <option value="voronoi">Voronoi</option>
+                            <option value="wave_interference">Wave Interference</option>
+                            <option value="perlin_noise">Perlin Noise</option>
+                            <option value="l_system">L-System</option>
+                            <option value="fourier_pattern">Fourier Pattern</option>
+                            <option value="diffusion">Reaction-Diffusion</option>
+                            <option value="mosaic">Mosaic</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="community">Community</label>
+                        <select id="community">
+                            <option value="generic">Generic</option>
+                            <option value="Karen">Karen</option>
+                            <option value="Hmong">Hmong</option>
+                            <option value="Lisu">Lisu</option>
+                            <option value="Lahu">Lahu</option>
+                            <option value="Akha">Akha</option>
+                            <option value="Mien">Mien</option>
+                            <option value="Palaung">Palaung</option>
+                            <option value="Khamu">Khamu</option>
+                            <option value="Thai Lue">Thai Lue</option>
+                            <option value="Tai Dam">Tai Dam</option>
+                            <option value="Moklen">Moklen</option>
+                            <option value="Urak Lawoi">Urak Lawoi</option>
+                            <option value="Mlabri">Mlabri</option>
+                            <option value="Mani">Mani</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="grid-size">Grid Size: <span id="grid-size-val">100</span></label>
+                        <input type="range" id="grid-size" min="20" max="200" value="100" step="10">
+                    </div>
+
+                    <div class="control-group">
+                        <label for="stitch-ratio">Stitch Ratio: <span id="stitch-ratio-val">1.00</span></label>
+                        <input type="range" id="stitch-ratio" min="0.5" max="1.5" value="1.0" step="0.05">
+                    </div>
+
+                    <div class="control-group">
+                        <label for="complexity">Complexity</label>
+                        <select id="complexity">
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate" selected>Intermediate</option>
+                            <option value="expert">Expert</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="seed">Seed (optional)</label>
+                        <input type="number" id="seed" placeholder="Random" min="0">
+                    </div>
+                </div>
+
+                <div class="control-section">
+                    <h3>📤 Export</h3>
+                    <div class="export-buttons">
+                        <button id="btn-export-png" class="btn btn-primary">Export PNG</button>
+                        <button id="btn-export-jac" class="btn btn-secondary">Export JAC</button>
+                        <button id="btn-export-punch" class="btn btn-secondary">Punch Card</button>
+                        <button id="btn-export-lace" class="btn btn-secondary">Lace Chart</button>
+                        <button id="btn-export-csv" class="btn btn-secondary">CSV</button>
+                        <button id="btn-export-tiled" class="btn btn-secondary">Tiled Preview</button>
+                    </div>
+                </div>
+
+                <div class="control-section">
+                    <h3>💾 Presets</h3>
+                    <div class="preset-actions">
+                        <button id="btn-save-preset" class="btn btn-secondary">Save Preset</button>
+                        <select id="preset-select">
+                            <option value="">Load preset...</option>
+                        </select>
+                        <button id="btn-delete-preset" class="btn btn-danger">Delete</button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Canvas Area -->
+            <main class="canvas-area">
+                <div class="canvas-toolbar">
+                    <button id="btn-generate" class="btn btn-generate">🧬 Generate Pattern</button>
+                    <span id="status" class="status">Ready</span>
+                    <label class="toggle-label">
+                        <input type="checkbox" id="auto-generate" checked>
+                        Auto-generate
+                    </label>
+                </div>
+
+                <div class="canvas-container">
+                    <canvas id="pattern-canvas"></canvas>
+                    <div id="loading-overlay" class="loading-overlay hidden">
+                        <div class="spinner"></div>
+                        <p>Generating pattern...</p>
+                    </div>
+                </div>
+
+                <!-- Repeat Preview -->
+                <div class="repeat-preview hidden" id="repeat-section">
+                    <h4>Pattern Repeat</h4>
+                    <div class="repeat-container">
+                        <canvas id="repeat-canvas"></canvas>
+                        <span id="repeat-info" class="repeat-info"></span>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

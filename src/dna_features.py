@@ -1,9 +1,8 @@
-"""DNA Feature Extraction — computes sequence statistics that drive pattern decisions.
+"""
+DNA Feature Extractor — extracts semantic features from DNA sequences
+to drive multi-layer pattern generation.
 
-Phase 3: Extracts GC content, k-mer frequencies, palindromes, homopolymers,
-repeats, codons, and Shannon entropy from a cleaned DNA sequence.
-
-All functions operate on uppercase ATGC-only strings.
+Phase 3: Replaces single-base→RGB mapping with rich feature extraction.
 """
 
 from __future__ import annotations
@@ -11,331 +10,182 @@ from __future__ import annotations
 import math
 import re
 from collections import Counter
-from typing import Any, Dict, List, Tuple
+from dataclasses import dataclass, field
+from typing import Dict, List, Tuple
 
 
-# ── GC Content ─────────────────────────────────────────────
+@dataclass
+class DNAFeatures:
+    """All extracted features from a DNA sequence."""
+    sequence: str
+    length: int
 
-def gc_content(sequence: str) -> float:
-    """Overall GC percentage (0.0–1.0)."""
-    if not sequence:
-        return 0.0
-    gc = sum(1 for b in sequence if b in "GC")
-    return gc / len(sequence)
+    # ── Composition ──────────────────────────────────────
+    base_counts: Dict[str, int] = field(default_factory=dict)
+    base_frequencies: Dict[str, float] = field(default_factory=dict)
+    gc_content: float = 0.0
+    at_content: float = 0.0
 
+    # ── k-mer analysis ───────────────────────────────────
+    di_nucleotides: Dict[str, int] = field(default_factory=dict)
+    tri_nucleotides: Dict[str, int] = field(default_factory=dict)
+    tetra_nucleotides: Dict[str, int] = field(default_factory=dict)
+    dominant_dinuc: str = ""
+    dominant_trinuc: str = ""
+    dominant_tetra: str = ""
 
-def gc_sliding_window(
-    sequence: str,
-    window_size: int = 50,
-    step: int = 25,
-) -> List[Dict[str, Any]]:
-    """GC content in sliding windows.
+    # ── Structural patterns ──────────────────────────────
+    homopolymer_runs: List[Tuple[str, int, int]] = field(default_factory=list)  # (base, start, length)
+    palindromes: List[Tuple[str, int, int]] = field(default_factory=list)  # (seq, start, length)
+    repeats: List[Tuple[str, int, int]] = field(default_factory=list)  # (motif, start, repeat_count)
 
-    Returns list of dicts with 'start', 'end', 'gc' keys.
-    """
-    results: List[Dict[str, Any]] = []
-    for i in range(0, len(sequence) - window_size + 1, step):
-        window = sequence[i : i + window_size]
-        gc = sum(1 for b in window if b in "GC") / len(window)
-        results.append({"start": i, "end": i + window_size, "gc": gc})
-    return results
+    # ── Codon table (triplet reading frame) ──────────────
+    codons: List[str] = field(default_factory=list)
+    codon_frequencies: Dict[str, int] = field(default_factory=dict)
 
-
-# ── K-mer Frequencies ──────────────────────────────────────
-
-def kmer_counts(sequence: str, k: int = 3) -> Dict[str, int]:
-    """Count all k-mers in the sequence."""
-    if len(sequence) < k:
-        return {}
-    counter: Counter = Counter()
-    for i in range(len(sequence) - k + 1):
-        counter[sequence[i : i + k]] += 1
-    return dict(counter)
+    # ── Derived pattern parameters ───────────────────────
+    complexity_score: float = 0.0  # 0-1, drives color count & motif density
+    symmetry_score: float = 0.0    # 0-1, drives symmetry preference
+    rhythm_score: float = 0.0      # 0-1, drives repeat density vs randomness
+    entropy: float = 0.0           # Shannon entropy of base distribution
 
 
-def kmer_frequencies(sequence: str, k: int = 3) -> Dict[str, float]:
-    """Normalized k-mer frequencies (sum to 1.0)."""
-    counts = kmer_counts(sequence, k)
-    total = sum(counts.values())
-    if total == 0:
-        return {}
-    return {km: c / total for km, c in counts.items()}
+def extract_features(sequence: str) -> DNAFeatures:
+    """Extract all features from a cleaned DNA sequence."""
+    seq = sequence.upper()
+    length = len(seq)
 
+    features = DNAFeatures(sequence=seq, length=length)
 
-def dominant_kmers(sequence: str, k: int = 3, top_n: int = 5) -> List[Tuple[str, int]]:
-    """Return the top-N most frequent k-mers."""
-    counts = kmer_counts(sequence, k)
-    return sorted(counts.items(), key=lambda x: -x[1])[:top_n]
+    # ── Base composition ─────────────────────────────────
+    counts = Counter(seq)
+    features.base_counts = {b: counts.get(b, 0) for b in "ATGC"}
+    features.base_frequencies = {b: c / max(length, 1) for b, c in features.base_counts.items()}
+    features.gc_content = (features.base_counts["G"] + features.base_counts["C"]) / max(length, 1)
+    features.at_content = (features.base_counts["A"] + features.base_counts["T"]) / max(length, 1)
 
+    # ── k-mer frequencies ────────────────────────────────
+    features.di_nucleotides = _count_kmers(seq, 2)
+    features.tri_nucleotides = _count_kmers(seq, 3)
+    features.tetra_nucleotides = _count_kmers(seq, 4)
 
-# ── Palindromes ────────────────────────────────────────────
+    if features.di_nucleotides:
+        features.dominant_dinuc = max(features.di_nucleotides, key=features.di_nucleotides.get)
+    if features.tri_nucleotides:
+        features.dominant_trinuc = max(features.tri_nucleotides, key=features.tri_nucleotides.get)
+    if features.tetra_nucleotides:
+        features.dominant_tetra = max(features.tetra_nucleotides, key=features.tetra_nucleotides.get)
 
-_COMPLEMENT = str.maketrans("ATGC", "TACG")
+    # ── Homopolymer runs ─────────────────────────────────
+    features.homopolymer_runs = _find_homopolymers(seq)
 
+    # ── Palindromes ──────────────────────────────────────
+    features.palindromes = _find_palindromes(seq)
 
-def _reverse_complement(seq: str) -> str:
-    return seq.translate(_COMPLEMENT)[::-1]
+    # ── Tandem repeats ───────────────────────────────────
+    features.repeats = _find_repeats(seq)
 
+    # ── Codons (reading frame 1) ─────────────────────────
+    features.codons = [seq[i:i+3] for i in range(0, length - 2, 3)]
+    features.codon_frequencies = dict(Counter(features.codons))
 
-def find_palindromes(sequence: str, min_len: int = 4) -> List[Dict[str, Any]]:
-    """Find DNA palindromic sequences (equal to their reverse complement).
+    # ── Shannon entropy ──────────────────────────────────
+    freqs = [f for f in features.base_frequencies.values() if f > 0]
+    features.entropy = -sum(f * math.log2(f) for f in freqs)
 
-    Returns list of dicts with 'sequence', 'start', 'length'.
-    """
-    results: List[Dict[str, Any]] = []
-    for length in range(min_len, len(sequence) + 1, 2):
-        for i in range(len(sequence) - length + 1):
-            sub = sequence[i : i + length]
-            if sub == _reverse_complement(sub):
-                results.append({"sequence": sub, "start": i, "length": length})
-    # Keep only maximal palindromes (no palindrome is substring of another)
-    maximal = []
-    for p in results:
-        if not any(
-            o["start"] <= p["start"] and o["start"] + o["length"] >= p["start"] + p["length"]
-            and o["length"] > p["length"]
-            for o in results
-        ):
-            maximal.append(p)
-    return maximal
+    # ── Derived scores ───────────────────────────────────
+    # Complexity: higher when more diverse k-mers, moderate GC
+    kmer_diversity = len(features.tri_nucleotides) / max(len(features.codons), 1)
+    gc_balance = 1.0 - abs(features.gc_content - 0.5) * 2  # peaks at 50% GC
+    features.complexity_score = min(1.0, (kmer_diversity * 0.6 + gc_balance * 0.4))
 
+    # Symmetry: higher with more palindromes and balanced composition
+    palindrome_density = len(features.palindromes) / max(length / 10, 1)
+    composition_balance = 1.0 - max(features.base_frequencies.values()) + min(features.base_frequencies.values())
+    features.symmetry_score = min(1.0, (palindrome_density * 0.5 + composition_balance * 0.5))
 
-# ── Homopolymers ───────────────────────────────────────────
-
-def find_homopolymers(sequence: str, min_run: int = 3) -> List[Dict[str, Any]]:
-    """Find runs of the same base (e.g. AAAAA).
-
-    Returns list of dicts with 'base', 'start', 'length'.
-    """
-    results: List[Dict[str, Any]] = []
-    if not sequence:
-        return results
-    current_base = sequence[0]
-    run_start = 0
-    for i in range(1, len(sequence)):
-        if sequence[i] != current_base:
-            run_len = i - run_start
-            if run_len >= min_run:
-                results.append({"base": current_base, "start": run_start, "length": run_len})
-            current_base = sequence[i]
-            run_start = i
-    # Last run
-    run_len = len(sequence) - run_start
-    if run_len >= min_run:
-        results.append({"base": current_base, "start": run_start, "length": run_len})
-    return results
-
-
-def homopolymer_stats(sequence: str) -> Dict[str, Any]:
-    """Summary statistics about homopolymer runs."""
-    runs = find_homopolymers(sequence, min_run=2)
-    if not runs:
-        return {"total_runs": 0, "max_length": 0, "by_base": {}}
-    by_base: Dict[str, List[int]] = {}
-    for r in runs:
-        by_base.setdefault(r["base"], []).append(r["length"])
-    return {
-        "total_runs": len(runs),
-        "max_length": max(r["length"] for r in runs),
-        "by_base": {b: {"count": len(lengths), "max_length": max(lengths)} for b, lengths in by_base.items()},
-    }
-
-
-# ── Repeats ────────────────────────────────────────────────
-
-def find_tandem_repeats(sequence: str, min_unit: int = 2, max_unit: int = 6, min_copies: int = 2) -> List[Dict[str, Any]]:
-    """Find tandem repeats (e.g. ATATAT = AT repeated 3 times).
-
-    Returns list of dicts with 'unit', 'copies', 'start', 'length'.
-    """
-    results: List[Dict[str, Any]] = []
-    for unit_len in range(min_unit, min(max_unit + 1, len(sequence) // 2 + 1)):
-        i = 0
-        while i <= len(sequence) - unit_len * min_copies:
-            unit = sequence[i : i + unit_len]
-            copies = 0
-            j = i
-            while j + unit_len <= len(sequence) and sequence[j : j + unit_len] == unit:
-                copies += 1
-                j += unit_len
-            if copies >= min_copies:
-                results.append({"unit": unit, "copies": copies, "start": i, "length": copies * unit_len})
-                i = j  # skip past this repeat
-            else:
-                i += 1
-    return results
-
-
-def microsatellites(sequence: str, min_copies: int = 4) -> List[Dict[str, Any]]:
-    """Find microsatellites (short tandem repeats, 1–6 bp units)."""
-    return find_tandem_repeats(sequence, min_unit=1, max_unit=6, min_copies=min_copies)
-
-
-# ── Codons ─────────────────────────────────────────────────
-
-def codon_analysis(sequence: str, reading_frame: int = 0) -> Dict[str, Any]:
-    """Analyze codons in a given reading frame (0, 1, or 2).
-
-    Returns dict with 'frame', 'codons' (Counter-like dict), 'total_codons',
-    'stop_codons', 'start_codons'.
-    """
-    frame = reading_frame % 3
-    codons = sequence[frame:]
-    codon_counts: Counter = Counter()
-    stop_codons = 0
-    start_codons = 0
-    for i in range(0, len(codons) - 2, 3):
-        c = codons[i : i + 3]
-        if len(c) == 3:
-            codon_counts[c] += 1
-            if c in ("TAA", "TAG", "TGA"):
-                stop_codons += 1
-            if c == "ATG":
-                start_codons += 1
-    return {
-        "frame": frame,
-        "codons": dict(codon_counts),
-        "total_codons": sum(codon_counts.values()),
-        "stop_codons": stop_codons,
-        "start_codons": start_codons,
-    }
-
-
-# ── Shannon Entropy ────────────────────────────────────────
-
-def shannon_entropy(sequence: str) -> float:
-    """Shannon entropy of the sequence (bits per symbol).
-
-    Maximum for DNA is 2.0 (equal distribution of 4 bases).
-    """
-    if not sequence:
-        return 0.0
-    counter = Counter(sequence)
-    length = len(sequence)
-    entropy = 0.0
-    for count in counter.values():
-        p = count / length
-        if p > 0:
-            entropy -= p * math.log2(p)
-    return entropy
-
-
-def entropy_sliding_window(
-    sequence: str,
-    window_size: int = 50,
-    step: int = 25,
-) -> List[Dict[str, Any]]:
-    """Shannon entropy in sliding windows."""
-    results: List[Dict[str, Any]] = []
-    for i in range(0, len(sequence) - window_size + 1, step):
-        window = sequence[i : i + window_size]
-        ent = shannon_entropy(window)
-        results.append({"start": i, "end": i + window_size, "entropy": ent})
-    return results
-
-
-# ── Base Composition ──────────────────────────────────────
-
-def base_composition(sequence: str) -> Dict[str, float]:
-    """Fraction of each base in the sequence."""
-    if not sequence:
-        return {"A": 0.0, "T": 0.0, "G": 0.0, "C": 0.0}
-    counter = Counter(sequence)
-    length = len(sequence)
-    return {b: counter.get(b, 0) / length for b in "ATGC"}
-
-
-# ── Master Feature Extraction ──────────────────────────────
-
-def extract_features(
-    sequence: str,
-    kmer_sizes: Tuple[int, ...] = (3, 4),
-    gc_window: int = 50,
-    gc_step: int = 25,
-) -> Dict[str, Any]:
-    """Extract ALL DNA features into a single structured dict.
-
-    This is the main entry point for the pipeline.
-
-    Args:
-        sequence: Cleaned DNA string (uppercase ATGC).
-        kmer_sizes: Which k-mer sizes to compute.
-        gc_window: Window size for sliding GC.
-        gc_step: Step size for sliding GC.
-
-    Returns:
-        Dict with keys: length, gc_content, base_composition,
-        kmer_frequencies, palindromes, homopolymers, homopolymer_stats,
-        tandem_repeats, microsatellites, codons, shannon_entropy,
-        gc_sliding_window, entropy_sliding_window.
-    """
-    features: Dict[str, Any] = {
-        "length": len(sequence),
-        "gc_content": gc_content(sequence),
-        "base_composition": base_composition(sequence),
-        "shannon_entropy": shannon_entropy(sequence),
-    }
-
-    # K-mers
-    kmers: Dict[str, Dict[str, float]] = {}
-    for k in kmer_sizes:
-        if len(sequence) >= k:
-            kmers[f"{k}mers"] = kmer_frequencies(sequence, k)
-    features["kmer_frequencies"] = kmers
-
-    # Palindromes (limit for long sequences)
-    pal_limit = 20 if len(sequence) > 500 else 50
-    pals = find_palindromes(sequence, min_len=4)
-    features["palindromes"] = pals[:pal_limit]
-    features["palindrome_count"] = len(pals)
-
-    # Homopolymers
-    features["homopolymers"] = find_homopolymers(sequence, min_run=3)
-    features["homopolymer_stats"] = homopolymer_stats(sequence)
-
-    # Repeats (limit for long sequences)
-    repeats = find_tandem_repeats(sequence, min_unit=2, max_unit=6, min_copies=2)
-    features["tandem_repeats"] = repeats[:30]
-    features["repeat_count"] = len(repeats)
-
-    micros = microsatellites(sequence, min_copies=4)
-    features["microsatellites"] = micros[:20]
-
-    # Codons (frame 0)
-    features["codons"] = codon_analysis(sequence, reading_frame=0)
-
-    # Sliding windows
-    if len(sequence) >= gc_window:
-        features["gc_sliding_window"] = gc_sliding_window(sequence, gc_window, gc_step)
-        features["entropy_sliding_window"] = entropy_sliding_window(sequence, gc_window, gc_step)
-    else:
-        features["gc_sliding_window"] = []
-        features["entropy_sliding_window"] = []
+    # Rhythm: higher with more homopolymers and repeats (structured)
+    homopolymer_fraction = sum(l for _, _, l in features.homopolymer_runs) / max(length, 1)
+    repeat_fraction = sum(rc * len(m) for m, _, rc in features.repeats) / max(length, 1)
+    features.rhythm_score = min(1.0, homopolymer_fraction * 0.5 + repeat_fraction * 0.5)
 
     return features
 
 
-def select_dna_base(features: Dict[str, Any]) -> str:
-    """Pick a 'dominant' base from features for motif/symbol selection.
-
-    Uses base composition, ties broken by GC content.
-    """
-    bc = features.get("base_composition", {})
-    if not bc:
-        return "A"
-    return max(bc, key=lambda b: bc[b])
+def _count_kmers(sequence: str, k: int) -> Dict[str, int]:
+    """Count all k-mers in a sequence."""
+    return dict(Counter(sequence[i:i+k] for i in range(len(sequence) - k + 1)))
 
 
-def entropy_to_complexity(entropy: float) -> str:
-    """Map Shannon entropy to a complexity level string."""
-    if entropy >= 1.8:
-        return "expert"
-    elif entropy >= 1.4:
-        return "intermediate"
-    else:
-        return "beginner"
+def _find_homopolymers(sequence: str, min_length: int = 3) -> List[Tuple[str, int, int]]:
+    """Find runs of the same nucleotide."""
+    runs = []
+    for base in "ATGC":
+        pattern = re.compile(rf"{base}{{{min_length},}}")
+        for match in pattern.finditer(sequence):
+            runs.append((base, match.start(), len(match.group())))
+    return sorted(runs, key=lambda x: -x[2])
 
 
-def gc_to_color_index(gc: float, palette_size: int = 8) -> int:
-    """Map GC content (0–1) to a palette color index."""
-    return min(int(gc * palette_size), palette_size - 1)
+def _find_palindromes(sequence: str, min_length: int = 4) -> List[Tuple[str, int, int]]:
+    """Find palindromic sequences (DNA complement palindrome: A↔T, G↔C)."""
+    complement = str.maketrans("ATGC", "TACG")
+    palindromes = []
+    for length in range(min_length, min(len(sequence) // 2, 13), 2):
+        for i in range(len(sequence) - length + 1):
+            sub = sequence[i:i+length]
+            if sub == sub.translate(complement)[::-1]:
+                # Avoid nested palindromes — only keep longest
+                palindromes.append((sub, i, length))
+    # Filter out substrings of longer palindromes
+    result = []
+    for p in sorted(palindromes, key=lambda x: -x[2]):
+        if not any(
+            other[1] <= p[1] and other[1] + other[2] >= p[1] + p[2] and other[2] > p[2]
+            for other in palindromes if other is not p
+        ):
+            result.append(p)
+    return result[:20]  # Cap
+
+
+def _find_repeats(
+    sequence: str, min_motif_len: int = 2, max_motif_len: int = 8, min_repeats: int = 3
+) -> List[Tuple[str, int, int]]:
+    """Find tandem repeats (e.g., ATATAT = AT repeated 3x)."""
+    repeats = []
+    for motif_len in range(min_motif_len, max_motif_len + 1):
+        i = 0
+        while i <= len(sequence) - motif_len * min_repeats:
+            motif = sequence[i:i+motif_len]
+            count = 0
+            while i + (count + 1) * motif_len <= len(sequence):
+                if sequence[i + count*motif_len:i + (count+1)*motif_len] == motif:
+                    count += 1
+                else:
+                    break
+            if count >= min_repeats:
+                repeats.append((motif, i, count))
+                i += count * motif_len
+            else:
+                i += 1
+    return sorted(repeats, key=lambda x: -(x[2] * len(x[0])))[:15]
+
+
+def get_kmer_signature(features: DNAFeatures, top_n: int = 10) -> List[Tuple[str, int]]:
+    """Get the top N most frequent k-mers (any length)."""
+    all_kmers = {}
+    all_kmers.update(features.di_nucleotides)
+    all_kmers.update(features.tri_nucleotides)
+    all_kmers.update(features.tetra_nucleotides)
+    return sorted(all_kmers.items(), key=lambda x: -x[1])[:top_n]
+
+
+def sequence_similarity(seq_a: str, seq_b: str) -> float:
+    """Compute simple sequence similarity (shared k-mer fraction)."""
+    kmers_a = set(_count_kmers(seq_a, 3).keys())
+    kmers_b = set(_count_kmers(seq_b, 3).keys())
+    if not kmers_a or not kmers_b:
+        return 0.0
+    intersection = kmers_a & kmers_b
+    union = kmers_a | kmers_b
+    return len(intersection) / len(union)

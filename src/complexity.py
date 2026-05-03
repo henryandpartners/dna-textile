@@ -145,3 +145,63 @@ def get_max_pattern_density(level: str) -> float:
     if constraints:
         return constraints.get("max_pattern_density", 0.6)
     return 0.6
+
+
+# ── Entropy-based density ─────────────────────────────────
+
+def get_density_from_entropy(features) -> float:
+    """
+    Compute pattern density from Shannon entropy of DNA features.
+
+    Low entropy (< 1.0): dense, structured patterns (0.8-1.0 density)
+    Medium entropy (1.0-1.8): moderate patterns (0.4-0.7 density)
+    High entropy (> 1.8): sparse, chaotic patterns (0.1-0.3 density)
+
+    Args:
+        features: DNAFeatures object with an `entropy` attribute.
+
+    Returns:
+        Density float in [0.0, 1.0].
+    """
+    entropy = getattr(features, "entropy", 2.0)
+
+    if entropy < 1.0:
+        # Low entropy → dense patterns
+        # Map [0, 1.0) → [1.0, 0.8]
+        density = 1.0 - (entropy / 1.0) * 0.2
+    elif entropy < 1.8:
+        # Medium entropy → moderate patterns
+        # Map [1.0, 1.8) → [0.8, 0.4]
+        density = 0.8 - ((entropy - 1.0) / 0.8) * 0.4
+    else:
+        # High entropy → sparse patterns
+        # Map [1.8, 2.0+] → [0.4, 0.1]
+        density = max(0.1, 0.4 - ((entropy - 1.8) / 0.2) * 0.3)
+
+    return max(0.0, min(1.0, density))
+
+
+# Alias mapping for test compatibility
+_LEVEL_ALIASES = {
+    "default": "intermediate",
+    "easy": "beginner",
+    "hard": "expert",
+}
+
+
+class ComplexityManager:
+    """Thin wrapper for complexity functions."""
+
+    def __init__(self):
+        self.current_level = get_default_level()
+
+    def get_levels(self) -> List[str]:
+        return get_all_levels()
+
+    def get_level(self, level_name: str) -> Optional[Dict[str, Any]]:
+        # Resolve aliases
+        resolved = _LEVEL_ALIASES.get(level_name, level_name)
+        return get_level_info(resolved)
+
+    def set_level(self, level_name: str) -> None:
+        self.current_level = level_name
