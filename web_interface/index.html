@@ -119,6 +119,28 @@
                         <button id="btn-delete-preset" class="btn btn-danger">Delete</button>
                     </div>
                 </div>
+
+                <div class="control-section">
+                    <h3>📷 Image Reference</h3>
+                    <div class="upload-area" id="upload-area">
+                        <p>Drop image here or click to upload</p>
+                        <input type="file" id="image-upload" accept="image/*" hidden>
+                    </div>
+                    <div id="upload-preview" class="upload-preview hidden">
+                        <img id="upload-thumb" alt="Uploaded reference">
+                        <button id="btn-clear-upload" class="btn btn-secondary btn-small">Clear</button>
+                    </div>
+                    <button id="btn-generate-from-color" class="btn btn-secondary" disabled>
+                        🎨 Generate from Reference Colors
+                    </button>
+                </div>
+
+                <div class="control-section">
+                    <h3>🏛️ Community Reference</h3>
+                    <div id="reference-panel" class="reference-panel">
+                        <p class="ref-loading">Loading reference images...</p>
+                    </div>
+                </div>
             </aside>
 
             <!-- Main Canvas Area -->
@@ -130,6 +152,13 @@
                         <input type="checkbox" id="auto-generate" checked>
                         Auto-generate
                     </label>
+                    <select id="zoom-level" class="zoom-select">
+                        <option value="fit">Fit</option>
+                        <option value="1">1:1</option>
+                        <option value="2">2x</option>
+                        <option value="4">4x</option>
+                    </select>
+                    <button id="btn-fullscreen" class="btn btn-secondary btn-small">⛶ Fullscreen</button>
                 </div>
 
                 <div class="canvas-container">

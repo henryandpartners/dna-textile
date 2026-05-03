@@ -27,12 +27,22 @@
     const autoGenerate = document.getElementById('auto-generate');
     const seqLength = document.getElementById('seq-length');
     const presetSelect = document.getElementById('preset-select');
+    const zoomLevel = document.getElementById('zoom-level');
+    const btnFullscreen = document.getElementById('btn-fullscreen');
+    const uploadArea = document.getElementById('upload-area');
+    const imageUpload = document.getElementById('image-upload');
+    const uploadPreview = document.getElementById('upload-preview');
+    const uploadThumb = document.getElementById('upload-thumb');
+    const btnClearUpload = document.getElementById('btn-clear-upload');
+    const btnGenFromColor = document.getElementById('btn-generate-from-color');
+    const referencePanel = document.getElementById('reference-panel');
 
     const ctx = patternCanvas.getContext('2d');
     const rctx = repeatCanvas.getContext('2d');
 
     let currentData = null; // Last generated pattern data
     let debounceTimer = null;
+    let uploadedImageData = null;
 
     // ── API Base URL ────────────────────────────────────────
     const API_BASE = window.location.origin;
@@ -66,6 +76,7 @@
             imageData.data[idx + 3] = 255;        // A
         }
         ctx.putImageData(imageData, 0, 0);
+        applyZoom();
     }
 
     function renderRepeat(data) {
@@ -254,6 +265,185 @@
         if (autoGenerate.checked) generatePattern();
     }
 
+    // ── Zoom Controls ──────────────────────────────────────
+    function applyZoom() {
+        if (!currentData) return;
+        const zoom = zoomLevel.value;
+        const canvas = patternCanvas;
+
+        if (zoom === 'fit') {
+            canvas.style.width = '';
+            canvas.style.height = '';
+            canvas.style.maxWidth = '100%';
+            canvas.style.maxHeight = '80vh';
+        } else {
+            const scale = parseInt(zoom);
+            canvas.style.width = `${canvas.width * scale}px`;
+            canvas.style.height = `${canvas.height * scale}px`;
+            canvas.style.maxWidth = 'none';
+            canvas.style.maxHeight = 'none';
+        }
+    }
+
+    function showLightbox(url) {
+        const lb = document.createElement('div');
+        lb.className = 'lightbox';
+        const img = document.createElement('img');
+        img.src = url;
+        lb.appendChild(img);
+        lb.addEventListener('click', () => lb.remove());
+        document.body.appendChild(lb);
+    }
+
+    // ── Community Reference Images ─────────────────────────
+    async function loadReferenceImages() {
+        const panel = referencePanel;
+        const communityName = community.value;
+        panel.innerHTML = '<p class="ref-loading">Loading reference images...</p>';
+
+        try {
+            const resp = await fetch(`${API_BASE}/api/community-images?community=${encodeURIComponent(communityName)}`);
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+            const data = await resp.json();
+
+            if (data.count === 0) {
+                panel.innerHTML = `<div class="ref-placeholder">
+                    📸 No reference images available for ${communityName}<br>
+                    <small>Reference images coming soon</small>
+                </div>`;
+                return;
+            }
+
+            panel.innerHTML = '';
+            data.images.forEach(url => {
+                const img = document.createElement('img');
+                img.src = url;
+                img.alt = `${communityName} reference`;
+                img.loading = 'lazy';
+                img.addEventListener('click', () => showLightbox(url));
+                panel.appendChild(img);
+            });
+
+            const caption = document.createElement('div');
+            caption.className = 'reference-caption';
+            caption.textContent = `${data.count} reference images — click to enlarge`;
+            panel.appendChild(caption);
+        } catch (err) {
+            panel.innerHTML = `<div class="ref-placeholder">⚠️ Error loading references: ${err.message}</div>`;
+        }
+    }
+
+    // ── Image Upload for Color Reference ───────────────────
+    uploadArea.addEventListener('click', () => imageUpload.click());
+
+    uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.classList.add('dragover');
+    });
+
+    uploadArea.addEventListener('dragleave', () => {
+        uploadArea.classList.remove('dragover');
+    });
+
+    uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+        if (e.dataTransfer.files.length) {
+            handleImageUpload(e.dataTransfer.files[0]);
+        }
+    });
+
+    imageUpload.addEventListener('change', (e) => {
+        if (e.target.files.length) {
+            handleImageUpload(e.target.files[0]);
+        }
+    });
+
+    async function handleImageUpload(file) {
+        if (!file.type.startsWith('image/')) {
+            setStatus('Please upload an image file');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            uploadThumb.src = e.target.result;
+            uploadPreview.classList.remove('hidden');
+            uploadArea.classList.add('hidden');
+            btnGenFromColor.disabled = false;
+        };
+        reader.readAsDataURL(file);
+
+        const formData = new FormData();
+        formData.append('image', file);
+
+        try {
+            const resp = await fetch(`${API_BASE}/api/extract-colors`, {
+                method: 'POST',
+                body: formData
+            });
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+            uploadedImageData = await resp.json();
+            setStatus(`Extracted ${uploadedImageData.colors.length} colors from reference image`);
+        } catch (err) {
+            setStatus(`Color extraction failed: ${err.message}`);
+        }
+    }
+
+    btnClearUpload.addEventListener('click', () => {
+        uploadedImageData = null;
+        uploadPreview.classList.add('hidden');
+        uploadArea.classList.remove('hidden');
+        imageUpload.value = '';
+        btnGenFromColor.disabled = true;
+    });
+
+    btnGenFromColor.addEventListener('click', async () => {
+        if (!uploadedImageData) return;
+
+        showLoading(true);
+        setStatus('Generating from reference colors...');
+
+        const seq = dnaInput.value.replace(/[^ATGCatgc]/g, '').toUpperCase();
+        if (!seq) {
+            setStatus('Please enter a DNA sequence');
+            showLoading(false);
+            return;
+        }
+
+        try {
+            const resp = await fetch(`${API_BASE}/api/generate-from-colors`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    colors: uploadedImageData.colors,
+                    sequence: seq,
+                    pattern_type: patternType.value,
+                    community: community.value,
+                    grid_size: parseInt(gridSize.value),
+                    stitch_ratio: parseFloat(stitchRatio.value),
+                    complexity: complexity.value,
+                })
+            });
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+            const data = await resp.json();
+
+            if (data.error) {
+                setStatus(`Error: ${data.error}`);
+                return;
+            }
+
+            currentData = data;
+            renderPattern(data);
+            setStatus(`Generated from ${data.colors_used} reference colors — ${data.pattern_type}`);
+            applyZoom();
+        } catch (err) {
+            setStatus(`Generation failed: ${err.message}`);
+        } finally {
+            showLoading(false);
+        }
+    });
+
     // ── Event Listeners ─────────────────────────────────────
     function debouncedGenerate() {
         if (!autoGenerate.checked) return;
@@ -297,9 +487,22 @@
 
     seedInput.addEventListener('change', debouncedGenerate);
 
+    // Zoom controls
+    zoomLevel.addEventListener('change', applyZoom);
+    btnFullscreen.addEventListener('click', () => {
+        const canvas = patternCanvas;
+        if (canvas.requestFullscreen) {
+            canvas.requestFullscreen();
+        }
+    });
+
+    // Community reference images
+    community.addEventListener('change', loadReferenceImages);
+
     // ── Initialize ──────────────────────────────────────────
     updateSeqLength();
     loadPresets();
+    loadReferenceImages();
 
     // Auto-generate on load if DNA is present
     if (dnaInput.value.trim()) {

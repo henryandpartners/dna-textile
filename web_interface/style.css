@@ -289,8 +289,8 @@ body {
 
 #pattern-canvas {
     image-rendering: pixelated;
-    max-width: 100%;
-    max-height: 600px;
+    max-height: 800px;
+    min-height: 500px;
 }
 
 .loading-overlay {
@@ -372,4 +372,125 @@ body {
 .controls-panel::-webkit-scrollbar-thumb {
     background: var(--border);
     border-radius: 3px;
+}
+
+/* Zoom Controls */
+.zoom-select {
+    padding: 6px 10px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-primary);
+    font-size: 0.85rem;
+}
+
+.zoom-select:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.btn-small {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+}
+
+/* Upload Area */
+.upload-area {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+.upload-area:hover {
+    border-color: var(--accent);
+    background: rgba(233, 69, 96, 0.05);
+}
+
+.upload-area.dragover {
+    border-color: var(--accent);
+    background: rgba(233, 69, 96, 0.1);
+}
+
+.upload-preview {
+    margin-top: 8px;
+    position: relative;
+}
+
+.upload-preview img {
+    width: 100%;
+    max-height: 120px;
+    object-fit: cover;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+}
+
+/* Reference Panel */
+.reference-panel {
+    max-height: 300px;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.reference-panel img {
+    width: 100%;
+    max-width: 130px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.reference-panel img:hover {
+    transform: scale(1.8);
+    z-index: 100;
+    position: relative;
+}
+
+.ref-placeholder {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    padding: 16px 8px;
+    text-align: center;
+    width: 100%;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+}
+
+.ref-loading {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+.reference-caption {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 4px;
+}
+
+/* Lightbox */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+.lightbox img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
 }

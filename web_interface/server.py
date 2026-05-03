@@ -15,6 +15,7 @@ from pathlib import Path
 
 import numpy as np
 from flask import Flask, request, jsonify, send_file, send_from_directory
+from PIL import Image
 
 # Ensure project root is importable
 _project_root = Path(__file__).resolve().parent.parent
@@ -218,6 +219,122 @@ def api_export():
 
     else:
         return jsonify({"error": f"Unknown format: {fmt}"}), 400
+
+
+# ── Community Reference Images ───────────────────────────────
+
+@app.route("/api/community-images")
+def api_community_images():
+    """Return list of image URLs for a community."""
+    community = request.args.get("community", "generic")
+    base = _project_root
+    # Try the community directory name (handle multi-word like "Thai Lue")
+    dirs_to_check = [community.replace(" ", "_"), community.replace(" ", ""), community]
+    image_urls = []
+    for dirname in dirs_to_check:
+        img_dir = base / dirname
+        if img_dir.exists() and img_dir.is_dir():
+            for ext in ("jpg", "jpeg", "png", "gif", "webp"):
+                for f in sorted(img_dir.glob(f"*.{ext}")):
+                    rel = f.relative_to(base)
+                    image_urls.append(f"/api/serve-image/{rel}")
+            break
+    return jsonify({"community": community, "images": image_urls, "count": len(image_urls)})
+
+
+@app.route("/api/serve-image/<path:filepath>")
+def api_serve_image(filepath):
+    """Serve a community image file."""
+    base = _project_root
+    full_path = base / filepath
+    # Security: ensure path is within project root
+    try:
+        full_path.resolve().relative_to(base.resolve())
+    except ValueError:
+        return "Invalid path", 403
+    if not full_path.exists() or not full_path.is_file():
+        return "Not found", 404
+    return send_file(str(full_path))
+
+
+# ── Image Upload & Color Extraction ──────────────────────────
+
+@app.route("/api/extract-colors", methods=["POST"])
+def api_extract_colors():
+    """Extract dominant colors from an uploaded image."""
+    if "image" not in request.files:
+        return jsonify({"error": "No image provided"}), 400
+
+    file = request.files["image"]
+    if not file.filename:
+        return jsonify({"error": "No file selected"}), 400
+
+    try:
+        img = Image.open(file.stream).convert("RGB")
+        # Resize for processing
+        img.thumbnail((200, 200))
+        # Quantize to reduce colors
+        quantized = img.quantize(colors=8, method=Image.Quantize.MEDIANCUT)
+        palette = quantized.getpalette()
+        color_counts = quantized.getcolors(maxcolors=256)
+
+        if not color_counts:
+            return jsonify({"error": "Could not extract colors"}), 400
+
+        # Sort by count (descending)
+        color_counts.sort(key=lambda x: x[0], reverse=True)
+
+        # Extract dominant colors
+        colors = []
+        for count, idx in color_counts[:6]:
+            r = palette[idx * 3]
+            g = palette[idx * 3 + 1]
+            b = palette[idx * 3 + 2]
+            colors.append({"rgb": [r, g, b], "count": count, "hex": f"#{r:02x}{g:02x}{b:02x}"})
+
+        return jsonify({"colors": colors, "total_pixels": img.width * img.height})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/generate-from-colors", methods=["POST"])
+def api_generate_from_colors():
+    """Generate a pattern using uploaded image's color palette."""
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "No data provided"}), 400
+
+    colors = data.get("colors", [])
+    sequence = data.get("sequence", "ATGCATGC")
+
+    if len(colors) < 2:
+        return jsonify({"error": "Need at least 2 colors"}), 400
+
+    # Build a color map from extracted colors
+    bases = ["A", "T", "G", "C"]
+    color_map = {}
+    for i, c in enumerate(colors[:4]):
+        color_map[bases[i]] = tuple(c["rgb"])
+
+    # Generate using the custom color map
+    seq = parse_string(sequence)
+    gen = PatternGenerator(
+        grid_size=int(data.get("grid_size", 100)),
+        color_map=color_map,
+        community=data.get("community", "generic"),
+        complexity=data.get("complexity", "intermediate"),
+        stitch_ratio=float(data.get("stitch_ratio", 1.0)),
+    )
+    grid = gen.generate_grid(seq, pattern_type=data.get("pattern_type", "stripe"))
+
+    return jsonify({
+        "width": grid.shape[1],
+        "height": grid.shape[0],
+        "grid": _grid_to_list(grid),
+        "pattern_type": data.get("pattern_type", "stripe"),
+        "community": data.get("community", "generic"),
+        "colors_used": len(colors),
+    })
 
 
 # ── Main ─────────────────────────────────────────────────────
