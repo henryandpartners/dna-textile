@@ -17,7 +17,7 @@ import numpy as np
 from flask import Flask, request, jsonify, send_file, send_from_directory
 
 # Ensure project root is importable
-_project_root = Path(__file__).resolve().parent.parent.parent
+_project_root = Path(__file__).resolve().parent.parent
 if str(_project_root) not in sys.path:
     sys.path.insert(0, str(_project_root))
 
@@ -28,11 +28,11 @@ from src.repeat_preview import detect_repeat_unit
 
 app = Flask(
     __name__,
-    static_folder=str(_project_root / "web_interface"),
+    static_folder=str(Path(__file__).resolve().parent),
     static_url_path="/",
 )
 
-WEB_DIR = _project_root / "web_interface"
+WEB_DIR = Path(__file__).resolve().parent
 
 
 # ── Helpers ──────────────────────────────────────────────────
