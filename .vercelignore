@@ -1,0 +1,13 @@
+node_modules/
+reference_images/
+output/
+Hmong/
+Karen/
+Akha/
+gallery/
+htmlcov/
+.venv/
+venv/
+__pycache__/
+*.pyc
+.git/
