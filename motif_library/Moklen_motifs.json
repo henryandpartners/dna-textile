@@ -6,6 +6,10 @@
     {"id": "moklen_03", "name": "tide_mark", "type": "spiritual", "description": "Mark of the tidal rhythm", "grid": [[1,1,0,0,1,1]], "complexity": "beginner"},
     {"id": "moklen_04", "name": "fish_scale", "type": "animal", "description": "Scale pattern from fishing tradition", "grid": [[1,1,0],[0,1,1],[1,1,0]], "complexity": "beginner"},
     {"id": "moklen_05", "name": "shell_spiral", "type": "animal", "description": "Spiral from seashell pattern", "grid": [[1,1,1],[1,0,1],[1,1,1]], "complexity": "intermediate"},
-    {"id": "moklen_06", "name": "coral_branch", "type": "plant", "description": "Branching pattern from coral reefs", "grid": [[1,0,1],[0,1,0],[1,1,1]], "complexity": "beginner"}
+    {"id": "moklen_06", "name": "coral_branch", "type": "plant", "description": "Branching pattern from coral reefs", "grid": [[1,0,1],[0,1,0],[1,1,1]], "complexity": "beginner"},
+    {"id": "moklen_07", "name": "fishing_spear", "type": "animal", "description": "Spear pattern reflecting the Moklen tradition of spearfishing with wooden harpoons in shallow reefs", "grid": [[0,0,1,0,0],[0,1,1,1,0],[0,0,1,0,0],[0,0,1,0,0],[0,0,1,0,0],[1,1,1,1,1]], "complexity": "intermediate"},
+    {"id": "moklen_08", "name": "mangrove_root", "type": "plant", "description": "Tangled root pattern from the mangrove forests where Moklen build stilt houses and gather shellfish", "grid": [[1,0,1,0,1],[0,1,0,1,0],[1,0,0,0,1],[0,1,0,1,0]], "complexity": "intermediate"},
+    {"id": "moklen_09", "name": "monsoon_cloud", "type": "geometric", "description": "Heavy cloud band pattern representing the monsoon that shapes the Moklen seasonal cycle", "grid": [[1,1,1,1,1],[0,1,1,1,0],[0,0,1,0,0],[0,1,1,1,0]], "complexity": "beginner"},
+    {"id": "moklen_10", "name": "pearl_oyster", "type": "animal", "description": "Oyster shell pattern reflecting the Moklen practice of free-diving for pearls and mother-of-pearl", "grid": [[0,1,1,1,0],[1,1,1,1,1],[1,1,0,1,1],[0,1,1,1,0]], "complexity": "intermediate"}
   ]
 }

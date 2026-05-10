@@ -6,6 +6,10 @@
     {"id": "lua_03", "name": "healing_cross", "type": "spiritual", "description": "Cross used in healing ceremonies", "grid": [[0,1,0],[1,1,1],[0,1,0]], "complexity": "beginner"},
     {"id": "lua_04", "name": "ceremonial_band", "type": "spiritual", "description": "Band for ritual cloth", "grid": [[1,1,1,1,1]], "complexity": "beginner"},
     {"id": "lua_05", "name": "tree_root", "type": "plant", "description": "Root pattern from forest connection", "grid": [[1,0,1],[0,1,0],[1,1,1]], "complexity": "beginner"},
-    {"id": "lua_06", "name": "spirit_diamond", "type": "spiritual", "description": "Diamond shape for spirit communication", "grid": [[0,1,0],[1,0,1],[0,1,0]], "complexity": "beginner"}
+    {"id": "lua_06", "name": "spirit_diamond", "type": "spiritual", "description": "Diamond shape for spirit communication", "grid": [[0,1,0],[1,0,1],[0,1,0]], "complexity": "beginner"},
+    {"id": "lua_07", "name": "matrilocal_weave", "type": "spiritual", "description": "Interlocking pattern symbolizing the matrilocal household where daughters inherit the home", "grid": [[1,0,1],[1,1,1],[0,1,0]], "complexity": "intermediate"},
+    {"id": "lua_08", "name": "bronze_drumband", "type": "geometric", "description": "Concentric circle band echoing Khamu-influenced bronze drum decoration used in Lua spirit rites", "grid": [[0,1,1,1,0],[1,0,1,0,1],[1,1,0,1,1],[1,0,1,0,1],[0,1,1,1,0]], "complexity": "intermediate"},
+    {"id": "lua_09", "name": "forest_canopy", "type": "plant", "description": "Overlapping canopy layers from the dense upland rainforest where Lua villages are nestled", "grid": [[0,0,1,0,0],[0,1,1,1,0],[1,1,1,1,1]], "complexity": "beginner"},
+    {"id": "lua_10", "name": "hunting_spear", "type": "animal", "description": "Spearhead pattern reflecting the Lua tradition of forest hunting with blowpipe and spear", "grid": [[0,0,1,0,0],[0,1,1,1,0],[0,0,1,0,0],[0,0,1,0,0],[1,1,1,1,1]], "complexity": "intermediate"}
   ]
 }

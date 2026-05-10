@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   parseDNA,
   generatePattern,
@@ -121,16 +122,21 @@ export default function Home() {
       {/* Header */}
       <header className="border-b border-gray-800 bg-gray-900/50 backdrop-blur">
         <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="flex items-center gap-3">
-            <span className="text-3xl">🧬</span>
-            <div>
-              <h1 className="text-2xl font-bold tracking-tight">
-                DNA Textile Pattern Generator
-              </h1>
-              <p className="text-gray-400 text-sm mt-0.5">
-                Encode DNA sequences into Thai indigenous textile patterns
-              </p>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <span className="text-3xl">🧬</span>
+              <div>
+                <h1 className="text-2xl font-bold tracking-tight">
+                  DNA Textile Pattern Generator
+                </h1>
+                <p className="text-gray-400 text-sm mt-0.5">
+                  Encode DNA sequences into Thai indigenous textile patterns
+                </p>
+              </div>
             </div>
+            <Link href="/research" className="text-sm text-gray-400 hover:text-gray-200 transition px-4 py-2 rounded-lg border border-gray-700 hover:border-gray-500 flex items-center gap-2">
+              🔬 Research
+            </Link>
           </div>
         </div>
       </header>

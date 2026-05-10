@@ -5,6 +5,11 @@
     {"id": "mlabri_02", "name": "spirit_tree", "type": "spiritual", "description": "Sacred tree in the forest", "grid": [[0,1,0],[1,1,1],[0,1,0]], "complexity": "beginner"},
     {"id": "mlabri_03", "name": "nomad_mark", "type": "geometric", "description": "Simple mark left at camp sites", "grid": [[1,0,1]], "complexity": "beginner"},
     {"id": "mlabri_04", "name": "bark_line", "type": "geometric", "description": "Line pattern from bark cloth texture", "grid": [[1,1,1,1,1]], "complexity": "beginner"},
-    {"id": "mlabri_05", "name": "leaf_shape", "type": "plant", "description": "Simple leaf pattern from foraging", "grid": [[0,1,0],[1,1,1],[0,1,0]], "complexity": "beginner"}
+    {"id": "mlabri_05", "name": "leaf_shape", "type": "plant", "description": "Simple leaf pattern from foraging", "grid": [[0,1,0],[1,1,1],[0,1,0]], "complexity": "beginner"},
+    {"id": "mlabri_06", "name": "yellow_leaf", "type": "plant", "description": "Pattern of the yellow leaf that gives the Mlabri their nickname 'spirits of the yellow leaves'", "grid": [[0,0,1,0,0],[0,1,1,1,0],[1,1,0,1,1],[0,0,1,0,0]], "complexity": "intermediate"},
+    {"id": "mlabri_07", "name": "bamboo_shelter", "type": "geometric", "description": "Temporary bamboo lean-to shelter reflecting the Mlabri practice of building and abandoning camps", "grid": [[0,0,1,0,0],[0,1,1,1,0],[1,1,1,1,1],[0,1,0,1,0],[0,1,0,1,0]], "complexity": "intermediate"},
+    {"id": "mlabri_08", "name": "wild_boar", "type": "animal", "description": "Wild boar track pattern from the primary hunted animal in Mlabri tradition", "grid": [[1,0,0,0,1],[0,1,0,1,0],[0,0,1,0,0],[0,1,0,1,0]], "complexity": "beginner"},
+    {"id": "mlabri_09", "name": "mountain_stream", "type": "geometric", "description": "Flowing stream pattern from the mountain rivers where the Mlabri fish with baskets", "grid": [[0,1,0,1,0],[1,0,1,0,1],[0,1,0,1,0],[1,0,1,0,1]], "complexity": "intermediate"},
+    {"id": "mlabri_10", "name": "honey_comb", "type": "plant", "description": "Hexagonal honeycomb pattern reflecting Mlabri wild honey gathering from forest bee colonies", "grid": [[0,1,0],[1,0,1],[0,1,0],[1,0,1],[0,1,0]], "complexity": "beginner"}
   ]
 }

@@ -1,0 +1,74 @@
+{
+  "source": "Srikummool et al. + related population genetics studies",
+  "metric": "Fst genetic distance × 100",
+  "distance_matrix": {
+    "Karen": {
+      "Hmong": 6, "Mien": 7, "Lahu": 5, "Akha": 8, "Lisu": 8,
+      "Khamu": 9, "Palaung": 8, "Tai Dam": 10, "Tai Lue": 10,
+      "Lua": 9, "Mani": 18, "Mlabri": 20, "Moklen": 14, "Urak Lawoi": 16
+    },
+    "Hmong": {
+      "Mien": 4, "Lahu": 7, "Akha": 9, "Lisu": 9,
+      "Khamu": 8, "Palaung": 8, "Tai Dam": 9, "Tai Lue": 9,
+      "Lua": 8, "Mani": 16, "Mlabri": 18, "Moklen": 13, "Urak Lawoi": 15
+    },
+    "Mien": {
+      "Lahu": 7, "Akha": 9, "Lisu": 9,
+      "Khamu": 8, "Palaung": 8, "Tai Dam": 9, "Tai Lue": 9,
+      "Lua": 8, "Mani": 16, "Mlabri": 18, "Moklen": 13, "Urak Lawoi": 15
+    },
+    "Lahu": {
+      "Akha": 5, "Lisu": 4, "Khamu": 8, "Palaung": 7,
+      "Tai Dam": 9, "Tai Lue": 9, "Lua": 8,
+      "Mani": 17, "Mlabri": 19, "Moklen": 13, "Urak Lawoi": 15
+    },
+    "Akha": {
+      "Lisu": 4, "Khamu": 9, "Palaung": 8, "Tai Dam": 10, "Tai Lue": 10,
+      "Lua": 9, "Mani": 18, "Mlabri": 20, "Moklen": 14, "Urak Lawoi": 16
+    },
+    "Lisu": {
+      "Khamu": 9, "Palaung": 8, "Tai Dam": 10, "Tai Lue": 10,
+      "Lua": 9, "Mani": 18, "Mlabri": 20, "Moklen": 14, "Urak Lawoi": 16
+    },
+    "Khamu": {
+      "Palaung": 5, "Tai Dam": 8, "Tai Lue": 8, "Lua": 4,
+      "Mani": 16, "Mlabri": 18, "Moklen": 13, "Urak Lawoi": 15
+    },
+    "Palaung": {
+      "Tai Dam": 7, "Tai Lue": 7, "Lua": 5,
+      "Mani": 15, "Mlabri": 17, "Moklen": 12, "Urak Lawoi": 14
+    },
+    "Tai Dam": {
+      "Tai Lue": 3, "Lua": 7, "Mani": 17, "Mlabri": 19, "Moklen": 14, "Urak Lawoi": 16
+    },
+    "Tai Lue": {
+      "Lua": 7, "Mani": 17, "Mlabri": 19, "Moklen": 14, "Urak Lawoi": 16
+    },
+    "Lua": {
+      "Mani": 16, "Mlabri": 18, "Moklen": 13, "Urak Lawoi": 15
+    },
+    "Mani": {
+      "Mlabri": 14, "Moklen": 12, "Urak Lawoi": 10
+    },
+    "Mlabri": {
+      "Moklen": 14, "Urak Lawoi": 16
+    },
+    "Moklen": {
+      "Urak Lawoi": 8
+    }
+  },
+  "language_family_clusters": {
+    "Sino-Tibetan": ["Karen", "Lahu", "Akha", "Lisu"],
+    "Hmong-Mien": ["Hmong", "Mien"],
+    "Austroasiatic": ["Khamu", "Palaung", "Lua", "Mani", "Mlabri"],
+    "Tai-Kadai": ["Tai Dam", "Tai Lue"],
+    "Austronesian": ["Moklen", "Urak Lawoi"]
+  },
+  "migration_notes": {
+    "Hmong-Mien": "Migrated from southern China ~300 years ago; distinct genetic cluster",
+    "Sino-Tibetan": "Multiple waves from Tibet/Yunnan; Karen earliest, then Lahu/Akha/Lisu",
+    "Tai-Kadai": "Expansion from Guangxi/Yunnan ~1000 years ago; dominant in lowland Thailand",
+    "Austroasiatic": "Oldest inhabitants of mainland SE Asia; diverse sub-groups",
+    "Austronesian": "Maritime migration; sea nomads with Austronesian language roots"
+  }
+}

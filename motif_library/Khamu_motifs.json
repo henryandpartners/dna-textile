@@ -6,6 +6,10 @@
     {"id": "khamu_03", "name": "ancient_diamond", "type": "geometric", "description": "Ancient diamond motif predating external influences", "grid": [[0,1,0],[1,0,1],[0,1,0]], "complexity": "beginner"},
     {"id": "khamu_04", "name": "harvest_mark", "type": "spiritual", "description": "Mark for harvest blessing ceremonies", "grid": [[1,1,1],[0,1,0],[1,1,1]], "complexity": "beginner"},
     {"id": "khamu_05", "name": "bamboo_grove", "type": "plant", "description": "Cluster of bamboo stalks", "grid": [[1,0,1,0,1],[1,0,1,0,1],[1,0,1,0,1]], "complexity": "beginner"},
-    {"id": "khamu_06", "name": "field_grid", "type": "geometric", "description": "Grid pattern representing rice fields", "grid": [[1,0,1],[0,1,0],[1,0,1]], "complexity": "beginner"}
+    {"id": "khamu_06", "name": "field_grid", "type": "geometric", "description": "Grid pattern representing rice fields", "grid": [[1,0,1],[0,1,0],[1,0,1]], "complexity": "beginner"},
+    {"id": "khamu_07", "name": "bronze_drumsound", "type": "geometric", "description": "Concentric circles echoing the surface decoration of Khamu bronze drums used in ceremonial music", "grid": [[0,0,1,0,0],[0,1,1,1,0],[1,1,0,1,1],[0,1,1,1,0],[0,0,1,0,0]], "complexity": "intermediate"},
+    {"id": "khamu_08", "name": "matriline_chain", "type": "spiritual", "description": "Linked chain pattern representing the matrilocal lineage where women hold the household inheritance", "grid": [[0,1,0],[1,0,1],[0,1,0],[1,0,1],[0,1,0]], "complexity": "intermediate"},
+    {"id": "khamu_09", "name": "gong_face", "type": "spiritual", "description": "Circular gong pattern reflecting the Khamu tradition of bronze gongs in spirit ceremonies", "grid": [[0,1,1,1,0],[1,0,0,0,1],[1,0,1,0,1],[1,0,0,0,1],[0,1,1,1,0]], "complexity": "intermediate"},
+    {"id": "khamu_10", "name": "mountain_terrace", "type": "geometric", "description": "Stepped terrace pattern from the Khamu practice of mountain swidden farming on steep slopes", "grid": [[1,1,1,1,1],[0,1,1,1,0],[0,0,1,0,0],[0,0,0,0,0]], "complexity": "beginner"}
   ]
 }

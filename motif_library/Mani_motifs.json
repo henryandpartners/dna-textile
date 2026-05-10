@@ -4,6 +4,12 @@
     {"id": "mani_01", "name": "earth_mark", "type": "spiritual", "description": "Simple mark connecting to the earth", "grid": [[1,1,1]], "complexity": "beginner"},
     {"id": "mani_02", "name": "spirit_path", "type": "spiritual", "description": "Path of the forest spirit", "grid": [[1,0,0],[0,1,0],[0,0,1]], "complexity": "beginner"},
     {"id": "mani_03", "name": "forest_sign", "type": "spiritual", "description": "Sign marking sacred forest areas", "grid": [[0,1,0],[1,0,1],[0,1,0]], "complexity": "beginner"},
-    {"id": "mani_04", "name": "fruit_seed", "type": "plant", "description": "Seed pattern from foraging knowledge", "grid": [[0,1,0],[1,1,1],[0,1,0]], "complexity": "beginner"}
+    {"id": "mani_04", "name": "fruit_seed", "type": "plant", "description": "Seed pattern from foraging knowledge", "grid": [[0,1,0],[1,1,1],[0,1,0]], "complexity": "beginner"},
+    {"id": "mani_05", "name": "blowpipe", "type": "animal", "description": "Long thin pattern representing the Mani blowpipe used for hunting small game in the rainforest", "grid": [[0,0,1,0,0],[0,0,1,0,0],[0,0,1,0,0],[0,0,1,0,0],[0,0,1,0,0],[1,1,1,1,1]], "complexity": "intermediate"},
+    {"id": "mani_06", "name": "hornbill", "type": "animal", "description": "Hornbill bird pattern, an important forest species in Mani territory and spiritual symbolism", "grid": [[1,0,0,0,1],[0,1,0,1,0],[0,0,1,0,0],[0,1,1,1,0]], "complexity": "intermediate"},
+    {"id": "mani_07", "name": "tuber_dig", "type": "plant", "description": "Root and tuber pattern reflecting the Mani practice of digging wild yams and tubers for food", "grid": [[1,0,1],[1,0,1],[0,1,0],[0,1,0],[1,0,1]], "complexity": "beginner"},
+    {"id": "mani_08", "name": "campfire_circle", "type": "spiritual", "description": "Circle representing the temporary campfire at a Mani forest campsite, moved frequently with nomadic life", "grid": [[0,1,1,1,0],[1,1,0,1,1],[1,0,0,0,1],[1,1,0,1,1],[0,1,1,1,0]], "complexity": "intermediate"},
+    {"id": "mani_09", "name": "rainfall_drop", "type": "geometric", "description": "Vertical raindrop pattern reflecting the heavy monsoon rain of the southern Thai rainforest", "grid": [[0,1,0],[0,1,0],[1,0,1],[0,1,0]], "complexity": "beginner"},
+    {"id": "mani_10", "name": "monkey_track", "type": "animal", "description": "Small paw print pattern from tracking gibbons and macaques in the Mani hunting tradition", "grid": [[1,0,0,0,1],[0,1,1,1,0],[0,1,0,1,0]], "complexity": "beginner"}
   ]
 }

@@ -1,0 +1,154 @@
+{
+  "source": "Metawee Srikummool et al. — Naresuan University, Thailand",
+  "publications": [
+    "Srikummool et al. 2007, BMC Evolutionary Biology — Genetic variation in Northern Thailand Hill Tribes",
+    "Kutanan et al. 2021, Molecular Biology and Evolution — Reconstructing Human Genetic History of Mainland SE Asia",
+    "Srikummool et al. 2022, Scientific Reports — Forensic & genetic characterizations of diverse southern Thai populations"
+  ],
+  "communities": {
+    "Karen": {
+      "language_family": "Sino-Tibetan",
+      "social_structure": "matrilocal",
+      "mtDNA_haplogroups": {"B": 0.25, "F": 0.20, "M": 0.30, "D": 0.15, "R": 0.10},
+      "Y_haplogroups": {"O": 0.55, "D": 0.15, "C": 0.10, "F": 0.10, "K": 0.10},
+      "diversity": {"mtDNA_h": 0.85, "Y_STR_h": 0.98, "STR_h": 0.75},
+      "isolation_index": 0.25,
+      "notes": "Lowest mtDNA diversity due to matrilocal residence; highest Y-STR diversity. Strong gene flow with Thai/Lao populations."
+    },
+    "Hmong": {
+      "language_family": "Hmong-Mien",
+      "social_structure": "patrilocal",
+      "mtDNA_haplogroups": {"B": 0.30, "F": 0.25, "M": 0.20, "D": 0.10, "R": 0.15},
+      "Y_haplogroups": {"O": 0.60, "D": 0.10, "C": 0.12, "F": 0.08, "K": 0.10},
+      "diversity": {"mtDNA_h": 0.95, "Y_STR_h": 0.85, "STR_h": 0.78},
+      "isolation_index": 0.35,
+      "notes": "Highest mtDNA diversity; patrilocal structure with high female migration. Distinct from Sino-Tibetan patrilocal groups."
+    },
+    "Mien": {
+      "language_family": "Hmong-Mien",
+      "social_structure": "patrilocal",
+      "mtDNA_haplogroups": {"B": 0.28, "F": 0.22, "M": 0.25, "D": 0.12, "R": 0.13},
+      "Y_haplogroups": {"O": 0.58, "D": 0.12, "C": 0.10, "F": 0.10, "K": 0.10},
+      "diversity": {"mtDNA_h": 0.92, "Y_STR_h": 0.82, "STR_h": 0.77},
+      "isolation_index": 0.40,
+      "notes": "Similar pattern to Hmong; close genetic relationship. Patrilocal with Taoist cultural influence."
+    },
+    "Lahu": {
+      "language_family": "Sino-Tibetan",
+      "social_structure": "matrilocal",
+      "mtDNA_haplogroups": {"B": 0.22, "F": 0.18, "M": 0.35, "D": 0.15, "R": 0.10},
+      "Y_haplogroups": {"O": 0.50, "D": 0.18, "C": 0.12, "F": 0.10, "K": 0.10},
+      "diversity": {"mtDNA_h": 0.90, "Y_STR_h": 0.88, "STR_h": 0.76},
+      "isolation_index": 0.30,
+      "notes": "Matrilocal like Karen but slightly higher mtDNA diversity. High M haplogroup frequency."
+    },
+    "Akha": {
+      "language_family": "Sino-Tibetan",
+      "social_structure": "patrilocal",
+      "mtDNA_haplogroups": {"B": 0.20, "F": 0.15, "M": 0.30, "D": 0.20, "R": 0.15},
+      "Y_haplogroups": {"O": 0.45, "D": 0.25, "C": 0.10, "F": 0.10, "K": 0.10},
+      "diversity": {"mtDNA_h": 0.88, "Y_STR_h": 0.72, "STR_h": 0.74},
+      "isolation_index": 0.45,
+      "notes": "Lowest Y-STR diversity among patrilocal Sino-Tibetan groups. High D haplogroup (ancient lineage)."
+    },
+    "Lisu": {
+      "language_family": "Sino-Tibetan",
+      "social_structure": "patrilocal",
+      "mtDNA_haplogroups": {"B": 0.18, "F": 0.15, "M": 0.32, "D": 0.22, "R": 0.13},
+      "Y_haplogroups": {"O": 0.48, "D": 0.22, "C": 0.10, "F": 0.10, "K": 0.10},
+      "diversity": {"mtDNA_h": 0.89, "Y_STR_h": 0.70, "STR_h": 0.74},
+      "isolation_index": 0.45,
+      "notes": "Similar to Akha; low Y-STR diversity from patrilocal residence. Close genetic distance to Akha."
+    },
+    "Khamu": {
+      "language_family": "Austroasiatic",
+      "social_structure": "matrilocal",
+      "mtDNA_haplogroups": {"B": 0.15, "F": 0.20, "M": 0.35, "D": 0.10, "R": 0.20},
+      "Y_haplogroups": {"O": 0.50, "D": 0.12, "C": 0.15, "F": 0.13, "K": 0.10},
+      "diversity": {"mtDNA_h": 0.90, "Y_STR_h": 0.85, "STR_h": 0.75},
+      "isolation_index": 0.35,
+      "notes": "Austroasiatic speakers; matrilocal structure. High R haplogroup. Close to Palaung and Lua."
+    },
+    "Palaung": {
+      "language_family": "Austroasiatic",
+      "social_structure": "matrilocal",
+      "mtDNA_haplogroups": {"B": 0.22, "F": 0.22, "M": 0.28, "D": 0.13, "R": 0.15},
+      "Y_haplogroups": {"O": 0.52, "D": 0.14, "C": 0.12, "F": 0.12, "K": 0.10},
+      "diversity": {"mtDNA_h": 0.88, "Y_STR_h": 0.80, "STR_h": 0.75},
+      "isolation_index": 0.30,
+      "notes": "Tea-growing people; matrilocal. Intermediate diversity. Close to Khamu genetically."
+    },
+    "Tai Dam": {
+      "language_family": "Tai-Kadai",
+      "social_structure": "patrilocal",
+      "mtDNA_haplogroups": {"B": 0.25, "F": 0.20, "M": 0.25, "D": 0.15, "R": 0.15},
+      "Y_haplogroups": {"O": 0.55, "D": 0.12, "C": 0.12, "F": 0.11, "K": 0.10},
+      "diversity": {"mtDNA_h": 0.90, "Y_STR_h": 0.82, "STR_h": 0.76},
+      "isolation_index": 0.35,
+      "notes": "Tai-speaking; very close to Tai Lue (Fst=3). High O haplogroup frequency. Significant Thai/Lao admixture."
+    },
+    "Tai Lue": {
+      "language_family": "Tai-Kadai",
+      "social_structure": "patrilocal",
+      "mtDNA_haplogroups": {"B": 0.24, "F": 0.21, "M": 0.26, "D": 0.14, "R": 0.15},
+      "Y_haplogroups": {"O": 0.54, "D": 0.13, "C": 0.12, "F": 0.11, "K": 0.10},
+      "diversity": {"mtDNA_h": 0.89, "Y_STR_h": 0.81, "STR_h": 0.76},
+      "isolation_index": 0.30,
+      "notes": "Nearly identical to Tai Dam; minimal genetic distance. Both show Tai-Kadai expansion signature."
+    },
+    "Lua": {
+      "language_family": "Austroasiatic",
+      "social_structure": "matrilocal",
+      "mtDNA_haplogroups": {"B": 0.18, "F": 0.18, "M": 0.35, "D": 0.12, "R": 0.17},
+      "Y_haplogroups": {"O": 0.48, "D": 0.15, "C": 0.15, "F": 0.12, "K": 0.10},
+      "diversity": {"mtDNA_h": 0.87, "Y_STR_h": 0.83, "STR_h": 0.74},
+      "isolation_index": 0.40,
+      "notes": "Indigenous to northern Thailand; matrilocal. High M haplogroup. Close to Khamu and Palaung."
+    },
+    "Mani": {
+      "language_family": "Austroasiatic",
+      "social_structure": "nomadic",
+      "mtDNA_haplogroups": {"M21a": 0.30, "R21": 0.25, "M17a": 0.20, "F": 0.10, "B": 0.15},
+      "Y_haplogroups": {"O": 0.30, "D": 0.15, "C": 0.10, "F": 0.15, "K": 0.30},
+      "diversity": {"mtDNA_h": 0.65, "Y_STR_h": 0.55, "STR_h": 0.67},
+      "isolation_index": 0.85,
+      "notes": "Negrito hunter-gatherer; extremely isolated. Basal mtDNA haplogroups (M21a, R21, M17a) indicate ancient lineage. High K Y-chromosome. Severe genetic drift."
+    },
+    "Mlabri": {
+      "language_family": "Austroasiatic",
+      "social_structure": "nomadic",
+      "mtDNA_haplogroups": {"B": 0.40, "F": 0.10, "M": 0.35, "D": 0.10, "R": 0.05},
+      "Y_haplogroups": {"O": 0.35, "D": 0.30, "C": 0.15, "F": 0.10, "K": 0.10},
+      "diversity": {"mtDNA_h": 0.60, "Y_STR_h": 0.50, "STR_h": 0.55},
+      "isolation_index": 0.90,
+      "notes": "'Spirits of the yellow leaves'; lowest genetic diversity of any Thai population. Small effective population size. High D Y-chromosome."
+    },
+    "Moklen": {
+      "language_family": "Austronesian",
+      "social_structure": "nomadic",
+      "mtDNA_haplogroups": {"B": 0.20, "F": 0.15, "M": 0.25, "D": 0.10, "R": 0.30},
+      "Y_haplogroups": {"O": 0.45, "D": 0.10, "C": 0.15, "F": 0.15, "K": 0.15},
+      "diversity": {"mtDNA_h": 0.75, "Y_STR_h": 0.72, "STR_h": 0.71},
+      "isolation_index": 0.50,
+      "notes": "Sea nomad; moderate diversity due to coastal interactions. High R haplogroup (Austronesian signal). Mixed ancestry with Thai/Malay."
+    },
+    "Urak Lawoi": {
+      "language_family": "Austronesian",
+      "social_structure": "nomadic",
+      "mtDNA_haplogroups": {"B": 0.15, "F": 0.10, "M": 0.20, "D": 0.10, "R": 0.45},
+      "Y_haplogroups": {"O": 0.40, "D": 0.10, "C": 0.12, "F": 0.18, "K": 0.20},
+      "diversity": {"mtDNA_h": 0.70, "Y_STR_h": 0.65, "STR_h": 0.68},
+      "isolation_index": 0.75,
+      "notes": "Sea nomad; highest R haplogroup frequency (45%). Distinct from mainland groups. Closer to Moklen but more isolated."
+    }
+  },
+  "key_findings": {
+    "matrilocal_pattern": "Low mtDNA diversity, high Y-STR diversity — women stay, men move in",
+    "patrilocal_pattern": "High mtDNA diversity, low Y-STR diversity — men stay, women move in",
+    "nomadic_pattern": "Low diversity across all markers — genetic drift in small populations",
+    "closest_pair": "Tai Dam ↔ Tai Lue (Fst = 0.03)",
+    "most_isolated": "Mlabri (isolation index = 0.90)",
+    "highest_mtDNA": "Hmong (h = 0.95)",
+    "lowest_diversity": "Mlabri across all markers"
+  }
+}
