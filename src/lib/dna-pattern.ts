@@ -320,6 +320,7 @@ function drawBorder(
 // ── Main Generator ─────────────────────────────────────────
 
 export function generatePattern(config: PatternConfig): PatternResult {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { sequence, gridSize, patternType, community, complexity, seed } =
     config;
   const total = gridSize * gridSize;

@@ -9,11 +9,31 @@ function loadJson(filePath: string) {
   return JSON.parse(fs.readFileSync(fullPath, "utf-8"));
 }
 
+interface Motif {
+  type: string;
+  [key: string]: unknown;
+}
+
+interface DiversityMetrics {
+  mtDNA_h?: number;
+  Y_STR_h?: number;
+  [key: string]: string | number | undefined;
+}
+
+interface GeneticCommunity {
+  language_family?: string;
+  social_structure?: string;
+  isolation_index?: number;
+  diversity?: DiversityMetrics;
+  notes?: string;
+  [key: string]: string | number | DiversityMetrics | undefined;
+}
+
 interface CommunityData {
   name: string;
-  motifs: any[];
+  motifs: Motif[];
   imageCount: number;
-  geneticProfile?: any;
+  geneticProfile?: GeneticCommunity;
 }
 
 export default function ResearchPage() {
@@ -59,15 +79,15 @@ export default function ResearchPage() {
   // Language family groups
   const families: Record<string, string[]> = {};
   for (const [tribe, data] of Object.entries(
-    geneticProfile.communities as Record<string, any>
+    geneticProfile.communities as Record<string, GeneticCommunity>
   )) {
-    const fam = data.language_family || "Unknown";
+    const fam = (data.language_family as string) || "Unknown";
     if (!families[fam]) families[fam] = [];
     families[fam].push(tribe);
   }
 
   // Fst matrix
-  const fstMatrix = (populationRels as any).distance_matrix || {};
+  const fstMatrix: Record<string, Record<string, number>> = ((populationRels as Record<string, unknown>).distance_matrix as Record<string, Record<string, number>>) || {};
 
   return (
     <div className="min-h-screen bg-gray-950 text-gray-100">
@@ -198,7 +218,7 @@ export default function ResearchPage() {
 
               const avgIsolation =
                 matching.reduce(
-                  (s, c) => s + (c.geneticProfile?.isolation_index || 0),
+                  (s, c) => s + (Number(c.geneticProfile?.isolation_index) || 0),
                   0
                 ) / (matching.length || 1);
 
@@ -272,12 +292,12 @@ export default function ResearchPage() {
                         </p>
                         <p>
                           <span className="text-gray-300">Isolation:</span>{" "}
-                          {gp.isolation_index.toFixed(2)}
+                          {(gp.isolation_index ?? 0).toFixed(2)}
                         </p>
                         <p>
                           <span className="text-gray-300">Diversity:</span> mtDNA{" "}
-                          {gp.diversity?.mtDNA_h?.toFixed(2)} / Y-STR{" "}
-                          {gp.diversity?.Y_STR_h?.toFixed(2)}
+                          {(gp.diversity?.mtDNA_h ?? 0).toFixed(2)} / Y-STR{" "}
+                          {(gp.diversity?.Y_STR_h ?? 0).toFixed(2)}
                         </p>
                       </>
                     )}

@@ -13,7 +13,6 @@ import {
   type PatternType,
   type Community,
   type Complexity,
-  type PatternStats,
 } from "@/lib/dna-pattern";
 
 const COMMUNITIES: { value: Community; label: string }[] = [
@@ -58,7 +57,7 @@ export default function Home() {
   const [gridSize, setGridSize] = useState(64);
   const [patternType, setPatternType] = useState<PatternType>("grid");
   const [community, setCommunity] = useState<Community>("karen");
-  const [complexity, setComplexity] = useState<Complexity>("intermediate");
+  const [complexity] = useState<Complexity>("intermediate");
   const [result, setResult] = useState<PatternResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [previewSize, setPreviewSize] = useState(512);
@@ -99,8 +98,9 @@ export default function Home() {
         const ctx = canvas.getContext("2d")!;
         ctx.putImageData(res.imageData, 0, 0);
       }
-    } catch (e: any) {
-      setError(e.message || "Failed to generate pattern.");
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : "Failed to generate pattern.";
+      setError(msg);
     }
   }, [sequence, gridSize, patternType, community, complexity]);
 
@@ -378,10 +378,14 @@ export default function Home() {
                       <div
                         className="absolute top-16 left-16 w-32 h-32 rounded border-2 border-dashed border-gray-600 flex items-center justify-center overflow-hidden"
                         style={{
-                          backgroundImage: `url(${canvasRef.current?.toDataURL()})`,
                           backgroundSize: "cover",
                           backgroundPosition: "center",
                         }}
+                        ref={result ? (el) => {
+                          if (el && canvasRef.current) {
+                            el.style.backgroundImage = `url(${canvasRef.current.toDataURL()})`;
+                          }
+                        } : undefined}
                       >
                         <span className="text-xs text-gray-400 bg-black/50 px-2 py-1 rounded">Pattern Preview</span>
                       </div>
