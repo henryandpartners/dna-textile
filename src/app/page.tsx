@@ -29,6 +29,18 @@ const PATTERN_TYPES: { value: PatternType; label: string; icon: string }[] = [
   { value: "grid", label: "Grid", icon: "▦" },
   { value: "spiral", label: "Spiral", icon: "◎" },
   { value: "random", label: "Random", icon: "◈" },
+  { value: "cellular_automata", label: "Cellular", icon: "⬡" },
+  { value: "lace", label: "Lace", icon: "◌" },
+  { value: "codon_tile", label: "Codon", icon: "⬢" },
+  { value: "phase_shift", label: "Phase", icon: "≋" },
+  { value: "fractal_koch", label: "Fractal", icon: "❄" },
+  { value: "voronoi", label: "Voronoi", icon: "⬣" },
+  { value: "wave_interference", label: "Wave", icon: "∿" },
+  { value: "perlin_noise", label: "Perlin", icon: "◫" },
+  { value: "l_system", label: "L-System", icon: "⌘" },
+  { value: "fourier_pattern", label: "Fourier", icon: "∑" },
+  { value: "diffusion", label: "Diffusion", icon: "◉" },
+  { value: "mosaic", label: "Mosaic", icon: "⬟" },
 ];
 
 const EXAMPLES: { label: string; seq: string }[] = [
@@ -193,7 +205,7 @@ export default function Home() {
               <h2 className="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-3">
                 Pattern Type
               </h2>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-4 gap-2">
                 {PATTERN_TYPES.map((pt) => (
                   <button
                     key={pt.value}
@@ -367,29 +379,22 @@ export default function Home() {
                     Costume Mockup
                   </h2>
                   <div className="flex justify-center">
-                    <div className="relative">
-                      <Image
-                        src="/costumes/garment-base.svg"
-                        alt="Costume mockup"
-                        width={300}
-                        height={400}
-                        className="rounded-lg"
-                      />
-                      <div
-                        className="absolute top-16 left-16 w-32 h-32 rounded border-2 border-dashed border-gray-600 flex items-center justify-center overflow-hidden"
-                        style={{
-                          backgroundSize: "cover",
-                          backgroundPosition: "center",
-                        }}
-                        ref={result ? (el) => {
-                          if (el && canvasRef.current) {
-                            el.style.backgroundImage = `url(${canvasRef.current.toDataURL()})`;
-                          }
-                        } : undefined}
-                      >
-                        <span className="text-xs text-gray-400 bg-black/50 px-2 py-1 rounded">Pattern Preview</span>
-                      </div>
-                    </div>
+                    <svg viewBox="0 0 400 500" width="300" height="375" className="rounded-lg">
+                      <defs>
+                        <clipPath id="garment-clip">
+                          <path d="M 100 50 L 150 20 L 250 20 L 300 50 L 320 150 L 300 450 L 100 450 L 80 150 Z"/>
+                        </clipPath>
+                        <pattern id="dna-pattern" patternUnits="userSpaceOnUse" width={gridSize} height={gridSize}>
+                          <image href={result ? canvasRef.current?.toDataURL() : ""} width={gridSize} height={gridSize} preserveAspectRatio="none"/>
+                        </pattern>
+                      </defs>
+                      <rect width="400" height="500" fill="#1a1a2e"/>
+                      <g clipPath="url(#garment-clip)">
+                        <rect x="0" y="0" width="400" height="500" fill="url(#dna-pattern)" style={{ imageRendering: "pixelated" }}/>
+                      </g>
+                      <path d="M 100 50 L 150 20 L 250 20 L 300 50 L 320 150 L 300 450 L 100 450 L 80 150 Z" fill="none" stroke="#444" strokeWidth="2"/>
+                      <text x="200" y="480" textAnchor="middle" fill="#888" fontFamily="serif" fontSize="14">Costume Mockup</text>
+                    </svg>
                   </div>
                   <p className="text-xs text-gray-500 text-center mt-3">Generated pattern applied to traditional garment silhouette</p>
                 </div>
