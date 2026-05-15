@@ -71,7 +71,7 @@ export default function Home() {
       const res = generatePattern({ sequence: cleaned, gridSize, patternType, community, complexity });
       setResult(res);
       if (canvasRef.current) { canvasRef.current.width = gridSize; canvasRef.current.height = gridSize; canvasRef.current.getContext("2d")!.putImageData(res.imageData, 0, 0); }
-      const mockSize = 400, offscreen = document.createElement("canvas");
+      const mockSize = 512, offscreen = document.createElement("canvas");
       offscreen.width = mockSize; offscreen.height = mockSize;
       const offCtx = offscreen.getContext("2d")!;
       offCtx.imageSmoothingEnabled = false;
@@ -131,12 +131,12 @@ export default function Home() {
               <div className="bg-gray-900 rounded-xl border border-gray-800 p-5">
                 <h2 className="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-4">Costume Mockup</h2>
                 <div className="flex justify-center">
-                  <svg viewBox="0 0 400 500" width="300" height="375" className="rounded-lg">
+                  <svg viewBox="0 0 400 510" width="260" height="333" className="rounded-lg">
                     <defs><clipPath id="garment-clip"><path d="M 100 50 L 150 20 L 250 20 L 300 50 L 320 150 L 300 450 L 100 450 L 80 150 Z"/></clipPath></defs>
-                    <rect width="400" height="500" fill="#1a1a2e"/>
-                    <g clipPath="url(#garment-clip)">{mockupDataUrl ? (<image href={mockupDataUrl} x="0" y="0" width="400" height="500" preserveAspectRatio="xMidYMid slice" style={{ imageRendering: "pixelated" }}/>) : (<rect x="0" y="0" width="400" height="500" fill="#2a2a3e"/>)}</g>
+                    <rect width="400" height="510" fill="#1a1a2e"/>
+                    <g clipPath="url(#garment-clip)">{mockupDataUrl ? (<image href={mockupDataUrl} x="0" y="0" width="512" height="512" preserveAspectRatio="xMidYMid slice" style={{ imageRendering: "pixelated" }}/>) : (<rect x="0" y="0" width="400" height="510" fill="#2a2a3e"/>)}</g>
                     <path d="M 100 50 L 150 20 L 250 20 L 300 50 L 320 150 L 300 450 L 100 450 L 80 150 Z" fill="none" stroke="#444" strokeWidth="2"/>
-                    <text x="200" y="480" textAnchor="middle" fill="#888" fontFamily="serif" fontSize="14">Costume Mockup</text>
+                    <text x="200" y="495" textAnchor="middle" fill="#888" fontFamily="serif" fontSize="14">Costume Mockup</text>
                   </svg>
                 </div>
                 <p className="text-xs text-gray-500 text-center mt-3">Generated pattern applied to traditional garment silhouette</p>
