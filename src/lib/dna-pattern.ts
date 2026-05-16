@@ -22,7 +22,7 @@ export type PatternType =
   | "fourier_pattern"
   | "diffusion"
   | "mosaic";
-export type Community = "karen" | "hmong" | "akha" | "lahu" | "lisu" | "generic";
+export type Community = "karen" | "hmong" | "akha" | "lahu" | "lisu" | "mien" | "palaung" | "khamu" | "lua" | "mlabri" | "mani" | "moklen" | "urak_lawoi" | "thai_lue" | "tai_dam" | "generic";
 export type Complexity = "beginner" | "intermediate" | "expert";
 
 export interface PatternConfig {

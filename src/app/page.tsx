@@ -8,7 +8,12 @@ import { parseDNA, generatePattern, downloadPNG, imageDataToDataURL, type Patter
 const COMMUNITIES: { value: Community; label: string }[] = [
   { value: "karen", label: "Karen (Kayah)" }, { value: "hmong", label: "Hmong" },
   { value: "akha", label: "Akha" }, { value: "lahu", label: "Lahu" },
-  { value: "lisu", label: "Lisu" }, { value: "generic", label: "Generic" },
+  { value: "lisu", label: "Lisu" }, { value: "mien", label: "Mien (Yao)" },
+  { value: "palaung", label: "Palaung" }, { value: "khamu", label: "Khamu" },
+  { value: "lua", label: "Lua" }, { value: "mlabri", label: "Mlabri" },
+  { value: "mani", label: "Mani" }, { value: "moklen", label: "Moklen" },
+  { value: "urak_lawoi", label: "Urak Lawoi" }, { value: "thai_lue", label: "Tai Lue" },
+  { value: "tai_dam", label: "Tai Dam" }, { value: "generic", label: "Generic" },
 ];
 
 const PATTERN_TYPES: { value: PatternType; label: string; icon: string }[] = [
